@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import Home from './../page/Home/root/Home.vue';
 import HomeChild from './Home';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -13,7 +13,8 @@ const routes = [
   {
     path: '/home',
     component: Home,
-    children: HomeChild
+    children: HomeChild,
+    redirect: '/home/recommend',
   },
   {
     path: '/friend',
