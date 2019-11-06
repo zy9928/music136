@@ -35,7 +35,26 @@
           </router-link>
         </ul>
       </nav>
-      <div class="loginBtn">登录</div>
+      <div class="loginBtn">
+        <span>登录</span>
+        <i></i>
+        <b></b>
+      </div>
+      <div class="writerCenterBox">
+        <p class="writerCenter">创作者中心</p>
+      </div>
+      <div class="navSearchBox">
+        <div class="navSearchWrap">
+          <span></span>
+          <input
+            type="text"
+            name="navSearch"
+            id="navSearch"
+            class="navSearch"
+            placeholder="音乐/视频/电台/用户"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -190,7 +209,8 @@ export default {
       position: absolute;
       top: 70px;
       left: 0;
-      width: 100vw;
+      right: 0;
+      min-width: 1135px;
       background-color: #c20c0c;
       padding: 2px 0; /* 5 */
       border-bottom: 1px solid #a40011;
@@ -198,7 +218,8 @@ export default {
         width: 1102px;
         margin: 0 auto;
         overflow: hidden;
-        padding-left: 360px;
+        padding-left: 178px;
+        box-sizing: border-box;
         .navSecondLi {
           padding: 0 13px;
           line-height: 20px;
@@ -222,9 +243,95 @@ export default {
       }
     }
   }
-  .loginBtn{
+  .loginBtn {
     float: right;
-
+    padding: 0 20px;
+    font-size: 12px;
+    color: #787878;
+    line-height: 69px;
+    position: relative;
+    & > i {
+      display: none;
+      background-color: #202020;
+      height: 2px;
+      width: 150px;
+      position: absolute;
+      top: 55px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    & > b {
+      display: none;
+      width: 12px;
+      height: 7px;
+      position: absolute;
+      background: url(./../assets/topbar.png) no-repeat -228px -60px;
+      top: 48px;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
+    }
+    &:hover > i,
+    &:hover > b {
+      display: block;
+    }
+    &:hover {
+      color: #999999;
+    }
+    & > span:hover {
+      color: #6e6e6e;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  .writerCenterBox {
+    height: 69px;
+    display: flex;
+    align-items: center;
+    float: right;
+    margin-left: 12px;
+    .writerCenter {
+      padding: 0 12px;
+      border: 1px solid #4f4f4f;
+      font-size: 12px;
+      color: #c2c2c2;
+      line-height: 30px;
+      border-radius: 15px;
+    }
+  }
+  .navSearchBox {
+    float: right;
+    width: 158px;
+    height: 69px;
+    display: flex;
+    align-items: center;
+    .navSearchWrap {
+      height: 32px;
+      width: 158px;
+      background-color: #ffffff;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      & > span {
+        display: block;
+        width: 13px;
+        height: 14px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 7px;
+        background: url(./../assets/topbar.png) no-repeat -10px -108px;
+      }
+      & > input {
+        border: none;
+        width: 113px;
+        font-size: 12px;
+        line-height: 12px;
+        outline: none;
+        color: #9b9b9b;
+      }
+    }
   }
 }
 .marginBig {
