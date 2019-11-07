@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {getSongUrl, getSongInfo} from './../../../serves/playServe';
+import {getSongUrl, getSongInfo} from './../../../services/playServe';
 export default {
   data(){
     return {

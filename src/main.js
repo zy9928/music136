@@ -5,6 +5,8 @@ import store from './store'
 
 Vue.config.productionTip = false;
 
+//全局发布中心
+Vue.prototype.$center = new Vue();
 
 
 
