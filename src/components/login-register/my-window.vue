@@ -10,8 +10,8 @@
         <slot name="content" />
       </div>
       <div class="window-main-bottom" v-if="haveBottom">
-        <a href class="window-main-bottom-left">&lt;其他登录方式</a>
-        <a href class="window-main-bottom-right">没有账号?免费注册&gt;</a>
+        <a href="javascript:void(0)" @click="handleLeft" class="window-main-bottom-left">{{bTextLeft}}</a>
+        <a href="javascript:void(0)" @click="handleRight" class="window-main-bottom-right">{{bTextRight}}</a>
       </div>
     </div>
   </div>
@@ -19,21 +19,32 @@
 
 <script>
 export default {
-    props:{
-        title:String,
-        height:String,
-        "bText-left": String,
-        "bText-right":String,
-        haveBottom:Boolean,
-        windowWidth:String
-
+  props: {
+    title: String,
+    height: String,
+    'bText-left': {
+      type: String,
+      default: ""
     },
-    name:"my-window",
-    methods:{
-      closeAction(){
-        this.$center.$emit('openWindow',false);
-      }
+    'bText-right': {
+      type: String,
+      default: ""
+    },
+    haveBottom: Boolean,
+    windowWidth: String
+  },
+  name: "my-window",
+  methods: {
+    closeAction() {
+      this.$center.$emit("openWindow", false);
+    },
+    handleLeft(){
+      this.$emit('leftAction');
+    },
+    handleRight(){
+      this.$emit('rightAction');
     }
+  }
 };
 </script>
 

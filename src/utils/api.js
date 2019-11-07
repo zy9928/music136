@@ -7,19 +7,23 @@ const SONG_URL = HOST + "/song/url";
 const SONG_INFO = HOST + "/song/detail";
 
 // 手机号注册
-const register_phone = HOST;
+const REGISTER_PHONE = HOST;
 //邮箱注册
-const register_email = HOST;
+const REGISTER_EMAIL = HOST;
 
 //手机号登陆
-const login_phone = HOST;
+const LOGIN_PHONE = HOST;
 //邮箱登陆
-const login_email = HOST;
+const LOGIN_EMAIL = HOST;
 
 
 export default{
   SONG_WORD,
   SONG_URL,
   SONG_INFO,
+  REGISTER_PHONE,
+  REGISTER_EMAIL,
+  LOGIN_PHONE,
+  LOGIN_EMAIL
 }
 
