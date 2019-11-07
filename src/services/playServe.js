@@ -4,7 +4,7 @@ import Http from "./../utils/Http";
 // 请求歌曲路径
 export const getSongUrl = async () => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_URL, {id: 308235});
+  const {data: result} = await Http.get(api.SONG_URL, {id: 255660});
   // 判断请求的结果
   if(result.code === 200){
     // 处理数据
@@ -22,7 +22,7 @@ export const getSongUrl = async () => {
 // 请求歌曲数据
 export const getSongInfo = async () => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_INFO, {ids: 308235});
+  const {data: result} = await Http.get(api.SONG_INFO, {ids: 255660});
   console.log(result.songs);
   // 判断请求的结果
   if(result.code === 200){

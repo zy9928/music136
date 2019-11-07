@@ -2,7 +2,7 @@
   <div class="playCtrl">
     <div class="audioBox">
       <audio controls>
-          <source :src="songUrl" /> 
+          <source src="http://m8.music.126.net/20191107104205/deef85adc34fd5be3e0b6901e019b7e6/ymusic/f942/5918/b86d/7e035cffc2b159636df5e0461a862d49.mp3" /> 
       </audio>
       <!-- <video controls name="media">
         <source :src="songUrl" type="audio/mpeg" />
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {getSongUrl, getSongInfo} from './../../../serves/playServe';
+import {getSongUrl, getSongInfo} from './../../../services/playServe';
 export default {
   data(){
     return {
