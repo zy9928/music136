@@ -36,7 +36,7 @@
         </ul>
       </nav>
       <div class="loginBtn">
-        <span>登录</span>
+        <span @click="loginAction">登录</span>
         <i></i>
         <b></b>
       </div>
@@ -145,6 +145,11 @@ export default {
           }
         }
       });
+    },
+    //点击登陆按钮,
+    loginAction(){
+     //发布打开登录注册窗口事件
+     this.$center.$emit('openWindow',true);
     }
   },
   mounted() {
