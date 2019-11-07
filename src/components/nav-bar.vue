@@ -138,7 +138,6 @@ export default {
     refreshNavActive() {
       this.navLi.forEach(item => {
         if (location.pathname === item.to) {
-          console.log("a");
           this.pageNow = item.dataId;
           if (item.dataId == 1) {
             this.haveSecond = true;
@@ -155,6 +154,16 @@ export default {
     }
   },
   mounted() {
+    // 刷新页面时，判断路径，更改导航栏活动状态
+    this.navLi.forEach(item => {
+      if(location.pathname.indexOf(item.to) != -1){
+        console.log("a");
+        this.pageNow = item.dataId;
+      }
+      if(location.pathname.indexOf('/my') != -1){
+        this.pageNow = "2";
+      }
+    })
     this.refreshNavActive();
   },
   undate() {
