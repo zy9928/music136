@@ -1,12 +1,16 @@
 <template>
   <div class="playCtrl">
     <div class="audioBox">
-      <audio controls ref="audioSrc" :src="songUrl"></audio>
+      <audio controls ref="audio" :src="songUrl"></audio>
     </div>
     <div class="Last_P_Next_btnsBox">
       <span class="lastBtn"></span>
-      <span class="BBtn PBtn"></span>
+      <span class="BBtn" :class="{PBtn: isPlay}" @click="BPClc"></span>
       <span class="nextBtn"></span>
+    </div>
+    <div class="albumImgBox">
+      <img :src="songInfo.albumImg" :alt="songInfo.songName" />
+      <router-link to="/play"></router-link>
     </div>
   </div>
 </template>
@@ -17,7 +21,9 @@ export default {
   data() {
     return {
       songType: "",
-      songUrl: ""
+      songUrl: "",
+      isPlay: false,
+      songInfo: {}
     };
   },
   methods: {
@@ -28,7 +34,17 @@ export default {
     },
     async handleGetSongInfo() {
       const result = await getSongInfo();
-      // console.log(result);
+      this.songInfo = result;
+      console.log(result);
+    },
+    BPClc() {
+      if (this.$refs.audio.paused) {
+        this.$refs.audio.play();
+        this.isPlay = true;
+      } else {
+        this.$refs.audio.pause();
+        this.isPlay = false;
+      }
     }
   },
   mounted() {
@@ -55,6 +71,7 @@ export default {
     height: 47px;
     display: flex;
     align-items: center;
+    float: left;
     & > span {
       flex: 1;
       background-image: url(./../../../assets/playbar.png);
@@ -87,6 +104,31 @@ export default {
     .PBtn {
       background-position-y: -164px;
       // background-position-y: -203px;
+    }
+  }
+  .albumImgBox {
+    width: 60px;
+    height: 47px;
+    float: left;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: 15px;
+    & > a {
+      position: absolute;
+      display: block;
+      width: 34px;
+      height: 34px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url(./../../../assets/playbar.png) no-repeat 0 -80px;
+    }
+    & > img {
+      width: 32px;
+      height: 32px;
     }
   }
 }
