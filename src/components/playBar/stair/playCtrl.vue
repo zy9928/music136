@@ -1,8 +1,8 @@
 <template>
   <div class="playCtrl">
     <div class="audioBox">
-      <audio controls>
-          <source src="http://m8.music.126.net/20191107104205/deef85adc34fd5be3e0b6901e019b7e6/ymusic/f942/5918/b86d/7e035cffc2b159636df5e0461a862d49.mp3" /> 
+      <audio controls ref="audioSrc" :src="songUrl">
+          <!-- <source ref='audioSrc' />  -->
       </audio>
       <!-- <video controls name="media">
         <source :src="songUrl" type="audio/mpeg" />
@@ -24,6 +24,7 @@ export default {
     async handleGetSongUrl(){
       const result = await getSongUrl();
       this.songUrl = result.url;
+      // this.$refs.audioSrc.src = result.url
       console.log(result);
     },
     async handleGetSongInfo(){
@@ -32,8 +33,13 @@ export default {
     },
   },
   mounted(){
-    this.handleGetSongUrl();
+    this.handleGetSongUrl().then(()=>{
+      // this.$refs.audioSrc.src = this.songUrl
+    });
     this.handleGetSongInfo();
+  },
+  updated(){
+    // this.$refs.audioSrc.src = this.songUrl
   }
 }
 </script>

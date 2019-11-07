@@ -139,31 +139,25 @@ export default {
       this.navLi.forEach(item => {
         if (location.pathname === item.to) {
           this.pageNow = item.dataId;
-          if (item.dataId == 1) {
-            this.haveSecond = true;
-          } else {
-            this.haveSecond = false;
-          }
+        }
+        if (location.pathname.indexOf("/my") != -1) {
+          this.pageNow = "2";
+        }
+        if (this.pageNow == 1) {
+          this.haveSecond = true;
+        } else {
+          this.haveSecond = false;
         }
       });
     },
     //点击登陆按钮,
-    loginAction(){
-     //发布打开登录注册窗口事件
-     this.$center.$emit('openWindow',true);
+    loginAction() {
+      //发布打开登录注册窗口事件
+      this.$center.$emit("openWindow", true);
     }
   },
   mounted() {
     // 刷新页面时，判断路径，更改导航栏活动状态
-    this.navLi.forEach(item => {
-      if(location.pathname.indexOf(item.to) != -1){
-        console.log("a");
-        this.pageNow = item.dataId;
-      }
-      if(location.pathname.indexOf('/my') != -1){
-        this.pageNow = "2";
-      }
-    })
     this.refreshNavActive();
   },
   undate() {
@@ -213,7 +207,7 @@ export default {
         color: #cccccc;
         list-style: none;
         position: relative;
-        &>i{
+        & > i {
           display: block;
           position: absolute;
           width: 12px;
