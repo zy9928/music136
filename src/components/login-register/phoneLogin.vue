@@ -11,15 +11,15 @@
     <template>
       <div class="login-box" slot="content">
         <div class="login-form">
-          <input class="ipt" type="text" placeholder="请输入手机号" />
-          <input class="ipt" type="password" placeholder="请输入密码" />
+          <input v-model="phone" class="ipt" type="text" placeholder="请输入手机号" />
+          <input v-model="password" class="ipt" type="password" placeholder="请输入密码" />
 
           <label for>
             <input class="check" type="checkbox" />
             自动登录
           </label>
           <a href="javascript:void(0)">忘记密码?</a>
-          <my-btn fontColor="#fff" bgColor="#2b7cc9" class="btn">登录</my-btn>
+          <my-btn @click="loginAction" fontColor="#fff" bgColor="#2b7cc9" class="btn">登录</my-btn>
         </div>
       </div>
     </template>
@@ -28,8 +28,15 @@
 <script>
 import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
+import userService from "../../services/userService";
 console.log(MyWindow);
 export default {
+  data() {
+    return {
+      phone: "",
+      password: ""
+    };
+  },
   props: ["value"],
   components: {
     [MyWindow.name]: MyWindow,
@@ -37,8 +44,18 @@ export default {
   },
   methods: {
     //处理登录事件
-    loginAction() {
-      alert("点击了");
+    async loginAction() {
+      if (!this.phone || !this.password) {
+        alert("输入不能为空");
+        return;
+      }
+
+      try {
+        let result = await userService.loginPhone(this.phone, this.password);
+        
+      } catch (error) {
+          alert('用户名或密码错误');
+      }
     },
     registerAction() {
       //处理注册事件
@@ -46,8 +63,8 @@ export default {
     handleLeft() {
       this.$emit("input", "mainWindow");
     },
-    handleRight(){
-        this.$emit('input','register');
+    handleRight() {
+      this.$emit("input", "register");
     }
   }
 };

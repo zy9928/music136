@@ -1,4 +1,4 @@
-const HOST = "http://localhost:3000";
+export const HOST = "http://localhost:3000";
 // 获取歌词(需要音乐id)————参数：?id=音乐id
 const SONG_WORD = HOST + "/lyric";
 // 获取歌曲URL————参数：?id=音乐id[，音乐id2，音乐id3 ...]
@@ -12,9 +12,9 @@ const REGISTER_PHONE = HOST;
 const REGISTER_EMAIL = HOST;
 
 //手机号登陆
-const LOGIN_PHONE = HOST;
+const LOGIN_PHONE = HOST+"/login/cellphone";
 //邮箱登陆
-const LOGIN_EMAIL = HOST;
+const LOGIN_EMAIL = HOST+"/login";
 
 
 export default{
