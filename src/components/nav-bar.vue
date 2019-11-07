@@ -15,6 +15,7 @@
           :class="{stairNavActive: pageNow == fistNav.dataId}"
         >
           <span>{{fistNav.title}}</span>
+          <i v-show="pageNow == fistNav.dataId"></i>
         </li>
       </nav>
       <nav class="navSecond">
@@ -60,6 +61,7 @@
 </template>
 
 <script>
+// const axios = require("axios");
 export default {
   data() {
     return {
@@ -145,7 +147,7 @@ export default {
           }
         }
       });
-    }
+    },
   },
   mounted() {
     this.refreshNavActive();
@@ -185,9 +187,8 @@ export default {
     }
     // 一级导航
     .pageNavStair {
-      height: 100%;
+      height: 69px;
       float: left;
-      overflow: hidden;
       position: relative;
       .stairNavLi {
         height: 100%;
@@ -197,6 +198,17 @@ export default {
         line-height: 69px;
         color: #cccccc;
         list-style: none;
+        position: relative;
+        &>i{
+          display: block;
+          position: absolute;
+          width: 12px;
+          height: 6px;
+          bottom: -1px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: url(./../assets/topbar.png) no-repeat -226px 0px;
+        }
       }
       .stairNavActive {
         color: #ffffff;
@@ -296,6 +308,7 @@ export default {
       color: #c2c2c2;
       line-height: 30px;
       border-radius: 15px;
+      cursor: pointer;
     }
   }
   .navSearchBox {

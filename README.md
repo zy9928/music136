@@ -38,3 +38,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 > 1. 登入注册
 > 2. 我的音乐
 > 3. 歌单组件
+
+
+
+#### 引用插件版本
+
+> 1. swiper 为3.0版本

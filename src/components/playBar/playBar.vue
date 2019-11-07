@@ -1,15 +1,136 @@
 <template>
-  <div class="playBar">
-    底部播放栏
+  <div
+    class="playBar"
+    :class="{playBarShow: isPlayShow}"
+    @mouseenter="playBarEnterActive"
+    @mouseleave="playBarLeaveActive"
+  >
+    <div class="playBgLeft"></div>
+    <div class="showPlayCtrl">
+      <span :class="{CloseLock: isLockClose}" @click="lockActive"></span>
+    </div>
+    <playCtrl/>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
+import {parseLyric} from "./util/getSonWord";
+import playCtrl from './stair/playCtrl.vue';
 export default {
-
-}
+  data() {
+    return {
+      // 控制播放控件是否显示
+      isPlayShow: true,
+      // 控制是否锁住
+      isLockClose: false,
+      // 记录鼠标是否在控件内部
+      isMouseOn: false,
+      list: '',
+    };
+  },
+  computed: {},
+  components: {
+    playCtrl
+  },
+  methods: {
+    // 锁控制播放控件显示
+    lockActive() {
+      this.isLockClose = !this.isLockClose;
+      // 若鼠标在控件内，则该点击事件不改变控件显示状态
+      if (this.isMouseOn) {
+        return;
+      }
+      this.isPlayShow = this.isLockClose;
+    },
+    // 鼠标进出控制控件显示
+    playBarEnterActive() {
+      this.isPlayShow = true;
+      this.isMouseOn = true;
+    },
+    playBarLeaveActive() {
+      // 若锁住，则该事件不改变控件显示状态
+      if (this.isLockClose) {
+        return;
+      }
+      this.isPlayShow = false;
+      this.isMouseOn = false;
+    },
+    async getShopeList() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/lyric?id=33894312",
+          {
+            withCredentials: true
+          },
+        );
+        this.list = response.data.lrc.lyric;
+        this.list = parseLyric(this.list);
+        console.log(this.list);
+        // console.log(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  mounted() {
+    // 页面挂载时显示4秒
+    clearTimeout(mountedPlayShow);
+    let mountedPlayShow = setTimeout(() => {
+      // 若在4秒内鼠标移入，或被锁住，则该计时器不改变播放控件显示状态
+      if(this.isMouseOn || this.isLockClose){
+        this.isPlayShow = true;
+      }else{
+        this.isPlayShow = false;
+      }
+    }, 2000);
+    console.log(parseLyric);
+    this.getShopeList();
+  }
+};
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.playBar {
+  transition: all 0.3s;
+  padding-top: 14px;
+  height: 50px;
+  width: 100%;
+  min-width: 1135px;
+  position: fixed;
+  bottom: -46px;
+  left: 0;
+  .playBgLeft {
+    background: url(./../../assets/playbar.png) repeat-x 0 -3px;
+    margin-right: 67px;
+    height: 50px;
+  }
+  .showPlayCtrl {
+    position: absolute;
+    right: 0;
+    top: 0px;
+    width: 67px;
+    height: 64px;
+    background: url(./../../assets/playbar.png) no-repeat 0 -383px;
+    & > span {
+      margin-left: 13px;
+      display: block;
+      width: 24px;
+      height: 15px;
+      background: url(./../../assets/playbar.png) no-repeat -76px -380px;
+      &:hover {
+        background: url(./../../assets/playbar.png) no-repeat -76px -400px;
+      }
+    }
+    .CloseLock {
+      background: url(./../../assets/playbar.png) no-repeat -97px -380px;
+      &:hover {
+        background: url(./../../assets/playbar.png) no-repeat -97px -400px;
+      }
+    }
+  }
+}
+.playBarShow {
+  bottom: 0;
+}
 </style>
