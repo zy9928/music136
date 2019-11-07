@@ -1,3 +1,12 @@
+/**
+ * @desc api 工具类
+ * 实现地址的统一管理
+ * @author 陈超, 郑缘
+ * @version 11.7.1
+ * 郑缘 新增了常量 HOST SONG_WORD SONG_URL SONG_INFO, 并在export default中输出
+ * 陈超 新增了常量 register_phone register_email login_phone login_email
+ */
+
 const HOST = "http://localhost:3000";
 // 获取歌词(需要音乐id)————参数：?id=音乐id
 const SONG_WORD = HOST + "/lyric";
