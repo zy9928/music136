@@ -45,7 +45,7 @@ export const getSongUrl = async (id) => {
 export const getSongInfo = async (ids) => {
   // 发送请求
   const {data: result} = await Http.get(api.SONG_INFO, {ids: 255660});
-  console.log(result.songs);
+  // console.log(result.songs);
   // 判断请求的结果
   if(result.code === 200){
     // 处理数据
@@ -67,3 +67,5 @@ export const getSongInfo = async (ids) => {
     throw new Error(result.message);
   }
 }
+
+

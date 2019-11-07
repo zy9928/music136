@@ -66,7 +66,7 @@ export default {
         );
         this.list = response.data.lrc.lyric;
         this.list = parseLyric(this.list);
-        console.log(this.list);
+        // console.log(this.list);
         // console.log(response.data.data);
       } catch (error) {
         console.error(error);
@@ -84,7 +84,7 @@ export default {
         this.isPlayShow = false;
       }
     }, 2000);
-    console.log(parseLyric);
+    // console.log(parseLyric);
     this.getShopeList();
   }
 };
