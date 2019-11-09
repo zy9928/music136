@@ -1,7 +1,9 @@
 /**
  * @desc api 工具类
  * 实现地址的统一管理
- * @author 陈超, 郑缘
+ * @author 陈超, 郑缘，孙如意
+ * @version 11.9.2
+ * 孙如意： 添加SONG_COMMENT并输出
  * @version 11.9.1
  * 陈超：将HOST输出
  *      将REGISTER_PHONE  REGISTER_EMAIL  LOGIN_PHONE  LOGIN_EMAIL 改为大写
@@ -28,6 +30,9 @@ const LOGIN_PHONE = HOST+"/login/cellphone";
 //邮箱登陆
 const LOGIN_EMAIL = HOST+"/login";
 
+//歌曲评论
+const SONG_COMMENT = HOST + "/comment/music";
+
 
 export default{
   SONG_WORD,
@@ -36,6 +41,7 @@ export default{
   REGISTER_PHONE,
   REGISTER_EMAIL,
   LOGIN_PHONE,
-  LOGIN_EMAIL
+  LOGIN_EMAIL,
+  SONG_COMMENT
 }
 
