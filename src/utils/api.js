@@ -16,10 +16,14 @@ const login_phone = HOST;
 //邮箱登陆
 const login_email = HOST;
 
+//歌曲评论
+const SONG_COMMENT = HOST + "/comment/music";
+
 
 export default{
   SONG_WORD,
   SONG_URL,
   SONG_INFO,
+  SONG_COMMENT
 }
 
