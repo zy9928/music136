@@ -12,7 +12,8 @@ export default class Http{
       url,
       // baseURL: HOST,
       params: method === 'GET' ? data : null,
-      data: method === 'POST' ? data : ''
+      data: method === 'POST' ? data : '',
+      withCredentials: true
     });
     // 判断是否成功
     return this.isSuccess(response);

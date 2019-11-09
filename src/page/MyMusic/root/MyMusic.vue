@@ -1,6 +1,8 @@
 <template>
-  <div class="page" id="myMusic">
-    我的音乐
+  <div class="myMusic">
+    <div class="view-wrap">
+      
+    </div>
   </div>
 </template>
 
@@ -22,7 +24,8 @@ export default {
     }else{
       next();
     }
-  }
+  },
+  
 }
 </script>
 

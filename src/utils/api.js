@@ -6,10 +6,14 @@ const SONG_URL = HOST + "/song/url";
 // 获取歌曲详情————参数：?ids=音乐id[, 音乐id2，音乐id3 ...]
 const SONG_INFO = HOST + "/song/detail";
 
+
+
+//发送验证码
+const SEND_CODE = HOST+"/captcha/sent";
+//验证验证码
+const VERIFY_CODE =HOST+"/captcha/verify";
 // 手机号注册
-const REGISTER_PHONE = HOST;
-//邮箱注册
-const REGISTER_EMAIL = HOST;
+const REGISTER_PHONE =HOST+"/register/cellphone";
 
 //手机号登陆
 const LOGIN_PHONE = HOST+"/login/cellphone";
@@ -22,8 +26,9 @@ export default{
   SONG_URL,
   SONG_INFO,
   REGISTER_PHONE,
-  REGISTER_EMAIL,
   LOGIN_PHONE,
-  LOGIN_EMAIL
+  LOGIN_EMAIL,
+  SEND_CODE,
+  VERIFY_CODE,
 }
 

@@ -31,7 +31,41 @@ export const loginEmail = async (email, password) => {
   console.log(result);
   return result;
 };
+
+/**
+ * 发送验证码
+ * @param {*} phone 
+ */
+export const sendCode = async (phone)=>{
+    let result  = await Http.get(api.SEND_CODE,{
+        phone
+    });
+    return result;
+}
+
+/**
+ * 验证验证码
+ * @param {*} phone 
+ * @param {验证码} captcha 
+ */
+export const verifyCode  = async(phone,captcha)=>{
+  let result  = await Http.get(api.VERIFY_CODE,{
+    phone,captcha
+  });
+  return result;
+}
+
+export const  register = async(captcha,phone,password,nickname)=>{
+  let result = await Http.get(api.REGISTER_PHONE,{
+    captcha,phone,password,nickname
+  });
+  return result;
+}
+
 export default {
-  loginPhone,
-  loginEmail
+    loginPhone,
+    loginEmail,
+    sendCode,
+    verifyCode,
+    register
 };

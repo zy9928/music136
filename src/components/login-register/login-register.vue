@@ -8,6 +8,9 @@ import mainWindow from "./mainWindow";
 import phoneLogin from "./phoneLogin";
 import emailLogin from "./emailLogin";
 import register from "./register";
+import registerCode from "./register-code";
+import registerNick from "./register-nick";
+
 export default {
   name: "login-register",
   data(){
@@ -19,7 +22,9 @@ export default {
     mainWindow,
     phoneLogin,
     emailLogin,
-    register
+    register,
+    registerCode,
+    registerNick
   }
 };
 </script>
