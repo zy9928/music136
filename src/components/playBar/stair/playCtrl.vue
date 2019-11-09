@@ -17,8 +17,8 @@
         <router-link :to="`/play/${id}`" class="songName"> {{songInfo.songName}} </router-link>
         <router-link :to="`/singer/${songInfo.singerId}`" class="singerName">{{songInfo.singerName}}</router-link>
       </h6>
-      <p class="porgressBar">
-        <span class="playNowTime"></span>
+      <p class="porgressBar" ref="porgress" @mousedown="handleProgressClc">
+        <span class="playNowTime" ref="ctrlBtn" ></span>
       </p>
     </div>
   </div>
@@ -26,6 +26,7 @@
 
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
+import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
 export default {
   props: {
     id: '',
@@ -35,31 +36,45 @@ export default {
       songType: "",
       songUrl: "",
       isPlay: false,
-      songInfo: {}
+      songInfo: {},
     };
   },
   methods: {
+    // 获取歌曲路径
     async handleGetSongUrl() {
       const result = await getSongUrl();
       this.songUrl = result.url;
     },
+    // 获取歌曲信息
     async handleGetSongInfo() {
       const result = await getSongInfo();
       this.songInfo = result;
-      console.log(result);
     },
+    // 播放暂停
     BPClc() {
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
+        this.handleProgress(this.$refs.audio, this.$refs.ctrlBtn, this.$refs.porgress);
         this.isPlay = true;
       } else {
         this.$refs.audio.pause();
         this.isPlay = false;
       }
+    },
+    // 进度条随时间变化
+    handleProgress(audio, ctrlBtn, porgress) {
+      progressCtrl(audio, ctrlBtn, porgress);
+    },
+    // 点击进度条/拖拽控制按钮变化时间
+    handleProgressClc(e){
+      var _this = this;
+      progressClc(e, this.$refs.ctrlBtn, this.$refs.porgress, this.$refs.audio, _this);
     }
   },
   mounted() {
+    // 获取歌曲路径
     this.handleGetSongUrl();
+    // 获取歌曲信息
     this.handleGetSongInfo();
   }
 };
@@ -70,7 +85,8 @@ export default {
   position: absolute;
   top: 17px;
   left: 50%;
-  transform: translateX(-50%);
+  // transform: translateX(-50%);
+  margin-left: -490px;
   width: 980px;
   height: 47px;
 
