@@ -31,7 +31,7 @@
                 <img src="../../assets/webo.jpg" alt />
                 <span>微博登录</span>
               </li>
-              <li>
+              <li @click="emailLoginAction"> 
                 <img src="../../assets/yi.jpg" alt />
                 <span>网易邮箱帐号登陆</span>
               </li>
@@ -48,6 +48,7 @@ import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 console.log(MyWindow);
 export default {
+  props:['value'],
   components: {
     [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
@@ -55,10 +56,14 @@ export default {
   methods: {
     //处理登录事件
     loginAction() {
-      alert("点击了");
+      this.$emit('input','phoneLogin');
     },
     registerAction() {
       //处理注册事件
+      this.$emit('input','register');
+    },
+    emailLoginAction(){
+       this.$emit('input','emailLogin');
     }
   }
 };

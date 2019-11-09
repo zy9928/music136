@@ -31,7 +31,7 @@ export default class Http{
       url,
       // baseURL: HOST,
       params: method === 'GET' ? data : null,
-      data: method === 'POST' ? data : null
+      data: method === 'POST' ? data : ''
     });
     // 判断是否成功
     return this.isSuccess(response);
