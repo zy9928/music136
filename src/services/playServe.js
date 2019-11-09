@@ -12,8 +12,10 @@
  * 传入参数： ids 为歌曲id
  * 返回值为：|—— songName 歌曲名字;
  *          |—— singerName 歌手名字;
+ *          |—— singerId 歌手id
  *          |—— albumName 专辑名称;
  *          |—— albumImg 专辑封面
+ *          |—— albumId 专辑ID
  * @version 11.7.1
  * 郑缘 添加了输出方法 getSongUrl getSongInfo
  */
@@ -45,22 +47,26 @@ export const getSongUrl = async (id) => {
 export const getSongInfo = async (ids) => {
   // 发送请求
   const {data: result} = await Http.get(api.SONG_INFO, {ids: 255660});
-  // console.log(result.songs);
+  console.log(result.songs);
   // 判断请求的结果
   if(result.code === 200){
     // 处理数据
     const {name: songName, ar: singer, al: album} = result.songs[0];
-    const {name: singerName} = singer[0];
-    const {name: albumName, picUrl: albumImg} = album;
+    const {name: singerName, id:singerId} = singer[0];
+    const {name: albumName, picUrl: albumImg, id: albumId} = album;
     return {
       // 歌曲名字
       songName,
       // 歌手名字
       singerName,
+      // 歌手id
+      singerId,
       // 专辑名称
       albumName,
       // 专辑封面
-      albumImg
+      albumImg,
+      // 专辑ID
+      albumId
     }
   }else{
     // 失败了

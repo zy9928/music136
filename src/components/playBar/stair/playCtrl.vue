@@ -10,7 +10,16 @@
     </div>
     <div class="albumImgBox">
       <img :src="songInfo.albumImg" :alt="songInfo.songName" />
-      <router-link to="/play"></router-link>
+      <router-link :to="`/play/${id}`"></router-link>
+    </div>
+    <div class="progressBarBox">
+      <h6 class="songTitle">
+        <router-link :to="`/play/${id}`" class="songName"> {{songInfo.songName}} </router-link>
+        <router-link :to="`/singer/${songInfo.singerId}`" class="singerName">{{songInfo.singerName}}</router-link>
+      </h6>
+      <p class="porgressBar">
+        <span class="playNowTime"></span>
+      </p>
     </div>
   </div>
 </template>
@@ -18,6 +27,9 @@
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 export default {
+  props: {
+    id: '',
+  },
   data() {
     return {
       songType: "",
@@ -30,7 +42,6 @@ export default {
     async handleGetSongUrl() {
       const result = await getSongUrl();
       this.songUrl = result.url;
-      // console.log(result);
     },
     async handleGetSongInfo() {
       const result = await getSongInfo();
@@ -129,6 +140,57 @@ export default {
     & > img {
       width: 32px;
       height: 32px;
+    }
+  }
+  .progressBarBox{
+    width: 495px;
+    height: 47px;
+    float: left;
+    padding-top: 7px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    .songTitle{
+      line-height: 14px;
+      font-size: 12px;
+      a:hover{
+        text-decoration: underLine;
+      }
+      .songName{
+        color: #DEDEDE;
+        margin-right: 15px;
+      }
+      .singerName{
+        color: #9B9B9B;
+        margin-right: 15px;
+      }
+    }
+    .porgressBar{
+      width: 486px;
+      height: 9px;
+      background-color: #191919;
+      border-radius: 5px;
+      position: relative;
+      margin-top: 7px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #3A3A3A;
+      border-top: 1px solid #0B0B0B;
+      .playNowTime{
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0px;
+        margin-top: -8px;
+        margin-left: -8px;
+        width: 16px;
+        height: 16px;
+        box-sizing: border-box;
+        background-color: #B9180F;
+        border: 4px solid #F3F3F3;
+        &:hover{
+          box-shadow: 0 0 5px #fff;
+        }
+      }
     }
   }
 }

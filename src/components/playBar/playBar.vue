@@ -37,6 +37,7 @@ export default {
     // 锁控制播放控件显示
     lockActive() {
       this.isLockClose = !this.isLockClose;
+      localStorage.setItem("isLockClose", this.isLockClose);
       // 若鼠标在控件内，则该点击事件不改变控件显示状态
       if (this.isMouseOn) {
         return;
@@ -74,6 +75,14 @@ export default {
     }
   },
   mounted() {
+    // 读取上一次的播放栏显示/隐藏的状态
+    if(localStorage.getItem("isLockClose")){
+      if(localStorage.getItem("isLockClose") == "false"){
+        this.isLockClose = false;
+      }else if(localStorage.getItem("isLockClose") == "true"){
+        this.isLockClose = true;
+      }
+    }
     // 页面挂载时显示4秒
     clearTimeout(mountedPlayShow);
     let mountedPlayShow = setTimeout(() => {
