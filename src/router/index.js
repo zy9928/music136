@@ -27,14 +27,21 @@ const routes = [
   MyMusic,
   //我的音乐未登录
   {
-    path:"/my",
-    component:()=>import("../page/MyMusic/beforeLogin/my")
+    path: "/my",
+    component: () => import("../page/MyMusic/beforeLogin/my")
   },
 
   {
-    path: "/play",
+    path: "/play/:id",
+    props: true,
     component: () =>
       import(/* webpackChunkName: 'play' */ "../page/Play/root/Play.vue")
+  },
+  {
+    path: "/singer/:id",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: 'singer' */ "../page/singer/root/singer.vue")
   },
   {
     path: "**",

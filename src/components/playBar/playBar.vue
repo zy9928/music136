@@ -37,6 +37,7 @@ export default {
     // 锁控制播放控件显示
     lockActive() {
       this.isLockClose = !this.isLockClose;
+      localStorage.setItem("isLockClose", this.isLockClose);
       // 若鼠标在控件内，则该点击事件不改变控件显示状态
       if (this.isMouseOn) {
         return;
@@ -66,7 +67,7 @@ export default {
         );
         this.list = response.data.lrc.lyric;
         this.list = parseLyric(this.list);
-        console.log(this.list);
+        // console.log(this.list);
         // console.log(response.data.data);
       } catch (error) {
         console.error(error);
@@ -74,6 +75,14 @@ export default {
     }
   },
   mounted() {
+    // 读取上一次的播放栏显示/隐藏的状态
+    if(localStorage.getItem("isLockClose")){
+      if(localStorage.getItem("isLockClose") == "false"){
+        this.isLockClose = false;
+      }else if(localStorage.getItem("isLockClose") == "true"){
+        this.isLockClose = true;
+      }
+    }
     // 页面挂载时显示4秒
     clearTimeout(mountedPlayShow);
     let mountedPlayShow = setTimeout(() => {
@@ -84,7 +93,7 @@ export default {
         this.isPlayShow = false;
       }
     }, 2000);
-    console.log(parseLyric);
+    // console.log(parseLyric);
     this.getShopeList();
   }
 };

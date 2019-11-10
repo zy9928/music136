@@ -1,7 +1,5 @@
 <template>
-  <div class="comment">
-    评论
-  </div>
+  <h1>列表</h1>
 </template>
 
 <script>

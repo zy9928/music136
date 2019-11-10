@@ -2,10 +2,13 @@
   <div class="page" id="home">
     首页
     <router-view></router-view>
+    <comment/>
   </div>
+  
 </template>
 
 <script>
+
 export default {
 
 }
