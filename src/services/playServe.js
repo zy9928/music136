@@ -16,6 +16,7 @@
  *          |—— albumName 专辑名称;
  *          |—— albumImg 专辑封面
  *          |—— albumId 专辑ID
+ *          |—— duration 歌曲时长
  * @version 11.7.1
  * 郑缘 添加了输出方法 getSongUrl getSongInfo
  */
@@ -26,7 +27,7 @@ import Http from "./../utils/Http";
 // 请求音频地址
 export const getSongUrl = async (id) => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_URL, {id: 255660});
+  const {data: result} = await Http.get(api.SONG_URL, {id: 1344368486});
   // 判断请求的结果
   if(result.code === 200){
     // 处理数据
@@ -46,12 +47,12 @@ export const getSongUrl = async (id) => {
 // 请求歌曲数据
 export const getSongInfo = async (ids) => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_INFO, {ids: 255660});
+  const {data: result} = await Http.get(api.SONG_INFO, {ids: 1344368486});
   console.log(result.songs);
   // 判断请求的结果
   if(result.code === 200){
     // 处理数据
-    const {name: songName, ar: singer, al: album} = result.songs[0];
+    const {name: songName, ar: singer, al: album, dt: duration} = result.songs[0];
     const {name: singerName, id:singerId} = singer[0];
     const {name: albumName, picUrl: albumImg, id: albumId} = album;
     return {
@@ -66,7 +67,9 @@ export const getSongInfo = async (ids) => {
       // 专辑封面
       albumImg,
       // 专辑ID
-      albumId
+      albumId,
+      // 歌曲时长
+      duration
     }
   }else{
     // 失败了

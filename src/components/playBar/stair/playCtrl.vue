@@ -1,35 +1,42 @@
 <template>
   <div class="playCtrl">
+    <!-- 音频文件 -->
     <div class="audioBox">
       <audio controls ref="audio" :src="songUrl"></audio>
     </div>
+    <!-- 暂停播放上下曲 -->
     <div class="Last_P_Next_btnsBox">
       <span class="lastBtn"></span>
       <span class="BBtn" :class="{PBtn: isPlay}" @click="BPClc"></span>
       <span class="nextBtn"></span>
     </div>
+    <!-- 专辑图 -->
     <div class="albumImgBox">
       <img :src="songInfo.albumImg" :alt="songInfo.songName" />
       <router-link :to="`/play/${id}`"></router-link>
     </div>
+    <!-- 歌名歌手进度条 -->
     <div class="progressBarBox">
       <h6 class="songTitle">
-        <router-link :to="`/play/${id}`" class="songName"> {{songInfo.songName}} </router-link>
+        <router-link :to="`/play/${id}`" class="songName">{{songInfo.songName}}</router-link>
         <router-link :to="`/singer/${songInfo.singerId}`" class="singerName">{{songInfo.singerName}}</router-link>
       </h6>
       <p class="porgressBar" ref="porgress" @mousedown="handleProgressClc">
-        <span class="playNowTime" ref="ctrlBtn" ></span>
+        <span class="playNowTime" ref="ctrlBtn"></span>
       </p>
     </div>
+    <!-- 播放时间 -->
+    <p class="songTimeBox"><span>{{timeNow}}</span><span> / {{allTime}}</span></p>
   </div>
 </template>
 
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
+import { transforTime } from "./../util/anotherUtil";
 export default {
   props: {
-    id: '',
+    id: ""
   },
   data() {
     return {
@@ -37,7 +44,13 @@ export default {
       songUrl: "",
       isPlay: false,
       songInfo: {},
+      timeNow: "00:00"
     };
+  },
+  computed: {
+    allTime() {
+      return transforTime(this.songInfo.duration);
+    }
   },
   methods: {
     // 获取歌曲路径
@@ -54,7 +67,13 @@ export default {
     BPClc() {
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
-        this.handleProgress(this.$refs.audio, this.$refs.ctrlBtn, this.$refs.porgress);
+        var _this = this;
+        this.handleProgress(
+          this.$refs.audio,
+          this.$refs.ctrlBtn,
+          this.$refs.porgress,
+          _this
+        );
         this.isPlay = true;
       } else {
         this.$refs.audio.pause();
@@ -62,13 +81,19 @@ export default {
       }
     },
     // 进度条随时间变化
-    handleProgress(audio, ctrlBtn, porgress) {
-      progressCtrl(audio, ctrlBtn, porgress);
+    handleProgress(audio, ctrlBtn, porgress, _this) {
+      progressCtrl(audio, ctrlBtn, porgress, _this);
     },
     // 点击进度条/拖拽控制按钮变化时间
-    handleProgressClc(e){
+    handleProgressClc(e) {
       var _this = this;
-      progressClc(e, this.$refs.ctrlBtn, this.$refs.porgress, this.$refs.audio, _this);
+      progressClc(
+        e,
+        this.$refs.ctrlBtn,
+        this.$refs.porgress,
+        this.$refs.audio,
+        _this
+      );
     }
   },
   mounted() {
@@ -158,29 +183,29 @@ export default {
       height: 32px;
     }
   }
-  .progressBarBox{
+  .progressBarBox {
     width: 495px;
     height: 47px;
     float: left;
     padding-top: 7px;
     padding-left: 8px;
     box-sizing: border-box;
-    .songTitle{
+    .songTitle {
       line-height: 14px;
       font-size: 12px;
-      a:hover{
+      a:hover {
         text-decoration: underLine;
       }
-      .songName{
-        color: #DEDEDE;
+      .songName {
+        color: #dedede;
         margin-right: 15px;
       }
-      .singerName{
-        color: #9B9B9B;
+      .singerName {
+        color: #9b9b9b;
         margin-right: 15px;
       }
     }
-    .porgressBar{
+    .porgressBar {
       width: 486px;
       height: 9px;
       background-color: #191919;
@@ -188,9 +213,9 @@ export default {
       position: relative;
       margin-top: 7px;
       box-sizing: border-box;
-      border-bottom: 1px solid #3A3A3A;
-      border-top: 1px solid #0B0B0B;
-      .playNowTime{
+      border-bottom: 1px solid #3a3a3a;
+      border-top: 1px solid #0b0b0b;
+      .playNowTime {
         border-radius: 50%;
         display: block;
         position: absolute;
@@ -201,12 +226,22 @@ export default {
         width: 16px;
         height: 16px;
         box-sizing: border-box;
-        background-color: #B9180F;
-        border: 4px solid #F3F3F3;
-        &:hover{
+        background-color: #b9180f;
+        border: 4px solid #f3f3f3;
+        &:hover {
           box-shadow: 0 0 5px #fff;
         }
       }
+    }
+  }
+  .songTimeBox{
+    float: left;
+    padding: 22px 14px 0;
+    height: 47px;
+    color: #9A9A9A;
+    box-sizing: border-box;
+    &>span:nth-of-type(2){
+      color: #797979;
     }
   }
 }
