@@ -20,6 +20,9 @@ const LOGIN_PHONE = HOST+"/login/cellphone";
 //邮箱登陆
 const LOGIN_EMAIL = HOST+"/login";
 
+//获取用户歌单
+const PLAYLIST = HOST+"/login"
+
 
 export default{
   SONG_WORD,

@@ -42,6 +42,9 @@ export default {
     [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
   },
+  computed:{
+
+  },
   methods: {
     //处理登录事件
     async loginAction() {
@@ -52,9 +55,27 @@ export default {
 
       try {
         let result = await userService.loginPhone(this.phone, this.password);
-        
+        if(result.data.code=="200"){
+          //保存用户登录状态
+          await this.$store.dispatch('user/setLogin',"true");
+
+          //保存用户信息
+          let  userInfo = {};
+          //用户id
+          userInfo.userId = result.data.profile.userId;
+          //用户昵称
+          userInfo.nickname = result.data.profile.nickname;
+          //用户头像url
+          userInfo.avatarUrl = result.data.profile.avatarUrl;
+          this.$store.dispatch('user/setUserInfo',userInfo);
+
+          //关闭当前窗口
+          this.$center.$emit('openWindow',false);
+          // this.$router.back();
+        }
       } catch (error) {
           alert('用户名或密码错误');
+          console.log(error);
       }
     },
     registerAction() {

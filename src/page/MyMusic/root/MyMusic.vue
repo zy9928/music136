@@ -1,7 +1,7 @@
 <template>
   <div class="myMusic">
     <div class="view-wrap">
-      
+        <h1>我的音乐</h1>
     </div>
   </div>
 </template>

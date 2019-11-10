@@ -1,7 +1,5 @@
 <template>
-  <div class="sonList">
-    歌单
-  </div>
+  
 </template>
 
 <script>
