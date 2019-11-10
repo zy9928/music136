@@ -1,15 +1,97 @@
 <template>
-    <div class="son-list">
-        <slot/>
+  <div class="play-list">
+    <div class="play-list-create">
+      <span class="title">
+        <i @click="hide('create')" class="iconfont iconcc-arrowhead"></i>
+        创建的歌单&nbsp;({{createNum}})
+      </span>
+      <a href>
+        <i class="iconfont iconcc-add"></i>新建
+      </a>
+      <div ref="create" :class="{createHide:createHide}">
+        <slot name="create" />
+      </div>
     </div>
+    <div class="play-list-collect">
+      <span class="title">
+        <i @click="hide('collect')" class="iconfont iconcc-arrowhead" ></i>
+        收藏的歌单&nbsp;({{collectNum}})
+      </span>
+      <div ref="collect"  :class="{collectHide:collectHide}">
+        <slot class="collect" name="collect" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name:"son-list"
-}
+  data() {
+    return {
+      createHide: false,
+      collectHide:false
+    };
+  },
+  name: "play-list",
+  props: {
+    createNum: Number,
+    collectNum: Number
+  },
+  methods: {
+    hide(type) {
+        this.$refs[type]
+    }
+  }
+};
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.play-list {
+  width: 265px;
+  height: 620px;
+  padding: 58px 0 0 0;
+  background: #fff;
+  border-left: 1px solid #d7d7d7;
+  border-right: 1px solid #d7d7d7;
+  .title {
+    font-size: 16px;
+    color: #282828;
+    font-weight: bold;
+    padding-left: 23px;
+    line-height: 34px;
+    .iconfont {
+      padding-right: 4px;
+      color: #ccc;
+      cursor: pointer;
+    }
+  }
+  .createHide {
+    display: none;
+  }
+   .collectHide {
+    display: none;
+  }
+  .play-list-create {
+    a {
+      display: inline-block;
+      width: 56px;
+      height: 24px;
+      border: 1px solid #c3c3c3;
+      border-radius: 5px;
+      line-height: 24px;
+      text-align: center;
+      color: #515151;
+      margin-left: 40px;
+      font-size: 14px;
+      .iconfont {
+        font-size: 12px;
+        padding-right: 5px;
+        color: #c5412e;
+      }
+    }
+  }
+  .collect {
+    // display: none;
+  }
+}
 </style>
