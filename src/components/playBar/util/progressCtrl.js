@@ -5,6 +5,7 @@
  * 传入参数：|—— audio 音频标签实例
  *          |—— ctrlBtn 进度条控制按钮
  *          |—— porgress 进度条
+ *          |—— _this vue实例
  * @param progressClc 点击、拖拽进度条/控制钮 ,时间的变化
  * 传入参数：|—— e 事件对象 event
  *          |—— audio 音频标签实例
@@ -13,11 +14,15 @@
  *          |—— _this vue实例
  */
 import { computedOff } from "./../../../utils/computedOffset";
+import { transforTime } from "./../../../utils/util";
 
-export const progressCtrl = (audio, ctrlBtn, porgress) => {
+export const progressCtrl = (audio, ctrlBtn, porgress, _this) => {
   // 播放时，进度条实时变化
   audio.ontimeupdate = function() {
+    // 时间显示实时变化
+    _this.timeNow = transforTime(audio.currentTime * 1000);
     var percent = audio.currentTime / audio.duration;
+    // 进度条实时变化
     ctrlBtn.style.transform = `translateX(${486 * percent}px)`;
     porgress.style.backgroundImage = `linear-gradient(to right, #C70C0C 0%, #C70C0C ${percent *
       100}%, #191919 ${percent * 100}%, #191919 100%)`;
