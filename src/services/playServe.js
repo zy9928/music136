@@ -21,47 +21,59 @@
  * 郑缘 添加了输出方法 getSongUrl getSongInfo
  */
 
-import api from './../utils/api';
+import api from "./../utils/api";
 import Http from "./../utils/Http";
 
 // 请求音频地址
-export const getSongUrl = async (id) => {
+export const getSongUrl = async id => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_URL, {id: 1344368486});
+  const { data: result } = await Http.get(api.SONG_URL, { id: 429450258 });
   // 判断请求的结果
-  if(result.code === 200){
+  if (result.code === 200) {
     // 处理数据
-    const {type, url} = result.data[0];
+    const { type, url } = result.data[0];
     return {
       // 音频类型
       type,
       // 音频地址
       url
-    }
-  }else{
+    };
+  } else {
     // 失败了
     throw new Error(result.message);
   }
-}
+};
 
 // 请求歌曲数据
-export const getSongInfo = async (ids) => {
+export const getSongInfo = async ids => {
   // 发送请求
-  const {data: result} = await Http.get(api.SONG_INFO, {ids: 1344368486});
+  const { data: result } = await Http.get(api.SONG_INFO, { ids: 429450258 });
   console.log(result.songs);
   // 判断请求的结果
-  if(result.code === 200){
+  if (result.code === 200) {
     // 处理数据
-    const {name: songName, ar: singer, al: album, dt: duration} = result.songs[0];
-    const {name: singerName, id:singerId} = singer[0];
-    const {name: albumName, picUrl: albumImg, id: albumId} = album;
+    const { name: songName, ar, al: album, dt: duration } = result.songs[0];
+    // const {name: singerName, id:singerId} = singer[0];
+    var singer = [];
+    ar.forEach((item, index) => {
+      if (index == ar.length - 1) {
+        singer.push({
+          singerName: item.name,
+          singerId: item.id
+        });
+      } else {
+        singer.push({
+          singerName: item.name + "/",
+          singerId: item.id
+        });
+      }
+    });
+    const { name: albumName, picUrl: albumImg, id: albumId } = album;
     return {
       // 歌曲名字
       songName,
-      // 歌手名字
-      singerName,
-      // 歌手id
-      singerId,
+      // 歌手
+      singer,
       // 专辑名称
       albumName,
       // 专辑封面
@@ -70,11 +82,9 @@ export const getSongInfo = async (ids) => {
       albumId,
       // 歌曲时长
       duration
-    }
-  }else{
+    };
+  } else {
     // 失败了
     throw new Error(result.message);
   }
-}
-
-
+};

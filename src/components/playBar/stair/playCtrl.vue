@@ -19,7 +19,7 @@
     <div class="progressBarBox">
       <h6 class="songTitle">
         <router-link :to="`/play/${id}`" class="songName">{{songInfo.songName}}</router-link>
-        <router-link :to="`/singer/${songInfo.singerId}`" class="singerName">{{songInfo.singerName}}</router-link>
+        <router-link v-for="(item, key) in songInfo.singer" :key="key" :to="`/singer/${item.singerId}`" class="singerName">{{item.singerName}}</router-link>
       </h6>
       <p class="porgressBar" ref="porgress" @mousedown="handleProgressClc">
         <span class="playNowTime" ref="ctrlBtn"></span>
@@ -33,7 +33,7 @@
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
-import { transforTime } from "./../util/anotherUtil";
+import { transforTime } from "./../../../utils/util";
 export default {
   props: {
     id: ""
@@ -202,7 +202,6 @@ export default {
       }
       .singerName {
         color: #9b9b9b;
-        margin-right: 15px;
       }
     }
     .porgressBar {
