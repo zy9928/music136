@@ -35,7 +35,8 @@ const LOGIN_PHONE = HOST+"/login/cellphone";
 const LOGIN_EMAIL = HOST+"/login";
 
 //获取用户歌单
-const PLAYLIST = HOST+"/login";
+const PLAYLIST = HOST+"/user/playlist";
+
 //歌曲评论
 const SONG_COMMENT = HOST + "/comment/music";
 
