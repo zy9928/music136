@@ -2,7 +2,7 @@
   <div class="play-list">
     <div class="play-list-create">
       <span class="title">
-        <i @click="hide('create')" class="iconfont iconcc-arrowhead"></i>
+        <i @click="hide('create',$event)" class="iconfont iconcc-arrowhead"></i>
         创建的歌单&nbsp;({{createNum}})
       </span>
       <a href>
@@ -14,10 +14,10 @@
     </div>
     <div class="play-list-collect">
       <span class="title">
-        <i @click="hide('collect')" class="iconfont iconcc-arrowhead" ></i>
+        <i @click="hide('collect',$event)" class="iconfont iconcc-arrowhead"></i>
         收藏的歌单&nbsp;({{collectNum}})
       </span>
-      <div ref="collect"  :class="{collectHide:collectHide}">
+      <div ref="collect" :class="{collectHide:collectHide}">
         <slot class="collect" name="collect" />
       </div>
     </div>
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       createHide: false,
-      collectHide:false
+      collectHide: false
     };
   },
   name: "play-list",
@@ -38,8 +38,25 @@ export default {
     collectNum: Number
   },
   methods: {
-    hide(type) {
-        this.$refs[type]
+    hide(type, e) {
+      let target = e.target;
+      console.log(target);
+      if (type == "create") {
+        if (this.createHide) {
+          target.style.transform = "none";
+        } else {
+            target.style.transform = "rotate(-90deg)";
+        //   target.style.display = "none";
+        }
+        this.createHide = !this.createHide;
+      } else {
+        if (this.collectHide) {
+          target.style.transform = "none";
+        } else {
+          target.style.transform = "rotate(-90deg)";
+        }
+        this.collectHide = !this.collectHide;
+      }
     }
   }
 };
@@ -63,13 +80,20 @@ export default {
       padding-right: 4px;
       color: #ccc;
       cursor: pointer;
+      display: inline-block;
     }
   }
   .createHide {
     display: none;
   }
-   .collectHide {
+  .collectHide {
     display: none;
+  }
+  .createRoate {
+    transform: rotate(90deg);
+  }
+  .collectRoate {
+    transform: rotate(90deg);
   }
   .play-list-create {
     a {
