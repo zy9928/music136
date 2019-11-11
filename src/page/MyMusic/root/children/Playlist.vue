@@ -64,9 +64,9 @@ export default {
 
 <style scoped lang="scss">
 .play-list {
-  width: 265px;
-  height: 620px;
-  padding: 58px 0 0 0;
+  width: 240px;
+  min-height: 628px;
+  padding: 52px 0 0 0;
   background: #fff;
   border-left: 1px solid #d7d7d7;
   border-right: 1px solid #d7d7d7;
@@ -74,10 +74,10 @@ export default {
     font-size: 16px;
     color: #282828;
     font-weight: bold;
-    padding-left: 23px;
+    padding-left: 19px;
     line-height: 34px;
     .iconfont {
-      padding-right: 4px;
+      padding-right: 2px;
       color: #ccc;
       cursor: pointer;
       display: inline-block;
@@ -98,14 +98,14 @@ export default {
   .play-list-create {
     a {
       display: inline-block;
-      width: 56px;
-      height: 24px;
+      width: 50px;
+      height: 20px;
       border: 1px solid #c3c3c3;
       border-radius: 5px;
-      line-height: 24px;
+      line-height: 20px;
       text-align: center;
       color: #515151;
-      margin-left: 40px;
+      margin-left: 26px;
       font-size: 14px;
       .iconfont {
         font-size: 12px;

@@ -21,20 +21,20 @@ export default {
 
 <style scoped lang="scss">
 .playlist-item {
-  padding: 9px 10px 6px 23px;
+  padding: 9px 10px 6px 19px;
   height: 45px;
   cursor: pointer;
   .img {
     float: left;
     img {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
     }
   }
   .text{
       float: left;
-      margin-left: 12px;
-      width: 157px;
+      margin-left: 11px;
+      width: 156px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

@@ -1,22 +1,27 @@
 <template>
   <div class="myMusic">
     <div class="view-wrap">
-      <play-list :createNum="createList.length" :collectNum="collectList.length">
-        <playlist-item
-          slot="create"
-          v-for="(item,index) in createList"
-          :key="index"
-          :name="item.name"
-          :coverImgUrl="item.coverImgUrl"
-        ></playlist-item>
-        <playlist-item
-          slot="collect"
-          v-for="(item,index) in collectList"
-          :key="index"
-          :name="item.name"
-          :coverImgUrl="item.coverImgUrl"
-        ></playlist-item>
-      </play-list>
+      <div class="play-nav">
+        <play-list :createNum="createList.length" :collectNum="collectList.length">
+          <playlist-item
+            slot="create"
+            v-for="(item,index) in createList"
+            :key="index"
+            :name="item.name"
+            :coverImgUrl="item.coverImgUrl"
+          ></playlist-item>
+          <playlist-item
+            slot="collect"
+            v-for="(item,index) in collectList"
+            :key="index"
+            :name="item.name"
+            :coverImgUrl="item.coverImgUrl"
+          ></playlist-item>
+        </play-list>
+      </div>
+      <div class="play-content">
+        <clauses-header></clauses-header>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +32,7 @@ import router from "../../../router";
 import store from "../../../store";
 import Playlist from "./children/Playlist";
 import PlaylistItem from "./children/playlist-item";
+import ClausesHeader from "../../../components/clauses/clauses-header";
 
 export default {
   data() {
@@ -37,7 +43,8 @@ export default {
   },
   components: {
     [Playlist.name]: Playlist,
-    [PlaylistItem.name]: PlaylistItem
+    [PlaylistItem.name]: PlaylistItem,
+    [ClausesHeader.name]: ClausesHeader
   },
   computed: {
     ...mapState({
@@ -92,6 +99,20 @@ export default {
   height: 678px;
   overflow: auto;
   .view-wrap {
+    height: 100%;
+    position: relative;
+    .play-nav {
+      height: 100%;
+      width: 242px;
+      position:fixed;
+      top: 75px;
+      bottom: 0;
+    }
+    .play-content {
+      height: 1000px;
+      padding-left: 242px;
+      float: left;
+    }
   }
 }
 </style>
