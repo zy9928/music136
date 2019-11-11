@@ -45,11 +45,12 @@
       <!-- hasVolume 有声 noVolume 静音 -->
       <span class="volumeBtn hasVolume" :class="{noVolume: isNoVolume}" @click="volumeBtnClc"></span>
       <div class="volumeCtrlBox" v-show="isVolumeCtrlBoxShow">
-        <p class="volumeVule"></p>
-        <span class="volumeNow"></span>
+        <p class="volumeVule" @mousedown="volumeVuleMouseDown" ref="volumeVule"></p>
+        <span class="volumeNow" ref="volumeNow"></span>
       </div>
       <!-- randon 随机播放 loop 循环播放 onlyOne 单曲循环 -->
-      <span class="loopModeBtn" :class="{loop: loopMode == 0, randon: loopMode == 1, onlyOne: loopMode == 2}" @click="loopModeClc"></span>
+      <span class="loopModeBtn" :class="{loop: playerSetting.loopMode == 0, randon: playerSetting.loopMode == 1, onlyOne: playerSetting.loopMode == 2}" @click="loopModeClc"></span>
+      <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
       <span class="songListBtn">3</span>
     </div>
   </div>
@@ -58,6 +59,7 @@
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
+import { volumeShow, volumeMove } from "./../util/volumeCtrl";
 import { transforTime } from "./../../../utils/util";
 export default {
   props: {
@@ -72,12 +74,22 @@ export default {
       timeNow: "00:00",
       isNoVolume: false,
       isVolumeCtrlBoxShow: false,
-      loopMode: 0,
+      isloopModeShowBox: false,
+      loopModeShowTimer: null,
+      playerSetting: {},
     };
   },
   computed: {
     allTime() {
-      return transforTime(this.songInfo.duration);
+      var time = transforTime(this.songInfo.duration);
+      return time.indexOf("NaN") == -1 ? time : "00:00";
+    },
+    loopModeShow(){
+      switch(this.playerSetting.loopMode){
+        case 0: return "循环";
+        case 1: return "随机";
+        case 2: return "单曲循环";
+      }
     }
   },
   methods: {
@@ -93,6 +105,7 @@ export default {
     },
     // 播放暂停
     BPClc() {
+      /* 需要做个没有歌曲的拦截 */
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
         var _this = this;
@@ -141,22 +154,34 @@ export default {
     },
     // 处理循环模式
     loopModeClc(){
-      if(this.loopMode >= 2){
-        this.loopMode = 0;
+      this.isloopModeShowBox = true;
+      if(this.playerSetting.loopMode >= 2){
+        this.playerSetting.loopMode = 0;
       }else{
-        this.loopMode ++;
+        this.playerSetting.loopMode ++;
       }
+      this.$store.commit('playBar/setPlayerSetting', this.playerSetting);
+      clearTimeout(this.loopModeShowTimer)
+      this.loopModeShowTimer = setTimeout(() => {
+        this.isloopModeShowBox = false;
+      }, 2000);
     },
     // 处理声音
     volumeBtnClc(){
       this.isVolumeCtrlBoxShow = !this.isVolumeCtrlBoxShow;
+    },
+    volumeVuleMouseDown(e){
+      volumeMove(e, this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
     }
   },
   mounted() {
+    this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
     // 获取歌曲信息
     this.handleGetSongInfo();
+    // 获取当前音量
+    volumeShow(this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
   }
 };
 </script>
@@ -377,14 +402,14 @@ export default {
       }
       .volumeNow{
         position: absolute;
-        left: 8px;
-        top: 2px; /* 是声音条top-8 */
-        width: 16px;
-        height: 16px;
+        left: 10px;
+        top: 4px; /* 是声音条top-6 */
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         box-sizing: border-box;
         background-color: #B9180F;
-        border: 4px solid #F5F5F5;
+        border: 3px solid #F5F5F5;
         &:hover{
           box-shadow: 0 0 5px #fff;
         }
@@ -401,6 +426,16 @@ export default {
       &:hover{
         background-position: -36px -346px;
       }
+    }
+    .loopModeShowBox{
+      position: absolute;
+      width: 80px;
+      height: 36px;
+      top: -36px;
+      text-align: center;
+      color: #FFFFFF;
+      line-height: 32px;
+      background: url(./../../../assets/playbar.png) no-repeat -1px -457px
     }
     .onlyOne{
       background-position: -69px -346px;

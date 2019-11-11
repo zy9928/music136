@@ -13,8 +13,7 @@
  *          |—— porgress 进度条
  *          |—— _this vue实例
  */
-import { computedOff } from "./../../../utils/computedOffset";
-import { transforTime } from "./../../../utils/util";
+import { transforTime, computedOff } from "./../../../utils/util";
 
 export const progressCtrl = (audio, ctrlBtn, porgress, _this) => {
   // 播放时，进度条实时变化
