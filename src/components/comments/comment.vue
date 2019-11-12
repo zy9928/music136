@@ -6,20 +6,33 @@
     </div>
     <p class="line"></p>
     <div class="com">
-      <img src="../../assets/sry-profile-photo.jpg" alt="" class="photo">
-      <div class="comIptBox"><textarea type="text" class="comIpt" placeholder="评论"  ref='textArea' @input="iptChangeAction"></textarea></div>
+      <img src="../../assets/sry-profile-photo.jpg" alt="头像" class="photo">
+      <div class="comIptBox">
+        <textarea type="text" class="comIpt" placeholder="评论"  ref='textArea' @input="iptChangeAction"></textarea>
+        <vue-textarea-suggester
+          v-model="extracts"
+          :target="target"
+          :rules="rules"
+          @matched="matched"
+          ref="suggester"
+        />
+      </div>
     </div>
     <div class="navBox">
       <i class="iconfont iconxiaolian"></i>
       <i class="iconfont iconaite" @click='aiteAction'></i>
       <span class="num">{{show}}</span>
       <p class="comBtn" @click='goComment'>评论</p>
+
       <ul class="aiteShow" ref='aiteShow'>
         <li class="selectItem ">选择最近@的人或直接输入</li>
         <li class='aiteItem' v-for='(item,index) in aiteList' :key='index' @click='aiteItemAction(index)' ref='aiteItem'>{{item}}</li>
       </ul>
     </div>
+
+    <div class="mask" ref='mask' @click='maskAction'></div>
     <List></List>
+
   </div>
 </template>
 
@@ -27,6 +40,11 @@
 import List from './sonList/list'
 import { getSongComments } from '../../services/comment'
 import { log } from 'util';
+import Vue from 'vue'
+import VueTextaSuggester from 'vue-textarea-suggester'
+import 'vue-textarea-suggester/dist/vue-textarea-suggester.css'
+Vue.use(VueTextaSuggester)
+
 
 export default {
   name: 'comment',
@@ -37,7 +55,16 @@ export default {
     return {
       show: 140,
       selectIndex: 0,
-      aiteList:['云音乐小秘书', '网易UFO丁嘉', '网易云音乐']
+      comObj: {},
+      aiteList:['云音乐小秘书', '网易UFO丁嘉', '网易云音乐'],
+      target: null,
+      extracts: [],
+      rules: [
+        {
+          rule: /@/,
+          data: [{ label: "云音乐小秘书" }, { label: "网易UFO丁嘉" },{ label: "网易云音乐" }]
+        }
+      ]
     }
   },
   computed: {
@@ -45,28 +72,48 @@ export default {
   },
   methods: {
     //请求评论数据
-    getInit() {
-      let result = getSongComments();
-      console.log(result);
+    async getInit() {
+      this.comObj = await getSongComments();
     },
     //判断输入的字符数
     iptChangeAction(){
+      this.$refs.suggester.change();
       this.show = 140 - this.$refs.textArea.value.length;
+    },
+     matched(rule, query, row) {
+      console.log(`rule ${JSON.stringify(rule)}`);
+      console.log(`query ${JSON.stringify(query)}`);
+      console.log(`row ${JSON.stringify(row)}`);
     },
     //点击了@的事件
     aiteAction(){
       this.$refs.aiteShow.style.display = 'block';
-      this.$refs.textArea.value = '@';
+      this.$refs.mask.style.display = 'block';
+      this.$refs.textArea.value += '@';
+      //添加焦点
+      this.$refs.textArea.focus();
     },
     //点击@选择了数据以后产生的事件
     aiteItemAction(index){
       this.selectIndex = index;
-      this.$refs.textArea.value = '@' + this.$refs.aiteItem[this.selectIndex].innerText;
+      this.$refs.textArea.value += this.$refs.aiteItem[this.selectIndex].innerText;
+      //添加焦点
+      this.$refs.textArea.focus();
       this.$refs.aiteShow.style.display = 'none';
+      this.$refs.mask.style.display = 'none';
       this.show = 140 - this.$refs.textArea.value.length;
-
       
     },
+    //点击蒙板的事件
+    maskAction(){
+      this.$refs.aiteShow.style.display = 'none';
+      this.$refs.mask.style.display = 'none';
+    },
+
+    //点击shift+alt出现@框的事件
+
+
+
     //去评论
     goComment(){
       if(this.show < 0){
@@ -79,14 +126,9 @@ export default {
   },
   mounted() {
     this.getInit();
-    var _this = this;
-    // document.onclick = function(ev){
-    //   var e = ev || window.event;
-    //   if(e.target != _this.$refs.aiteShow){
-    //     console.log("a")
-    //     _this.$refs.aiteShow.style.display = 'none';
-    //   }
-    // }
+    this.$nextTick(() => {
+      this.target = this.$refs.textArea;
+    });
   }
 }
 </script>
@@ -114,6 +156,17 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ddd;
   margin-left: 50px;
+  position: relative;
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: none;
+    background: rgba(0,0,0,0);
+  }
   .tit {
     color: #333;
     line-height:20px;
@@ -158,6 +211,7 @@ export default {
         color: #333;
         box-sizing: border-box;
         border: 1px solid #ccc;
+        overflow: auto;
       }
       .comIpt::placeholder {
         font-size: 12px;
@@ -202,8 +256,8 @@ export default {
       padding: 5px;
       border: 1px solid #ddd;
       position: absolute;
-      top: -40px;
-      left: 5px;
+      // top: -40px;
+      // left: 5px;
       z-index: 20;
       background: #fff;
       display: none;
@@ -222,5 +276,23 @@ export default {
   }
 }
 
-
+</style>
+<style lang='scss'>
+.suggester .suggester-list .suggester-list-item {
+  height: 20px;
+  line-height: 20px;
+  border: none;
+  strong {
+    color: #555;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+  } 
+}
+.suggester .suggester-list .suggester-list-item:hover {
+  background: #eee;
+}
+.suggester .suggester-list .suggester-list-item.active {
+  background: #eee;
+}
 </style>

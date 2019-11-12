@@ -1,25 +1,57 @@
 <template>
   <div class="playCtrl">
+    <!-- 音频文件 -->
     <div class="audioBox">
       <audio controls ref="audio" :src="songUrl"></audio>
     </div>
+    <!-- 暂停播放上下曲 -->
     <div class="Last_P_Next_btnsBox">
       <span class="lastBtn"></span>
       <span class="BBtn" :class="{PBtn: isPlay}" @click="BPClc"></span>
       <span class="nextBtn"></span>
     </div>
+    <!-- 专辑图 -->
     <div class="albumImgBox">
       <img :src="songInfo.albumImg" :alt="songInfo.songName" />
       <router-link :to="`/play/${id}`"></router-link>
     </div>
+    <!-- 歌名歌手进度条 -->
     <div class="progressBarBox">
       <h6 class="songTitle">
-        <router-link :to="`/play/${id}`" class="songName"> {{songInfo.songName}} </router-link>
-        <router-link :to="`/singer/${songInfo.singerId}`" class="singerName">{{songInfo.singerName}}</router-link>
+        <router-link :to="`/play/${id}`" class="songName">{{songInfo.songName}}</router-link>
+        <router-link
+          v-for="(item, key) in songInfo.singer"
+          :key="key"
+          :to="`/singer/${item.singerId}`"
+          class="singerName"
+        >{{item.singerName}}</router-link>
       </h6>
       <p class="porgressBar" ref="porgress" @mousedown="handleProgressClc">
-        <span class="playNowTime" ref="ctrlBtn" ></span>
+        <span class="playNowTime" ref="ctrlBtn"></span>
       </p>
+    </div>
+    <!-- 播放时间 -->
+    <p class="songTimeBox">
+      <span>{{timeNow}}</span>
+      <span>/ {{allTime}}</span>
+    </p>
+    <!-- 收藏和分享 -->
+    <div class="shareAndLike">
+      <span class="likeBox" @click="likeBoxClc"></span>
+      <span class="shareBox" @click="shareBoxClc"></span>
+    </div>
+    <!-- 其他控件 -->
+    <div class="anotherCtrlBtn">
+      <!-- hasVolume 有声 noVolume 静音 -->
+      <span class="volumeBtn hasVolume" :class="{noVolume: isNoVolume}" @click="volumeBtnClc"></span>
+      <div class="volumeCtrlBox" v-show="isVolumeCtrlBoxShow">
+        <p class="volumeVule" @mousedown="volumeVuleMouseDown" ref="volumeVule"></p>
+        <span class="volumeNow" ref="volumeNow"></span>
+      </div>
+      <!-- randon 随机播放 loop 循环播放 onlyOne 单曲循环 -->
+      <span class="loopModeBtn" :class="{loop: playerSetting.loopMode == 0, randon: playerSetting.loopMode == 1, onlyOne: playerSetting.loopMode == 2}" @click="loopModeClc"></span>
+      <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
+      <span class="songListBtn">3</span>
     </div>
   </div>
 </template>
@@ -27,9 +59,11 @@
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
+import { volumeShow, volumeMove } from "./../util/volumeCtrl";
+import { transforTime } from "./../../../utils/util";
 export default {
   props: {
-    id: '',
+    id: ""
   },
   data() {
     return {
@@ -37,7 +71,26 @@ export default {
       songUrl: "",
       isPlay: false,
       songInfo: {},
+      timeNow: "00:00",
+      isNoVolume: false,
+      isVolumeCtrlBoxShow: false,
+      isloopModeShowBox: false,
+      loopModeShowTimer: null,
+      playerSetting: {},
     };
+  },
+  computed: {
+    allTime() {
+      var time = transforTime(this.songInfo.duration);
+      return time.indexOf("NaN") == -1 ? time : "00:00";
+    },
+    loopModeShow(){
+      switch(this.playerSetting.loopMode){
+        case 0: return "循环";
+        case 1: return "随机";
+        case 2: return "单曲循环";
+      }
+    }
   },
   methods: {
     // 获取歌曲路径
@@ -52,9 +105,16 @@ export default {
     },
     // 播放暂停
     BPClc() {
+      /* 需要做个没有歌曲的拦截 */
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
-        this.handleProgress(this.$refs.audio, this.$refs.ctrlBtn, this.$refs.porgress);
+        var _this = this;
+        this.handleProgress(
+          this.$refs.audio,
+          this.$refs.ctrlBtn,
+          this.$refs.porgress,
+          _this
+        );
         this.isPlay = true;
       } else {
         this.$refs.audio.pause();
@@ -62,20 +122,66 @@ export default {
       }
     },
     // 进度条随时间变化
-    handleProgress(audio, ctrlBtn, porgress) {
-      progressCtrl(audio, ctrlBtn, porgress);
+    handleProgress(audio, ctrlBtn, porgress, _this) {
+      progressCtrl(audio, ctrlBtn, porgress, _this);
     },
     // 点击进度条/拖拽控制按钮变化时间
-    handleProgressClc(e){
+    handleProgressClc(e) {
       var _this = this;
-      progressClc(e, this.$refs.ctrlBtn, this.$refs.porgress, this.$refs.audio, _this);
+      progressClc(
+        e,
+        this.$refs.ctrlBtn,
+        this.$refs.porgress,
+        this.$refs.audio,
+        _this
+      );
+    },
+    // 收藏点击
+    likeBoxClc() {
+      if (!this.$store.state.user.isLogin) {
+        this.$center.$emit('openWindow',true);
+      } else {
+        console.log("收藏了");
+      }
+    },
+    // 分享点击
+    shareBoxClc() {
+      if (!this.$store.state.user.isLogin) {
+        this.$center.$emit('openWindow',true);
+      } else {
+        console.log("分享了");
+      }
+    },
+    // 处理循环模式
+    loopModeClc(){
+      this.isloopModeShowBox = true;
+      if(this.playerSetting.loopMode >= 2){
+        this.playerSetting.loopMode = 0;
+      }else{
+        this.playerSetting.loopMode ++;
+      }
+      this.$store.commit('playBar/setPlayerSetting', this.playerSetting);
+      clearTimeout(this.loopModeShowTimer)
+      this.loopModeShowTimer = setTimeout(() => {
+        this.isloopModeShowBox = false;
+      }, 2000);
+    },
+    // 处理声音
+    volumeBtnClc(){
+      this.isVolumeCtrlBoxShow = !this.isVolumeCtrlBoxShow;
+    },
+    volumeVuleMouseDown(e){
+      volumeMove(e, this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
     }
   },
   mounted() {
+    this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
     // 获取歌曲信息
     this.handleGetSongInfo();
+    // 获取当前音量
+    volumeShow(this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
   }
 };
 </script>
@@ -158,29 +264,28 @@ export default {
       height: 32px;
     }
   }
-  .progressBarBox{
+  .progressBarBox {
     width: 495px;
     height: 47px;
     float: left;
     padding-top: 7px;
     padding-left: 8px;
     box-sizing: border-box;
-    .songTitle{
+    .songTitle {
       line-height: 14px;
       font-size: 12px;
-      a:hover{
+      a:hover {
         text-decoration: underLine;
       }
-      .songName{
-        color: #DEDEDE;
+      .songName {
+        color: #dedede;
         margin-right: 15px;
       }
-      .singerName{
-        color: #9B9B9B;
-        margin-right: 15px;
+      .singerName {
+        color: #9b9b9b;
       }
     }
-    .porgressBar{
+    .porgressBar {
       width: 486px;
       height: 9px;
       background-color: #191919;
@@ -188,9 +293,9 @@ export default {
       position: relative;
       margin-top: 7px;
       box-sizing: border-box;
-      border-bottom: 1px solid #3A3A3A;
-      border-top: 1px solid #0B0B0B;
-      .playNowTime{
+      border-bottom: 1px solid #3a3a3a;
+      border-top: 1px solid #0b0b0b;
+      .playNowTime {
         border-radius: 50%;
         display: block;
         position: absolute;
@@ -201,11 +306,155 @@ export default {
         width: 16px;
         height: 16px;
         box-sizing: border-box;
+        background-color: #b9180f;
+        border: 4px solid #f3f3f3;
+        &:hover {
+          box-shadow: 0 0 5px #fff;
+        }
+      }
+    }
+  }
+  .songTimeBox {
+    float: left;
+    padding: 22px 14px 0;
+    height: 47px;
+    color: #9a9a9a;
+    box-sizing: border-box;
+    & > span:nth-of-type(2) {
+      color: #797979;
+    }
+  }
+  .shareAndLike {
+    float: left;
+    padding: 0 10px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    & > span {
+      display: inline-block;
+      margin: 0 4px;
+      width: 20px;
+      height: 20px;
+      background-image: url(./../../../assets/playbar.png);
+      background-repeat: no-repeat;
+    }
+    .likeBox {
+      background-position: -91px -165px;
+      &:hover {
+        background-position: -91px -191px;
+      }
+    }
+    .shareBox {
+      background-position: -117px -165px;
+      &:hover {
+        background-position: -117px -191px;
+      }
+    }
+  }
+  .anotherCtrlBtn{
+    width: 124px;
+    height: 47px;
+    float: left;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    background: url(./../../../assets/playbar.png) no-repeat -149px -236px;
+    padding-left: 11px;
+    position: relative;
+    &>span{
+      display: block;
+      width: 20px;
+      height: 20px;
+      background-image: url(./../../../assets/playbar.png);
+      background-repeat: no-repeat;
+    }
+    .volumeBtn,.loopModeBtn{
+      margin: 0 3px;
+    }
+    .hasVolume{
+      background-position: -5px -250px;
+      &:hover{
+        background-position: -34px -250px;
+      }
+    }
+    .noVolume{
+      background-position: -111px -71px;
+      &:hover{
+        background-position: -133px -71px;
+      }
+    }
+    .volumeCtrlBox{
+      position: absolute;
+      height: 113px;
+      width: 32px;
+      top: -113px;
+      left: 7px;
+      background: url(./../../../assets/playbar.png) no-repeat 0 -503px;
+      .volumeVule{
+        width: 4px;
+        position: absolute;
+        bottom: 10px;
+        top: 10px;
+        border-radius: 2px;
+        // 最大高度93px; top最小值：103px 最大值10px
+        left: 14px;
+        background: url(./../../../assets/playbar.png) no-repeat -40px -522px;
+      }
+      .volumeNow{
+        position: absolute;
+        left: 10px;
+        top: 4px; /* 是声音条top-6 */
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        box-sizing: border-box;
         background-color: #B9180F;
-        border: 4px solid #F3F3F3;
+        border: 3px solid #F5F5F5;
         &:hover{
           box-shadow: 0 0 5px #fff;
         }
+      }
+    }
+    .randon{
+      background-position: -69px -250px;
+      &:hover{
+        background-position: -96px -250px;
+      }
+    }
+    .loop{
+      background-position: -6px -346px;
+      &:hover{
+        background-position: -36px -346px;
+      }
+    }
+    .loopModeShowBox{
+      position: absolute;
+      width: 80px;
+      height: 36px;
+      top: -36px;
+      text-align: center;
+      color: #FFFFFF;
+      line-height: 32px;
+      background: url(./../../../assets/playbar.png) no-repeat -1px -457px
+    }
+    .onlyOne{
+      background-position: -69px -346px;
+      &:hover{
+        background-position: -96px -346px;
+      }
+    }
+    .songListBtn{
+      margin-left: 5px;
+      width: 55px;
+      height: 24px;
+      box-sizing: border-box;
+      line-height: 24px;
+      text-align: right;
+      padding-right: 15px;
+      color: #646464;
+      background-position: -45px -69px;
+      &:hover{
+        background-position: -45px -99px;
       }
     }
   }

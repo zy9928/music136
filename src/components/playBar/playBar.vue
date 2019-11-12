@@ -15,7 +15,7 @@
 
 <script>
 const axios = require("axios");
-import {parseLyric} from "./util/getSonWord";
+import {parseLyric} from "./util/anotherUtil";
 import playCtrl from './stair/playCtrl.vue';
 export default {
   data() {
@@ -27,6 +27,7 @@ export default {
       // 记录鼠标是否在控件内部
       isMouseOn: false,
       list: '',
+      leaveTimer : '',
     };
   },
   computed: {},
@@ -46,6 +47,7 @@ export default {
     },
     // 鼠标进出控制控件显示
     playBarEnterActive() {
+      clearTimeout(this.leaveTimer);
       this.isPlayShow = true;
       this.isMouseOn = true;
     },
@@ -54,7 +56,10 @@ export default {
       if (this.isLockClose) {
         return;
       }
-      this.isPlayShow = false;
+      clearTimeout(this.leaveTimer);
+      this.leaveTimer = setTimeout(() => {
+        this.isPlayShow = false;
+      }, 1000);
       this.isMouseOn = false;
     },
     async getShopeList() {
@@ -86,7 +91,7 @@ export default {
     // 页面挂载时显示4秒
     clearTimeout(mountedPlayShow);
     let mountedPlayShow = setTimeout(() => {
-      // 若在4秒内鼠标移入，或被锁住，则该计时器不改变播放控件显示状态
+      // 若在2秒内鼠标移入，或被锁住，则该计时器不改变播放控件显示状态
       if(this.isMouseOn || this.isLockClose){
         this.isPlayShow = true;
       }else{
