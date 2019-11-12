@@ -58,7 +58,7 @@
         @click="loopModeClc"
       ></span>
       <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
-      <span class="songListBtn">3</span>
+      <span class="songListBtn" @click="songListBtnClc">3</span>
     </div>
   </div>
 </template>
@@ -68,6 +68,7 @@ import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
 import { volumeShow, volumeMove } from "./../util/volumeCtrl";
 import { transforTime } from "./../../../utils/util";
+import {mapState} from 'vuex';
 export default {
   props: {
     id: ""
@@ -83,7 +84,8 @@ export default {
       isVolumeCtrlBoxShow: false,
       isloopModeShowBox: false,
       loopModeShowTimer: null,
-      playerSetting: {}
+      playerSetting: {},
+      isPlayListShow: false
     };
   },
   computed: {
@@ -100,7 +102,10 @@ export default {
         case 2:
           return "单曲循环";
       }
-    }
+    },
+    /* ...mapState({
+
+    }) */
   },
   methods: {
     // 获取歌曲路径
@@ -189,9 +194,15 @@ export default {
         this.$refs.volumeCtrlWarp,
         _this
       );
+    },
+    // 处理播放列表显示
+    songListBtnClc(){
+      this.isPlayListShow = !this.isPlayListShow;
+      this.$store.commit("playBar/setIsPlayListShow", this.isPlayListShow);
     }
   },
   mounted() {
+    this.isPlayListShow = this.$store.state.playBar.isPlayListShow;
     this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
