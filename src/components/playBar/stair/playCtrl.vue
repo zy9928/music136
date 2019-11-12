@@ -85,7 +85,6 @@ export default {
       isloopModeShowBox: false,
       loopModeShowTimer: null,
       playerSetting: {},
-      isPlayListShow: false
     };
   },
   computed: {
@@ -103,9 +102,9 @@ export default {
           return "单曲循环";
       }
     },
-    /* ...mapState({
-
-    }) */
+    ...mapState({
+      isPlayListShow: state=>state.playBar.isPlayListShow
+    })
   },
   methods: {
     // 获取歌曲路径
@@ -197,12 +196,10 @@ export default {
     },
     // 处理播放列表显示
     songListBtnClc(){
-      this.isPlayListShow = !this.isPlayListShow;
-      this.$store.commit("playBar/setIsPlayListShow", this.isPlayListShow);
+      this.$store.commit("playBar/setIsPlayListShow", !this.isPlayListShow);
     }
   },
   mounted() {
-    this.isPlayListShow = this.$store.state.playBar.isPlayListShow;
     this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
