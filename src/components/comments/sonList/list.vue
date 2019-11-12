@@ -2,15 +2,15 @@
   <div class="commentList">
     <h5 class="font5">精彩评论</h5>
     <p class="line"></p>
-    <div class="com">
-      <img class= 'img' src="../../../assets/sry-profile-photo.jpg" alt="">
+    <div class="com" v-for='item in data' :key='item.commentId'>
+      <img class= 'img' :src="item.userPic" alt="">
       <div class="center">
-        <h5 class="comTit">理想乌托邦 <i class="maohao">:</i></h5><span class="speek">周杰伦给别人的歌也全是精品！！</span>
-        <p class='bottom'>2014年10月6日</p>
+        <h5 class="comTit">{{item.nickname}} <i class="maohao">:</i></h5><span class="speek">{{item.content}}</span>
+        <p class='bottom'>{{item.time}}</p>
       </div>
       <div class="right">
         <i class="iconfont iconzan"></i>
-        <span class="num">(15.9万)</span> |
+        <span class="num">({{item.likedCount}})</span> |
         <i class="reply">回复</i>
       </div>
     </div>
@@ -18,8 +18,24 @@
 </template>
 
 <script>
-export default {
 
+export default {
+  props:{
+    data: Array
+  },
+  data(){
+    return{
+      
+    }
+  },
+  methods:{
+   
+  },
+  mounted(){
+   
+    
+
+  }
 }
 </script>
 
@@ -44,11 +60,13 @@ export default {
   .com {
     padding: 15px 0;
     display: flex;
+    position: relative;
     .img {
       float: left;
       width: 50px;
       height: 50px;
       margin-right: 10px;
+      background: #efefef;
     }
     .center {
       flex: 1;
