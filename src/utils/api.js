@@ -36,6 +36,8 @@ const LOGIN_EMAIL = HOST+"/login";
 
 //获取用户歌单
 const PLAYLIST = HOST+"/user/playlist";
+//获取歌单详情(歌单歌曲)
+const PLAYLIST_DETAIL = HOST+"/playlist/detail";
 
 //歌曲评论
 const SONG_COMMENT = HOST + "/comment/music";
@@ -51,6 +53,7 @@ export default{
   SEND_CODE,
   VERIFY_CODE,
   PLAYLIST,
+  PLAYLIST_DETAIL,
   SONG_COMMENT
 }
 

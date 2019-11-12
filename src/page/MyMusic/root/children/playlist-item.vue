@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-item">
+  <div class="playlist-item" @click="handleTab">
     <div class="img">
       <img :src="coverImgUrl" alt />
     </div>
@@ -15,11 +15,19 @@ export default {
   props: {
     name: String,
     coverImgUrl: String
+  },
+  methods:{
+    handleTab(){
+      this.$emit('click');
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.active{
+  background:#e6e6e6;
+}
 .playlist-item {
   padding: 9px 10px 6px 19px;
   height: 45px;
