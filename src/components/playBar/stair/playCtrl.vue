@@ -84,7 +84,7 @@ export default {
       isVolumeCtrlBoxShow: false,
       isloopModeShowBox: false,
       loopModeShowTimer: null,
-      playerSetting: {},
+      // playerSetting: {},
     };
   },
   computed: {
@@ -103,7 +103,8 @@ export default {
       }
     },
     ...mapState({
-      isPlayListShow: state=>state.playBar.isPlayListShow
+      isPlayListShow: state=>state.playBar.isPlayListShow,
+      playerSetting: state=>state.playBar.playerSetting
     })
   },
   methods: {
@@ -169,12 +170,13 @@ export default {
     // 处理循环模式
     loopModeClc() {
       this.isloopModeShowBox = true;
-      if (this.playerSetting.loopMode >= 2) {
-        this.playerSetting.loopMode = 0;
+      var obj = this.playerSetting;
+      if (obj.loopMode >= 2) {
+        obj.loopMode = 0;
       } else {
-        this.playerSetting.loopMode++;
+        obj.loopMode++;
       }
-      this.$store.commit("playBar/setPlayerSetting", this.playerSetting);
+      this.$store.commit("playBar/setPlayerSetting", obj);
       clearTimeout(this.loopModeShowTimer);
       this.loopModeShowTimer = setTimeout(() => {
         this.isloopModeShowBox = false;
@@ -200,7 +202,7 @@ export default {
     }
   },
   mounted() {
-    this.playerSetting = this.$store.state.playBar.playerSetting;
+    // this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
     // 获取歌曲信息

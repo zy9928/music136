@@ -15,14 +15,18 @@
     </section>
     <div class="songNameBox">
       大田后生仔
-      <span></span>
+      <span @click="closePlayList"></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    closePlayList(){
+      this.$store.commit("playBar/setIsPlayListShow", false);
+    }
+  }
 }
 </script>
 
