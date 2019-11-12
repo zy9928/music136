@@ -9,6 +9,9 @@
             :key="index"
             :name="item.name"
             :coverImgUrl="item.coverImgUrl"
+            :listId="item.id"
+            :class="{active:item.id==selected.id}"
+            @click="tabAction(item)"
           ></playlist-item>
           <playlist-item
             slot="collect"
@@ -16,11 +19,23 @@
             :key="index"
             :name="item.name"
             :coverImgUrl="item.coverImgUrl"
+            :listId="item.id"
+            @click="tabAction(item)"
+            :class="{active:item.id==selected.id}"
           ></playlist-item>
         </play-list>
       </div>
       <div class="play-content">
-        <clauses-header></clauses-header>
+        <clauses-header
+          :picture="selected&&selected.coverImgUrl"
+          :title="selected&&selected.name"
+          :creator="selected&&selected.creator.nickname"
+          :createTime="createTime"
+          :creatorImg="selected&&selected.creator.avatarUrl"
+          :tags="selected.tags"
+          :desc="selected.description"
+        ></clauses-header>
+        <clauses-list></clauses-list>
       </div>
     </div>
   </div>
@@ -33,23 +48,30 @@ import store from "../../../store";
 import Playlist from "./children/Playlist";
 import PlaylistItem from "./children/playlist-item";
 import ClausesHeader from "../../../components/clauses/clauses-header";
+import ClausesList from "../../../components/clauses/clauses-list";
+import TimeHandle from "../../../utils/TimeHandle";
 
 export default {
   data() {
     return {
       createList: [], //创建歌单
-      collectList: [] //收藏歌单
+      collectList: [], //收藏歌单,
+      selected: "" //选中的歌单
     };
   },
   components: {
     [Playlist.name]: Playlist,
     [PlaylistItem.name]: PlaylistItem,
-    [ClausesHeader.name]: ClausesHeader
+    [ClausesHeader.name]: ClausesHeader,
+    [ClausesList.name]: ClausesList
   },
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo
-    })
+    }),
+    createTime() {
+      return TimeHandle.getYMD(this.selected.createTime);
+    }
   },
   //路由拦截
   beforeRouteEnter(to, from, next) {
@@ -62,10 +84,13 @@ export default {
   },
   //实例创建钩子函数
   created() {
+    console.log(TimeHandle.getMS(325844));
+
     this.getPlaylist()
       .then(result => {
         let userId = this.userInfo.userId;
         let playlist = result.data.playlist;
+        this.selected = playlist[0];
         playlist.forEach(item => {
           if (item.creator.userId == userId) {
             if (item.name.endsWith("喜欢的音乐")) {
@@ -76,6 +101,16 @@ export default {
             this.collectList.push(item);
           }
         });
+
+        //获取歌单详情
+        this.getPlaylistDetail()
+          .then(result => {
+            console.log(result);
+          })
+          .catch(err => {
+            alert("获取歌曲失败");
+            console.log(err);
+          });
       })
       .catch(err => {
         alert("获取歌单失败");
@@ -88,6 +123,16 @@ export default {
       let userId = this.userInfo.userId;
       let result = await this.$store.dispatch("myMusic/getPlaylist", userId);
       return result;
+    },
+    async getPlaylistDetail() {
+      let result = await this.$store.dispatch(
+        "myMusic/getPlaylistDetail",
+        this.selected.id
+      );
+      return result;
+    },
+    tabAction(item) {
+      this.selected = item;
     }
   }
 };
@@ -104,7 +149,7 @@ export default {
     .play-nav {
       height: 100%;
       width: 242px;
-      position:fixed;
+      position: fixed;
       top: 75px;
       bottom: 0;
     }

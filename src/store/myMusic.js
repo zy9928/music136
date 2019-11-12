@@ -13,6 +13,14 @@ export default {
         uid
       });
       return result;
+    },
+
+    //获取歌单详情(需传入歌单id))
+    async getPlaylistDetail(context,id){
+        let result = await http.get(api.PLAYLIST_DETAIL,{
+            id
+        });
+        return result;
     }
   }
 };

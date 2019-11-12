@@ -1,17 +1,18 @@
 <template>
   <div class="clauses-header">
     <div class="clauses-header-left">
-      <img src alt />
+      <img :src="picture" alt />
     </div>
     <div class="clauses-header-right">
       <div class="zy_tx">
-        <p class="type">歌单</p>
-        <p class="title">「新海诚」眼中「他」与「她」的距离</p>
+        <p class="type">{{type}}</p>
+        <p class="title">{{title}}</p>
       </div>
       <div class="create">
-        <img src="../../assets/qq.jpg" alt />
-        <span class="name">染川瞳</span>
-        <span class="time">2019-10-15创建</span>
+        <img :src="creatorImg" alt />
+
+        <span class="name">{{creator}}</span>
+        <span class="time">{{createTime}}</span>
       </div>
       <div class="opa">
         <a class="play" href="#">
@@ -25,49 +26,38 @@
           <li>
             <a href="#">
               <span class="iconfont iconcc-collect"></span>
-              (7792)
+            {{collectText}}
             </a>
           </li>
           <li>
             <a href="#">
               <span class="iconfont iconcc-share"></span>
-              (75)
+              {{shareText}}
             </a>
           </li>
           <li>
             <a href="#">
               <span class="iconfont iconcc-download"></span>
-              下载
+              {{downloadText}}
             </a>
           </li>
           <li>
             <a href>
               <span class="iconfont iconcc-comment"></span>
-              (64)
+              {{commentText}}
             </a>
           </li>
         </ul>
       </div>
       <div class="text">
-        <div class="tag">
+        <div class="tag" v-show="tags&&tags.length>0">
           <span>标签:</span>
-          <li>影视原声</li>
-          <li>轻音乐</li>
-          <li>治愈</li>
+          <li v-for="item in tags" :key="item">
+            {{item}}
+          </li>
         </div>
-        <div class="intr">
-          <p>
-            介绍:&nbsp;新海诚导演作品中的距离是什么？
-            是「星之声」中7光年外的短信息
-            是「她与她的猫」中无法交流的感情
-            是「云之彼端，约定的地方」中等待一句「欢迎回来」的约定
-            是「秒速五厘米」中，站在你的面前，却说不出我爱你的话语
-            是「追逐繁星的孩子」中，无法接受与她离别，却迷失道路的方向
-            是「言叶之庭」中，跨越心墙的雨
-            是「你的名字」中，思念与身体无法通感的无奈
-            是「天气之子」中，____________
-            答案在你心中
-          </p>
+        <div class="intr" v-show="desc">
+          <p>介绍:&nbsp;{{desc}}</p>
         </div>
       </div>
     </div>
@@ -76,25 +66,76 @@
 
 <script>
 export default {
-  name: "clauses-header"
+  name: "clauses-header",
+  props: {
+    type: {
+      //条目类型
+      type: String,
+      default: "歌单"
+    },
+    title: {
+      //条目标题
+      type: String,
+      required: true
+    },
+    creator: {
+      //条目创建者
+      type: String,
+      required: true
+    },
+    creatorImg: {
+      //创建者头像
+      type: String,
+      required: true
+    },
+
+    createTime: {
+      //创建时间
+      type: String,
+      required: true
+    },
+
+    picture: String, //条目图片
+    tags: {
+      type:Array
+    }, //条目标签
+    desc: String, //条目描述
+
+    collectText: {
+      type: String,
+      default: "收藏"
+    },
+    shareText: {
+      type: String,
+      default: "分享"
+    },
+    downloadText: {
+      type: String,
+      default: "下载"
+    },
+    commentText: {
+      type: String,
+      default: "评论"
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .clauses-header {
   padding: 36px;
+  min-height: 207px;
   background: #fff;
   overflow: hidden;
   position: relative;
   &-left {
-    width: 206px;
-    height: 206px;
+    width: 200px;
+    height: 200px;
     border: 1px solid #d5d5d5;
-    text-align: center;
-    vertical-align: middle;
     position: absolute;
     left: 36px;
     top: 36px;
+    padding: 3px;
     img {
       width: 200px;
       height: 200px;
