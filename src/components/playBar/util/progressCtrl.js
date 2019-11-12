@@ -35,9 +35,9 @@ export const progressClc = (e, ctrlBtn, porgress, audio, _this) => {
   // 设置进度
   porgress.style.backgroundImage = `linear-gradient(to right, #C70C0C 0%, #C70C0C ${percent *
     100}%, #191919 ${percent * 100}%, #191919 100%)`;
-    // 设置播放
+  // 设置播放
   audio.currentTime = audio.duration * percent;
-    // 拖拽事件
+  // 拖拽事件
   document.onmousemove = e2 => {
     audio.pause();
     _this.isPlay = false;

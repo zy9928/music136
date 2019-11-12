@@ -7,7 +7,7 @@ export const getSongComments = async () => {
   const {data: result} = await Http.get(api.SONG_COMMENT, {id: 186016});
   if(result.code == 200){
     //请求成功
-    console.log(result);
+    // console.log(result);
     
   }else {
     //请求失败

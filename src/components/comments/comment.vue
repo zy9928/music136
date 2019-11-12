@@ -81,9 +81,9 @@ export default {
       this.show = 140 - this.$refs.textArea.value.length;
     },
      matched(rule, query, row) {
-      console.log(`rule ${JSON.stringify(rule)}`);
-      console.log(`query ${JSON.stringify(query)}`);
-      console.log(`row ${JSON.stringify(row)}`);
+      // console.log(`rule ${JSON.stringify(rule)}`);
+      // console.log(`query ${JSON.stringify(query)}`);
+      // console.log(`row ${JSON.stringify(row)}`);
     },
     //点击了@的事件
     aiteAction(){
