@@ -31,7 +31,7 @@
     </div>
 
     <div class="mask" ref='mask' @click='maskAction'></div>
-    <List></List>
+    <List :data=timeCom></List>
 
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
     return {
       show: 140,
       selectIndex: 0,
-      comObj: {},
+      timeCom: [],
       aiteList:['云音乐小秘书', '网易UFO丁嘉', '网易云音乐'],
       target: null,
       extracts: [],
@@ -73,7 +73,12 @@ export default {
   methods: {
     //请求评论数据
     async getInit() {
-      this.comObj = await getSongComments();
+      const {timeCom} = await getSongComments();
+      this.timeCom = timeCom;
+      console.log(this.timeCom);
+      
+
+
     },
     //判断输入的字符数
     iptChangeAction(){
@@ -81,9 +86,9 @@ export default {
       this.show = 140 - this.$refs.textArea.value.length;
     },
      matched(rule, query, row) {
-      console.log(`rule ${JSON.stringify(rule)}`);
-      console.log(`query ${JSON.stringify(query)}`);
-      console.log(`row ${JSON.stringify(row)}`);
+      // console.log(`rule ${JSON.stringify(rule)}`);
+      // console.log(`query ${JSON.stringify(query)}`);
+      // console.log(`row ${JSON.stringify(row)}`);
     },
     //点击了@的事件
     aiteAction(){
@@ -109,10 +114,6 @@ export default {
       this.$refs.aiteShow.style.display = 'none';
       this.$refs.mask.style.display = 'none';
     },
-
-    //点击shift+alt出现@框的事件
-
-
 
     //去评论
     goComment(){
