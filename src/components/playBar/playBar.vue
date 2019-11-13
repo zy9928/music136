@@ -10,7 +10,7 @@
       <span :class="{CloseLock: isLockClose}" @click="lockActive"></span>
     </div>
     <playCtrl/>
-    <playListBox v-if="isPlayListShow"/>
+    <playListBox v-show="isPlayListShow"/>
   </div>
 </template>
 
