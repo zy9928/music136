@@ -36,6 +36,9 @@ export default {
 </script>
 
 <style lang="scss">
+html,body{
+  overflow: hidden;
+}
 //页面主体部分公用版心
 .view-wrap{
   width: 980px;
@@ -43,5 +46,6 @@ export default {
 }
 #page{
   min-width: 1135px;
+  overflow: auto;
 }
 </style>

@@ -1,37 +1,53 @@
 <template>
   <div class="clauses-list">
     <div class="table-header">
-      <p class="title">歌曲列表</p>
-      <p class="num">1首歌</p>
-      <p class="playnum">播放:100次</p>
+      <p class="title">{{title}}</p>
+      <p class="num">{{tableItemList.length}}首歌</p>
+      <p class="playnum">播放:<span>{{playlist.playCount}}</span>次</p>
     </div>
-    <table border="1px" border-spacing="0" border-collapse="0" cellpadding="none">
+    <table border="1px">
       <thead>
         <th class="opa"></th>
-        <th>歌曲标题</th>
-        <th>时长</th>
-        <th>歌手</th>
-        <th>专辑</th>
+        <th v-for="item in tableHeadList" :key="item">{{item}}</th>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td text-align="center">5</td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
+        <slot />
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
+import TimeHandle from "../../utils/TimeHandle";
+
 export default {
-  name: "clauses-list"
+  name: "clauses-list",
+  components: {},
+  computed: {},
+  props: {
+    tableHeadList: {
+      type: Array,
+      default() {
+        return ["歌曲标题", "时长", "歌手", "专辑"];
+      }
+    },
+    tableItemList: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    title:{
+      type:String,
+      default:'歌曲列表'
+    },
+    playlist:{
+      type:Object,
+      default(){
+        return {};
+      }
+    }
+  }
 };
 </script>
 
@@ -55,32 +71,64 @@ export default {
       float: left;
     }
     .playnum {
-        float: right;
+      float: right;
+      span{
+        color: #c20c0c;
+      }
     }
   }
   table {
     width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
     border-top: 3px solid #c20c0c;
+    table-layout: fixed;
+    word-break: break-all;
     thead {
       th {
         background: #f0f0f0;
         border: 1px solid #cbcbcb;
         border-radius: 3px;
-        box-shadow: 0 2px 4px #bbb;
+        // box-shadow: 0 2px 4px #bbb;
         color: #666666;
         font-weight: normal;
+        height: 18px;
+        line-height: 18px;
+        text-align: left;
+        padding: 8px 10px;
+
+        //宽度先固定写死,之后放入list中
         &:nth-of-type(1) {
-          min-width: 75px;
+          width: 70px;
         }
         &:nth-of-type(2) {
-          width: 304px;
+          width: 300px;
+        }
+        &:nth-of-type(3) {
+          width: 90px;
+        }
+        &:nth-of-type(4) {
+          width: 80px;
+        }
+        &:nth-last-of-type(1) {
+          width: 125px;
         }
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+.clauses-list {
+  table {
     tr {
+      &:nth-of-type(2n + 1) {
+        background: #f7f7f7;
+      }
       td {
-        border: 1px solid #bbb;
-        color: #bbb;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

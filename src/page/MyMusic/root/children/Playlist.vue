@@ -45,8 +45,8 @@ export default {
         if (this.createHide) {
           target.style.transform = "none";
         } else {
-            target.style.transform = "rotate(-90deg)";
-        //   target.style.display = "none";
+          target.style.transform = "rotate(-90deg)";
+          //   target.style.display = "none";
         }
         this.createHide = !this.createHide;
       } else {
@@ -105,7 +105,7 @@ export default {
       line-height: 20px;
       text-align: center;
       color: #515151;
-      margin-left: 26px;
+      margin-left: 16px;
       font-size: 14px;
       .iconfont {
         font-size: 12px;
