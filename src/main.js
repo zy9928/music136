@@ -6,6 +6,8 @@ import plugin from './plugin'
 
 Vue.config.productionTip = false;
 
+import './components/comments/style/comment.scss'
+
 //全局发布中心
 Vue.prototype.$center = new Vue();
 
