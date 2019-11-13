@@ -30,7 +30,7 @@ import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 import { mapState } from "vuex";
 import userService from "../../services/userService";
-console.log(MyWindow);
+// console.log(MyWindow);
 export default {
   created() {
     console.log("创建了");

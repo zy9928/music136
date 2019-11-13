@@ -2,6 +2,8 @@
  * @desc api 工具类
  * 实现地址的统一管理
  * @author 陈超, 郑缘，孙如意
+ * @version 11.12.1
+ * 陈超： 添加PLAYLIST_DETAIL PLAYLIST 并输出
  * @version 11.9.2
  * 孙如意： 添加SONG_COMMENT并输出
  * @version 11.9.1

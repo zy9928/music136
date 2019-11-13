@@ -10,6 +10,7 @@
       <span :class="{CloseLock: isLockClose}" @click="lockActive"></span>
     </div>
     <playCtrl/>
+    <playListBox v-if="isPlayListShow"/>
   </div>
 </template>
 
@@ -17,6 +18,8 @@
 const axios = require("axios");
 import {parseLyric} from "./util/anotherUtil";
 import playCtrl from './stair/playCtrl.vue';
+import playListBox from "./stair/playListBox.vue";
+import {mapState} from "vuex"
 export default {
   data() {
     return {
@@ -27,12 +30,17 @@ export default {
       // 记录鼠标是否在控件内部
       isMouseOn: false,
       list: '',
-      leaveTimer : '',
+      leaveTimer : ''
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      isPlayListShow: state=>state.playBar.isPlayListShow
+    })
+  },
   components: {
-    playCtrl
+    playCtrl,
+    playListBox
   },
   methods: {
     // 锁控制播放控件显示
@@ -112,6 +120,7 @@ export default {
   width: 100%;
   min-width: 1135px;
   position: fixed;
+  z-index: 1000;
   bottom: -46px;
   left: 0;
   .playBgLeft {

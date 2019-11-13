@@ -45,13 +45,20 @@
       <!-- hasVolume 有声 noVolume 静音 -->
       <span class="volumeBtn hasVolume" :class="{noVolume: isNoVolume}" @click="volumeBtnClc"></span>
       <div class="volumeCtrlBox" v-show="isVolumeCtrlBoxShow">
-        <p class="volumeVule" @mousedown="volumeVuleMouseDown" ref="volumeVule"></p>
-        <span class="volumeNow" ref="volumeNow"></span>
+        <div class="volumeCtrlWarp" ref="volumeCtrlWarp" @mousedown="volumeVuleMouseDown">
+          <p class="volumeVule" ref="volumeVule">
+            <span class="volumeNow" ref="volumeNow"></span>
+          </p>
+        </div>
       </div>
       <!-- randon 随机播放 loop 循环播放 onlyOne 单曲循环 -->
-      <span class="loopModeBtn" :class="{loop: playerSetting.loopMode == 0, randon: playerSetting.loopMode == 1, onlyOne: playerSetting.loopMode == 2}" @click="loopModeClc"></span>
+      <span
+        class="loopModeBtn"
+        :class="{loop: playerSetting.loopMode == 0, randon: playerSetting.loopMode == 1, onlyOne: playerSetting.loopMode == 2}"
+        @click="loopModeClc"
+      ></span>
       <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
-      <span class="songListBtn">3</span>
+      <span class="songListBtn" @click="songListBtnClc">3</span>
     </div>
   </div>
 </template>
@@ -61,6 +68,7 @@ import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
 import { volumeShow, volumeMove } from "./../util/volumeCtrl";
 import { transforTime } from "./../../../utils/util";
+import {mapState} from 'vuex';
 export default {
   props: {
     id: ""
@@ -76,7 +84,7 @@ export default {
       isVolumeCtrlBoxShow: false,
       isloopModeShowBox: false,
       loopModeShowTimer: null,
-      playerSetting: {},
+      // playerSetting: {},
     };
   },
   computed: {
@@ -84,13 +92,20 @@ export default {
       var time = transforTime(this.songInfo.duration);
       return time.indexOf("NaN") == -1 ? time : "00:00";
     },
-    loopModeShow(){
-      switch(this.playerSetting.loopMode){
-        case 0: return "循环";
-        case 1: return "随机";
-        case 2: return "单曲循环";
+    loopModeShow() {
+      switch (this.playerSetting.loopMode) {
+        case 0:
+          return "循环";
+        case 1:
+          return "随机";
+        case 2:
+          return "单曲循环";
       }
-    }
+    },
+    ...mapState({
+      isPlayListShow: state=>state.playBar.isPlayListShow,
+      playerSetting: state=>state.playBar.playerSetting
+    })
   },
   methods: {
     // 获取歌曲路径
@@ -139,7 +154,7 @@ export default {
     // 收藏点击
     likeBoxClc() {
       if (!this.$store.state.user.isLogin) {
-        this.$center.$emit('openWindow',true);
+        this.$center.$emit("openWindow", true);
       } else {
         console.log("收藏了");
       }
@@ -147,41 +162,54 @@ export default {
     // 分享点击
     shareBoxClc() {
       if (!this.$store.state.user.isLogin) {
-        this.$center.$emit('openWindow',true);
+        this.$center.$emit("openWindow", true);
       } else {
         console.log("分享了");
       }
     },
     // 处理循环模式
-    loopModeClc(){
+    loopModeClc() {
       this.isloopModeShowBox = true;
-      if(this.playerSetting.loopMode >= 2){
-        this.playerSetting.loopMode = 0;
-      }else{
-        this.playerSetting.loopMode ++;
+      var obj = this.playerSetting;
+      if (obj.loopMode >= 2) {
+        obj.loopMode = 0;
+      } else {
+        obj.loopMode++;
       }
-      this.$store.commit('playBar/setPlayerSetting', this.playerSetting);
-      clearTimeout(this.loopModeShowTimer)
+      this.$store.commit("playBar/setPlayerSetting", obj);
+      clearTimeout(this.loopModeShowTimer);
       this.loopModeShowTimer = setTimeout(() => {
         this.isloopModeShowBox = false;
       }, 2000);
     },
     // 处理声音
-    volumeBtnClc(){
+    volumeBtnClc() {
       this.isVolumeCtrlBoxShow = !this.isVolumeCtrlBoxShow;
     },
-    volumeVuleMouseDown(e){
-      volumeMove(e, this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
+    volumeVuleMouseDown(e) {
+      var _this = this;
+      volumeMove(
+        e,
+        this.$refs.audio,
+        this.$refs.volumeVule,
+        this.$refs.volumeCtrlWarp,
+        _this
+      );
+    },
+    // 处理播放列表显示
+    songListBtnClc(){
+      this.$store.commit("playBar/setIsPlayListShow", !this.isPlayListShow);
     }
   },
   mounted() {
-    this.playerSetting = this.$store.state.playBar.playerSetting;
+    // this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     this.handleGetSongUrl();
     // 获取歌曲信息
     this.handleGetSongInfo();
     // 获取当前音量
-    volumeShow(this.$refs.audio, this.$refs.volumeVule, this.$refs.volumeNow);
+    var _this = this;
+    volumeShow(this.$refs.audio, this.$refs.volumeVule, _this);
   }
 };
 </script>
@@ -351,7 +379,7 @@ export default {
       }
     }
   }
-  .anotherCtrlBtn{
+  .anotherCtrlBtn {
     width: 124px;
     height: 47px;
     float: left;
@@ -361,89 +389,98 @@ export default {
     background: url(./../../../assets/playbar.png) no-repeat -149px -236px;
     padding-left: 11px;
     position: relative;
-    &>span{
+    & > span {
       display: block;
       width: 20px;
       height: 20px;
       background-image: url(./../../../assets/playbar.png);
       background-repeat: no-repeat;
     }
-    .volumeBtn,.loopModeBtn{
+    .volumeBtn,
+    .loopModeBtn {
       margin: 0 3px;
     }
-    .hasVolume{
+    .hasVolume {
       background-position: -5px -250px;
-      &:hover{
+      &:hover {
         background-position: -34px -250px;
       }
     }
-    .noVolume{
+    .noVolume {
       background-position: -111px -71px;
-      &:hover{
+      &:hover {
         background-position: -133px -71px;
       }
     }
-    .volumeCtrlBox{
+    .volumeCtrlBox {
       position: absolute;
       height: 113px;
       width: 32px;
       top: -113px;
       left: 7px;
       background: url(./../../../assets/playbar.png) no-repeat 0 -503px;
-      .volumeVule{
+      .volumeCtrlWarp {
         width: 4px;
         position: absolute;
         bottom: 10px;
         top: 10px;
         border-radius: 2px;
-        // 最大高度93px; top最小值：103px 最大值10px
         left: 14px;
-        background: url(./../../../assets/playbar.png) no-repeat -40px -522px;
-      }
-      .volumeNow{
-        position: absolute;
-        left: 10px;
-        top: 4px; /* 是声音条top-6 */
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        box-sizing: border-box;
-        background-color: #B9180F;
-        border: 3px solid #F5F5F5;
-        &:hover{
-          box-shadow: 0 0 5px #fff;
+        .volumeVule {
+          width: 4px;
+          position: absolute;
+          bottom: 0px;
+          top: 0px;
+          border-radius: 2px;
+          // 最大高度92px; top最小值：102px 最大值10px
+          background: url(./../../../assets/playbar.png) no-repeat -40px -522px;
+        }
+        .volumeNow {
+          position: absolute;
+          left: 50%;
+          margin-left: -6px;
+          top: -6px; /* 是声音条top-6 */
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          box-sizing: border-box;
+          background-color: #b9180f;
+          border: 3px solid #f5f5f5;
+          &:hover {
+            box-shadow: 0 0 5px #fff;
+          }
         }
       }
     }
-    .randon{
+    .randon {
       background-position: -69px -250px;
-      &:hover{
+      &:hover {
         background-position: -96px -250px;
       }
     }
-    .loop{
+    .loop {
       background-position: -6px -346px;
-      &:hover{
+      &:hover {
         background-position: -36px -346px;
       }
     }
-    .loopModeShowBox{
+    .loopModeShowBox {
       position: absolute;
       width: 80px;
       height: 36px;
       top: -36px;
       text-align: center;
-      color: #FFFFFF;
+      color: #ffffff;
       line-height: 32px;
-      background: url(./../../../assets/playbar.png) no-repeat -1px -457px
+      background: url(./../../../assets/playbar.png) no-repeat -1px -457px;
     }
-    .onlyOne{
+    .onlyOne {
       background-position: -69px -346px;
-      &:hover{
+      &:hover {
         background-position: -96px -346px;
       }
     }
-    .songListBtn{
+    .songListBtn {
       margin-left: 5px;
       width: 55px;
       height: 24px;
@@ -453,7 +490,7 @@ export default {
       padding-right: 15px;
       color: #646464;
       background-position: -45px -69px;
-      &:hover{
+      &:hover {
         background-position: -45px -99px;
       }
     }
