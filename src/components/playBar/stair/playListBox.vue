@@ -1,15 +1,17 @@
 <template>
   <div class="playListBox">
     <playListHeader/>
-    播放列表
+    <playListContBox/>
   </div>
 </template>
 
 <script>
 import playListHeader from './../secend/playListHeader.vue';
+import playListContBox from './../secend/playListContBox';
 export default {
   components: {
-    playListHeader
+    playListHeader,
+    playListContBox
   },
   data(){
     return{
