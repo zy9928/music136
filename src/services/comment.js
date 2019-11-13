@@ -6,13 +6,14 @@ import { parse } from 'url';
 export const getSongComments = async () => {
   //发送请求
   const {data: result} = await Http.get(api.SONG_COMMENT, {id: 186016});
+  // console.log(result);
+  
   if(result.code == 200){
     //请求成功
     //获得数据
     const {comments, hotComments, total} = result;
     //处理最近评论
     const timeCom = comments.map(item=>{
-      
       return {
         commentId: item.commentId,
         content: item.content,
@@ -22,18 +23,31 @@ export const getSongComments = async () => {
         likedCount: item.likedCount,
         time: getTime(item)
       }
-      
+    });
+    //处理精彩评论
+    const hotCom = hotComments.map(item=>{
+      return {
+        commentId: item.commentId,
+        content: item.content,
+        nickname: item.user.nickname,
+        userId: item.user.userId,
+        userPic: item.user.avatarUrl,
+        likedCount: item.likedCount,
+        time: getTime(item)
+      }
     })
-    
-    return {
-      timeCom
-    }
-    
+    //处理总的评论数据
+    const totalCom = total.toString();
+
     // console.log(comments);
     // console.log(hotComments);
     // console.log(total);
+    return {
+      timeCom,
+      hotCom,
+      totalCom
+    }
     
-
     function getTime(item){
       var d = new Date();
       //分钟
@@ -77,8 +91,8 @@ export const getSongComments = async () => {
         return (`${months}月${day}日 ${hours}:${minutes}`);
       }else{
         //一年外显示 ****年**月**日 **：**
-        let years = d.getFullYear - parseInt(time/60/24/30/365);
-        let months = parseInt(time/60/24/30) + d.getMonth()+1;
+        let years = parseInt(d.getFullYear()) - parseInt(time/60/24/30/365);
+        let months = parseInt(time/60/24%30) - d.getMonth() - 1;
         let day = d.getDate() - parseInt(time/60/24);
         let hours = Math.abs(d.getHours() - parseInt(time/24/60));
         let minutes = Math.abs(d.getMinutes() - parseInt(time/24%60));

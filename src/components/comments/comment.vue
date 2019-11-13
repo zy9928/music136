@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="tit">
       <h3 class="title">评论</h3>
-      <span class="subTitle">共&nbsp;<b>72</b>&nbsp;条评论</span>
+      <span class="subTitle">共&nbsp;<b>{{totalCom}}</b>&nbsp;条评论</span>
     </div>
     <p class="line"></p>
     <div class="com">
@@ -31,13 +31,15 @@
     </div>
 
     <div class="mask" ref='mask' @click='maskAction'></div>
-    <List :data=timeCom></List>
+    <hotList :hotData=hotCom></hotList>
+    <comList :comdData=timeCom :totalNum=totalCom></comList>
 
   </div>
 </template>
 
 <script>
-import List from './sonList/list'
+import comList from './sonList/comList'
+import hotList from './sonList/hotList'
 import { getSongComments } from '../../services/comment'
 import { log } from 'util';
 import Vue from 'vue'
@@ -49,13 +51,16 @@ Vue.use(VueTextaSuggester)
 export default {
   name: 'comment',
   components: {
-    List
+    comList,
+    hotList
   },
   data(){
     return {
       show: 140,
       selectIndex: 0,
       timeCom: [],
+      hotCom: [],
+      totalCom: '',
       aiteList:['云音乐小秘书', '网易UFO丁嘉', '网易云音乐'],
       target: null,
       extracts: [],
@@ -73,9 +78,13 @@ export default {
   methods: {
     //请求评论数据
     async getInit() {
-      const {timeCom} = await getSongComments();
+      const {timeCom, hotCom, totalCom} = await getSongComments();
       this.timeCom = timeCom;
-      console.log(this.timeCom);
+      this.hotCom = hotCom;
+      this.totalCom = totalCom;
+
+      // console.log(this.timeCom);
+      // console.log(this.hotCom);
       
 
 

@@ -1,45 +1,3 @@
-<template>
-  <div class="commentList">
-    <h5 class="font5">精彩评论</h5>
-    <p class="line"></p>
-    <div class="com" v-for='item in data' :key='item.commentId'>
-      <img class= 'img' :src="item.userPic" alt="">
-      <div class="center">
-        <h5 class="comTit">{{item.nickname}} <i class="maohao">:</i></h5><span class="speek">{{item.content}}</span>
-        <p class='bottom'>{{item.time}}</p>
-      </div>
-      <div class="right">
-        <i class="iconfont iconzan"></i>
-        <span class="num">({{item.likedCount}})</span> |
-        <i class="reply">回复</i>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
-
-export default {
-  props:{
-    data: Array
-  },
-  data(){
-    return{
-      
-    }
-  },
-  methods:{
-   
-  },
-  mounted(){
-   
-    
-
-  }
-}
-</script>
-
-<style scoped lang='scss'>
 .commentList {
   width: 640px;
   position: relative;
@@ -70,6 +28,7 @@ export default {
     }
     .center {
       flex: 1;
+      padding: 0 0 20px 0;
       .maohao {
         color: #333;
         margin-left: 5px;
@@ -80,6 +39,8 @@ export default {
         margin-right: 5px;
       }
       .bottom {
+        color: #666;
+        font-size: 12px;
         position: absolute;
         bottom: 10px;
       }
@@ -97,7 +58,17 @@ export default {
       .reply {
         color: #666;
       }
-    }
+    }  
+  }
+  .smallLine {
+    position: relative;
+  }
+  .smallLine:before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    border-bottom: 1px dotted #ddd;
   }
 }
-</style>
