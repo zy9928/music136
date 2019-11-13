@@ -8,7 +8,7 @@
     <table border="1px">
       <thead>
         <th class="opa"></th>
-        <th v-for="item in tableHeadList" :key="item">{{item}}</th>
+        <th v-for="item in tableHeadList"  :key="item">{{item}}</th>
       </thead>
       <tbody>
         <slot />
