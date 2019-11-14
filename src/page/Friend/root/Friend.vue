@@ -39,22 +39,33 @@ export default {
 
 <style scopde lang="scss">
 .friend {
-  min-height: 1678px;
+  min-height: 678px;
   background: #f5f5f5;
   .view-wrap {
     background: #fff;
-    min-height: 1678px;
+    min-height: 678px;
     .friend-left {
       margin-right: 300px;
       padding: 20px 30px;
       &-title {
         height: 42px;
         border-bottom: 1px solid #c20c0c;
-        h1{
+        line-height: 42px;
+        h1 {
           float: left;
+          color: #333;
+          font-size: 22px;
         }
-        .opa{
-          float:right;
+        .opa {
+          float: right;
+          font-size: 12px;
+          a {
+            color: #333;
+            padding: 6px 9px;
+            border-radius: 28px;
+            border:1px solid #ccc;
+            margin-left: 10px;
+          }
         }
       }
     }

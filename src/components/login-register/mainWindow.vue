@@ -44,13 +44,12 @@
 </template>
 
 <script>
-import MyWindow from "./my-window";
+// import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 // console.log(MyWindow);
 export default {
   props:['value'],
   components: {
-    [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
   },
   methods: {
