@@ -52,7 +52,9 @@ export const getSongComments = async () => {
       var d = new Date();
       //分钟
       let time = parseInt((d.getTime() - item.time)/1000/60);
-      // console.log(time);
+      console.log(time);
+      console.log(time/60);
+      
       
       if(time < 1){
         //在一分钟以内显示 刚刚
