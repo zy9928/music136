@@ -2,13 +2,22 @@
   <div class="comment">
     <div class="tit">
       <h3 class="title">评论</h3>
-      <span class="subTitle">共&nbsp;<b>{{totalCom}}</b>&nbsp;条评论</span>
+      <span class="subTitle">
+        共&nbsp;
+        <b>{{totalCom}}</b>&nbsp;条评论
+      </span>
     </div>
     <p class="line"></p>
     <div class="com">
-      <img src="../../assets/sry-profile-photo.jpg" alt="头像" class="photo">
+      <img src="../../assets/sry-profile-photo.jpg" alt="头像" class="photo" />
       <div class="comIptBox">
-        <textarea type="text" class="comIpt" placeholder="评论"  ref='textArea' @input="iptChangeAction"></textarea>
+        <textarea
+          type="text"
+          class="comIpt"
+          placeholder="评论"
+          ref="textArea"
+          @input="iptChangeAction"
+        ></textarea>
         <vue-textarea-suggester
           v-model="extracts"
           :target="target"
@@ -20,118 +29,137 @@
     </div>
     <div class="navBox">
       <i class="iconfont iconxiaolian"></i>
-      <i class="iconfont iconaite" @click='aiteAction'></i>
+      <i class="iconfont iconaite" @click="aiteAction"></i>
       <span class="num">{{show}}</span>
-      <p class="comBtn" @click='goComment'>评论</p>
+      <p class="comBtn" @click="goComment">评论</p>
 
-      <ul class="aiteShow" ref='aiteShow'>
-        <li class="selectItem ">选择最近@的人或直接输入</li>
-        <li class='aiteItem' v-for='(item,index) in aiteList' :key='index' @click='aiteItemAction(index)' ref='aiteItem'>{{item}}</li>
+      <ul class="aiteShow" ref="aiteShow">
+        <li class="selectItem">选择最近@的人或直接输入</li>
+        <li
+          class="aiteItem"
+          v-for="(item,index) in aiteList"
+          :key="index"
+          @click="aiteItemAction(index)"
+          ref="aiteItem"
+        >{{item}}</li>
       </ul>
     </div>
 
-    <div class="mask" ref='mask' @click='maskAction'></div>
-    <hotList :hotData=hotCom></hotList>
-    <comList :comdData=timeCom :totalNum=totalCom></comList>
-
+    <div class="mask" ref="mask" @click="maskAction"></div>
+    <hotList :hotData="hotCom" v-if="hotCom"></hotList>
+    <comList :comdData="timeCom" :totalNum="totalCom" @offsetNumAction="handleoffsetNum"></comList>
   </div>
 </template>
 
 <script>
-import comList from './sonList/comList'
-import hotList from './sonList/hotList'
-import { getSongComments } from '../../services/comment'
-import { log } from 'util';
-import Vue from 'vue'
-import VueTextaSuggester from 'vue-textarea-suggester'
-import 'vue-textarea-suggester/dist/vue-textarea-suggester.css'
-Vue.use(VueTextaSuggester)
+import comList from "./sonList/comList";
+import hotList from "./sonList/hotList";
+import { getSongComments } from "../../services/comment";
+import { log } from "util";
+import Vue from "vue";
+import VueTextaSuggester from "vue-textarea-suggester";
+import "vue-textarea-suggester/dist/vue-textarea-suggester.css";
+Vue.use(VueTextaSuggester);
 
-
+import api from "../../utils/api";
 export default {
-  name: 'comment',
+  name: "comment",
   components: {
     comList,
     hotList
   },
-  data(){
+  data() {
     return {
       show: 140,
       selectIndex: 0,
       timeCom: [],
       hotCom: [],
-      totalCom: '',
-      aiteList:['云音乐小秘书', '网易UFO丁嘉', '网易云音乐'],
+      totalCom: "",
+      num: "",
+      time: "",
+      aiteList: ["云音乐小秘书", "网易UFO丁嘉", "网易云音乐"],
       target: null,
       extracts: [],
       rules: [
         {
           rule: /@/,
-          data: [{ label: "云音乐小秘书" }, { label: "网易UFO丁嘉" },{ label: "网易云音乐" }]
+          data: [
+            { label: "云音乐小秘书" },
+            { label: "网易UFO丁嘉" },
+            { label: "网易云音乐" }
+          ]
         }
       ]
-    }
+    };
   },
   computed: {
-    
+   
   },
   methods: {
     //请求评论数据
     async getInit() {
-      const {timeCom, hotCom, totalCom} = await getSongComments();
+      const { timeCom, hotCom, totalCom } = await getSongComments(
+        api.SONG_COMMENT,
+        186016,
+        this.num,
+        this.time
+      );
+      
       this.timeCom = timeCom;
       this.hotCom = hotCom;
       this.totalCom = totalCom;
-
-      // console.log(this.timeCom);
-      // console.log(this.hotCom);
-      
-
-
     },
     //判断输入的字符数
-    iptChangeAction(){
+    iptChangeAction() {
       this.$refs.suggester.change();
       this.show = 140 - this.$refs.textArea.value.length;
     },
-     matched(rule, query, row) {
+    matched(rule, query, row) {
       // console.log(`rule ${JSON.stringify(rule)}`);
       // console.log(`query ${JSON.stringify(query)}`);
       // console.log(`row ${JSON.stringify(row)}`);
     },
     //点击了@的事件
-    aiteAction(){
-      this.$refs.aiteShow.style.display = 'block';
-      this.$refs.mask.style.display = 'block';
-      this.$refs.textArea.value += '@';
+    aiteAction() {
+      this.$refs.aiteShow.style.display = "block";
+      this.$refs.mask.style.display = "block";
+      this.$refs.textArea.value += "@";
       //添加焦点
       this.$refs.textArea.focus();
     },
     //点击@选择了数据以后产生的事件
-    aiteItemAction(index){
+    aiteItemAction(index) {
       this.selectIndex = index;
-      this.$refs.textArea.value += this.$refs.aiteItem[this.selectIndex].innerText;
+      this.$refs.textArea.value += this.$refs.aiteItem[
+        this.selectIndex
+      ].innerText;
       //添加焦点
       this.$refs.textArea.focus();
-      this.$refs.aiteShow.style.display = 'none';
-      this.$refs.mask.style.display = 'none';
+      this.$refs.aiteShow.style.display = "none";
+      this.$refs.mask.style.display = "none";
       this.show = 140 - this.$refs.textArea.value.length;
-      
     },
     //点击蒙板的事件
-    maskAction(){
-      this.$refs.aiteShow.style.display = 'none';
-      this.$refs.mask.style.display = 'none';
+    maskAction() {
+      this.$refs.aiteShow.style.display = "none";
+      this.$refs.mask.style.display = "none";
     },
 
     //去评论
-    goComment(){
-      if(this.show < 0){
+    goComment() {
+      if (this.show < 0) {
         //不能评论
-
-      }else{
+      } else {
         //可以评论
       }
+    },
+    //点击分页器的事件
+    handleoffsetNum(num, time) {
+      this.num = num;
+      this.time = time;
+      // console.log(this.num);
+      this.getInit();
+
     }
   },
   mounted() {
@@ -140,12 +168,12 @@ export default {
       this.target = this.$refs.textArea;
     });
   }
-}
+};
 </script>
 
 <style scoped lang='scss'>
 @mixin befor {
-  content: '';
+  content: "";
   display: block;
   width: 8px;
   height: 8px;
@@ -175,16 +203,16 @@ export default {
     left: 0;
     bottom: 0;
     display: none;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
   }
   .tit {
     color: #333;
-    line-height:20px;
+    line-height: 20px;
     margin-bottom: 10px;
     .title {
       display: inline-block;
       font-size: 20px;
-      margin-right:20px;
+      margin-right: 20px;
     }
     .subTitle {
       font-size: 14px;
@@ -193,12 +221,12 @@ export default {
   .line {
     width: 100%;
     height: 2px;
-    background: #C20C0C;
+    background: #c20c0c;
     vertical-align: baseline;
     margin-bottom: 20px;
   }
   .com {
-    width:100%;
+    width: 100%;
     display: flex;
     position: relative;
     .photo {
@@ -216,8 +244,8 @@ export default {
         height: 60px;
         padding: 5px;
         outline: none;
-        resize:none;
-        border:none;
+        resize: none;
+        border: none;
         color: #333;
         box-sizing: border-box;
         border: 1px solid #ccc;
@@ -230,7 +258,7 @@ export default {
     .comIptBox:before {
       @include befor;
       position: absolute;
-      left: 55px;
+      left: 56px;
       top: 12px;
     }
   }
@@ -254,7 +282,7 @@ export default {
       float: right;
       width: 46px;
       height: 24px;
-      background: #3080cc; 
+      background: #3080cc;
       color: #fff;
       font-size: 12px;
       text-align: center;
@@ -266,12 +294,11 @@ export default {
       padding: 5px;
       border: 1px solid #ddd;
       position: absolute;
-      // top: -40px;
-      // left: 5px;
       z-index: 20;
       background: #fff;
       display: none;
-      .aiteItem, .selectItem {
+      .aiteItem,
+      .selectItem {
         width: 100%;
         height: 20px;
         color: #555;
@@ -285,7 +312,6 @@ export default {
     }
   }
 }
-
 </style>
 <style lang='scss'>
 .suggester .suggester-list .suggester-list-item {
@@ -297,7 +323,7 @@ export default {
     font-size: 12px;
     font-style: normal;
     font-weight: normal;
-  } 
+  }
 }
 .suggester .suggester-list .suggester-list-item:hover {
   background: #eee;
