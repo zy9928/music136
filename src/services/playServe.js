@@ -4,7 +4,7 @@
  * @author 郑缘
  * @param getSongUrl
  * 请求音频地址的方法
- * 传入参数： id 为歌曲id
+ * 传入参数： value 为歌曲id
  * 返回值为：|—— type 音频类型;
  *          |—— url 音频地址
  * @param getSongInfo
@@ -25,9 +25,15 @@ import api from "./../utils/api";
 import Http from "./../utils/Http";
 
 // 请求音频地址
-export const getSongUrl = async id => {
+export const getSongUrl = async value => {
   // 发送请求
-  const { data: result } = await Http.get(api.SONG_URL, { id: 429450258 });
+  if(!value){
+    return {
+      type: '',
+      url: '',
+    }
+  }
+  const { data: result } = await Http.get(api.SONG_URL, { id: value });
   // 判断请求的结果
   if (result.code === 200) {
     // 处理数据
@@ -45,10 +51,25 @@ export const getSongUrl = async id => {
 };
 
 // 请求歌曲数据
-export const getSongInfo = async value => {
+export const getSongInfo = async (value) => {
   // 发送请求
   if(!value){
-    value = 429450258;
+    return {
+      // 歌曲信息的全部数据
+      songInfoAll: {},
+      // 歌曲名字
+      songName: '',
+      // 歌手
+      singer: [],
+      // 专辑名称
+      albumName: '',
+      // 专辑封面
+      albumImg: '',
+      // 专辑ID
+      albumId: '',
+      // 歌曲时长
+      duration: ''
+    }
   }
   const { data: result } = await Http.get(api.SONG_INFO, { ids: value });
   console.log(result.songs[0]);

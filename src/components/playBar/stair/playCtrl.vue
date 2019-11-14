@@ -6,9 +6,9 @@
     </div>
     <!-- 暂停播放上下曲 -->
     <div class="Last_P_Next_btnsBox">
-      <span class="lastBtn"></span>
+      <span class="lastBtn" @click="playNextLast(-1)"></span>
       <span class="BBtn" :class="{PBtn: isPlay}" @click="BPClc"></span>
-      <span class="nextBtn"></span>
+      <span class="nextBtn" @click="playNextLast(1)"></span>
     </div>
     <!-- 专辑图 -->
     <div class="albumImgBox">
@@ -58,7 +58,7 @@
         @click="loopModeClc"
       ></span>
       <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
-      <span class="songListBtn" @click="songListBtnClc">3</span>
+      <span class="songListBtn" @click="songListBtnClc"> {{this.playList.length}} </span>
     </div>
   </div>
 </template>
@@ -66,17 +66,15 @@
 <script>
 import { getSongUrl, getSongInfo } from "./../../../services/playServe";
 import { progressCtrl, progressClc, ctrlBtnClc } from "./../util/progressCtrl";
+import { handleLoopMode } from "./../util/anotherUtil.js";
 import { volumeShow, volumeMove } from "./../util/volumeCtrl";
 import { transforTime } from "./../../../utils/util";
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 export default {
-  props: {
-    id: ""
-  },
   data() {
     return {
       songType: "",
-      songUrl: "",
+      songUrl: null,
       isPlay: false,
       songInfo: {},
       timeNow: "00:00",
@@ -85,6 +83,7 @@ export default {
       isloopModeShowBox: false,
       loopModeShowTimer: null,
       // playerSetting: {},
+      id: ""
     };
   },
   computed: {
@@ -92,6 +91,9 @@ export default {
       var time = transforTime(this.songInfo.duration);
       return time.indexOf("NaN") == -1 ? time : "00:00";
     },
+    // id(){
+    //   return this.playList[this.playerSetting.index].id;
+    // },
     loopModeShow() {
       switch (this.playerSetting.loopMode) {
         case 0:
@@ -103,24 +105,62 @@ export default {
       }
     },
     ...mapState({
-      isPlayListShow: state=>state.playBar.isPlayListShow,
-      playerSetting: state=>state.playBar.playerSetting
+      playList: state => state.playBar.playList,
+      isPlayListShow: state => state.playBar.isPlayListShow,
+      playerSetting: state => state.playBar.playerSetting
     })
   },
+  watch: {
+    async "playerSetting.index"(newVal, oldVal) {
+      this.id = this.playList[newVal].id;
+      await this.handleGetSongInfo(this.id);
+      await this.handleGetSongUrl(this.id);
+      this.$refs.audio.play();
+      var _this = this;
+      this.handleProgress(
+        this.$refs.audio,
+        this.$refs.ctrlBtn,
+        this.$refs.porgress,
+        _this
+      );
+      this.isPlay = true;
+    }
+  },
   methods: {
+    // 上一曲/下一曲
+    playNextLast(kind){
+      var obj = {...this.playerSetting};
+      if(kind == -1){
+        if(this.playerSetting.index <= 0){
+          obj.index = this.playList.length - 1;
+        }else{
+          obj.index = obj.index - 1;
+        }
+      }else if(kind == 1){
+        if(this.playerSetting.index >= this.playList.length - 1){
+          obj.index = 0;
+        }else{
+          obj.index = obj.index + 1;
+        }
+      }
+      this.$store.commit("playBar/setPlayerSetting", obj);
+    },
     // 获取歌曲路径
-    async handleGetSongUrl() {
-      const result = await getSongUrl();
+    async handleGetSongUrl(value) {
+      const result = await getSongUrl(value);
       this.songUrl = result.url;
     },
     // 获取歌曲信息
-    async handleGetSongInfo() {
-      const result = await getSongInfo();
+    async handleGetSongInfo(value) {
+      const result = await getSongInfo(value);
       this.songInfo = result;
     },
     // 播放暂停
     BPClc() {
       /* 需要做个没有歌曲的拦截 */
+      if (!this.songUrl) {
+        return;
+      }
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
         var _this = this;
@@ -150,6 +190,12 @@ export default {
         this.$refs.audio,
         _this
       );
+      this.handleProgress(
+        this.$refs.audio,
+        this.$refs.ctrlBtn,
+        this.$refs.porgress,
+        _this
+      );
     },
     // 收藏点击
     likeBoxClc() {
@@ -176,6 +222,7 @@ export default {
       } else {
         obj.loopMode++;
       }
+      // handleLoopMode(obj, this.$refs.audio, this.playList);
       this.$store.commit("playBar/setPlayerSetting", obj);
       clearTimeout(this.loopModeShowTimer);
       this.loopModeShowTimer = setTimeout(() => {
@@ -197,16 +244,19 @@ export default {
       );
     },
     // 处理播放列表显示
-    songListBtnClc(){
+    songListBtnClc() {
       this.$store.commit("playBar/setIsPlayListShow", !this.isPlayListShow);
     }
   },
   mounted() {
     // this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
-    this.handleGetSongUrl();
+    if (this.playList.length != 0) {
+      var id = this.playList[this.playerSetting.index].id;
+    }
+    this.handleGetSongUrl(id);
     // 获取歌曲信息
-    this.handleGetSongInfo();
+    this.handleGetSongInfo(id);
     // 获取当前音量
     var _this = this;
     volumeShow(this.$refs.audio, this.$refs.volumeVule, _this);

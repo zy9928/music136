@@ -7,7 +7,7 @@ export default {
       : {
           loopMode: 2,
           volumeValue: 1,
-          index: 0
+          index: null
         },
     isPlayListShow: false,
     // 传入当前歌曲ID

@@ -1,5 +1,5 @@
 <template>
-  <div class="playListBox">
+  <div class="playListBox" :style="playListBoxStyle">
     <playListHeader/>
     <playListContBox/>
   </div>
@@ -8,6 +8,7 @@
 <script>
 import playListHeader from './../secend/playListHeader.vue';
 import playListContBox from './../secend/playListContBox';
+import {mapState} from 'vuex';
 export default {
   components: {
     playListHeader,
@@ -16,6 +17,20 @@ export default {
   data(){
     return{
       isPlayListShow: false
+    }
+  },
+  computed: {
+    ...mapState({
+      playList: state=>state.playBar.playList,
+      playerSetting: state=>state.playBar.playerSetting,
+    }),
+    bgImg(){
+      return this.playList[this.playerSetting.index].al.picUrl;
+    },
+    playListBoxStyle(){
+      return {
+        'background-image': `url(${this.bgImg})`
+      }
     }
   },
   mounted(){
@@ -32,6 +47,8 @@ export default {
   top: -284px;
   left: 50%;
   margin-left: -491px;
-  
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
 }
 </style>

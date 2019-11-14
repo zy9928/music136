@@ -4,6 +4,8 @@
  * @param parseLyric 将获取到的歌词文件转化为对象数组
  * 传入参数：text 歌词文件
  * 返回值为： lines 歌词对象数组
+ * @param handleLoopMode 处理循环模式
+ * 
  */
 
 //歌词同步部分
@@ -25,7 +27,25 @@ export const parseLyric = text => {
   return lines;
 };
 
+/* // 处理循环模式
+export const handleLoopMode = (playSetting, audio, playList) => {
+  console.log(playSetting.loopMode);
+  if(playSetting.loopMode == 2){
+    audio.loop = true;
+  }else{
+    audio.loop = false;
+    if(playSetting.loopMode == 0){
+      if(ended){
+        if(playSetting.index >= playList.length - 1){
+          playSetting.index = 0;
+        }
+      }
+    }
+  }
+} */
+
 
 export default {
   parseLyric,
+  // handleLoopMode,
 };
