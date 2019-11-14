@@ -108,7 +108,7 @@ export default {
   created() {
     console.log("调用了");
     let body = document.querySelector("body");
-    body.style.overflow = "hiden";
+    body.style.overflow = "hidden";
     this.getPlaylist()
       .then(result => {
         let userId = this.userInfo.userId;
