@@ -35,9 +35,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### 陈超
 
-> 1. 登入注册
+> 1. 登录注册
 > 2. 我的音乐
 > 3. 歌单组件
+> 3. 朋友
 
 
 
