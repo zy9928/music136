@@ -2,7 +2,7 @@
   <div class="commentList">
     <h5 class="font5">精彩评论</h5>
     <p class="line"></p>
-    <div v-for='item in hotData' :key='item.commentId'>
+    <div v-for='item in hotdata' :key='item.commentId'>
       <p class="smallLine"></p>
       <div class="com" >
         <img class= 'img' :src="item.userPic" alt="">
@@ -22,10 +22,22 @@
 </template>
 
 <script>
+import { getTime } from '../util'
 export default {
   props:{
     hotData: Array
-  }
+  },
+  computed: {
+    hotdata(){
+      var comDataArr = [];
+      this.hotData.forEach(item=>{
+        // console.log(item);
+        item.time = getTime(item);
+        comDataArr.push(item);
+      })
+      return comDataArr
+    }
+  },
     
   
 }

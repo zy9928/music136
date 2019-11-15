@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss">
 html,body{
-  overflow: hidden;
+  // overflow: hidden;
 }
 //页面主体部分公用版心
 .view-wrap{
