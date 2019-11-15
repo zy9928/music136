@@ -86,6 +86,9 @@
             </a>
           </div>
         </div>
+        <div class="friend-left-content">
+          <Event/>
+        </div>
       </div>
     </div>
   </div>
@@ -97,6 +100,9 @@ import TimeHandle from "../../../utils/TimeHandle";
 import { mapState } from "vuex";
 
 export default {
+  components:{
+    Event:()=>import ("./children/Event.vue")
+  },
   //路由拦截
   beforeRouteEnter(to, from, next) {
     console.log("进入朋友页面");
