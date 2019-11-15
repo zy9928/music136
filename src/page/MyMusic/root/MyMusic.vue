@@ -147,12 +147,11 @@ export default {
     let body = document.querySelector("body");
     body.style.overflow = "auto";
   },
-  mounted(){
-    let height  = document.documentElement.clientHeight;
-    let content = this.$refs.content;
-    let musicWrap = this.$refs.wrap;
-    content.style.height = height+'px';
-    musicWrap.style.height = height+'px';
+  mounted() {
+    this.handleWindowChange();
+  },
+  destroyed(){
+    window.onresize= null;
   },
   watch: {
     //监听器
@@ -184,6 +183,17 @@ export default {
     },
     tabAction(item) {
       this.selected = item;
+    },
+    //窗口变化事件
+    windowChange() {
+      window.onresize = this.handleWindowChange;
+    },
+    handleWindowChange() {
+      let height = document.documentElement.clientHeight;
+      let content = this.$refs.content;
+      let musicWrap = this.$refs.wrap;
+      // content.style.height = height + "px";
+      musicWrap.style.height = height-70 + "px";
     }
   }
 };
@@ -191,12 +201,14 @@ export default {
 
 <style scoped lang="scss">
 .myMusic {
+  
   height: 678px;
   overflow: auto;
 
   .view-wrap {
     position: relative;
     height: 100%;
+    background: #fff;
 
     .play-nav {
       height: 100%;
@@ -221,12 +233,12 @@ export default {
       }
     }
     .play-content {
-      height: 100%;
+     
       padding-left: 242px;
       float: left;
       background: #fff;
-
-    }
+      padding-bottom: 50px;
+    } 
   }
 }
 </style>

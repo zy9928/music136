@@ -87,7 +87,7 @@
           </div>
         </div>
         <div class="friend-left-content">
-          <Event/>
+          <Event v-for="item in event" :item="item" :key="item.id"/>
         </div>
       </div>
     </div>
@@ -117,6 +117,7 @@ export default {
     this.getEvents()
       .then(data => {
         this.event = [...this.event, ...data.event];
+        this.$store.dispatch("event/setLasttime",data.lasttime);
       })
       .catch(err => {
         console.log(err);
@@ -141,7 +142,6 @@ export default {
 
   data() {
     return {
-      lasttime: -1,
       pagesize: 20,
       event: [],
       //推荐明星和感兴趣的人相关
@@ -201,7 +201,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.userInfo
+      userInfo: state => state.user.userInfo,
+      lasttime:state=>state.event.lasttime
     }),
     offset1() {
       return this.limit1 * this.changeNum1;
