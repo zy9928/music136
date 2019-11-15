@@ -45,6 +45,23 @@ const PLAYLIST_DETAIL = HOST+"/playlist/detail";
 
 //歌曲评论
 const SONG_COMMENT = HOST + "/comment/music";
+//专辑评论
+const SONG_ALBUM = HOST + '/comment/album';
+//歌单评论
+const SONG_PLAYLIST = HOST + '/comment/playlist';
+//MV评论
+const SONG_MV = HOST + '/comment/mv';
+//电台节目评论
+const SONG_DJ = HOST + '/comment/dj';
+//视频评论
+const SONG_VIDEO = HOST + '/comment/video';
+//热门评论
+const SONG_HOT = HOST + '/comment/hot';
+//给评论点赞  
+const SONG_LIKE = HOST + '/comment/like';
+//发送、删除评论
+const SONG_SEND_DELETE = HOST + '/comment';
+
 
 //获取动态消息
 const EVENT = HOST +"/event";
@@ -63,6 +80,8 @@ export default{
   PLAYLIST,
   PLAYLIST_DETAIL,
   SONG_COMMENT,
+  SONG_LIKE,
+  SONG_SEND_DELETE,
   EVENT,
   TOP_ARTIST
 }

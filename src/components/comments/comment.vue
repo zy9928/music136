@@ -104,8 +104,7 @@ export default {
         this.num,
         this.time
       );
-      
-      this.timeCom = timeCom;
+      this.timeCom = timeCom
       this.hotCom = hotCom;
       this.totalCom = totalCom;
     },
