@@ -67,6 +67,9 @@ export default {
   methods: {
     playAction() {
       this.$emit("input", this.item.id);
+      //调用播放接口
+      this.$store.commit("playBar/setPlayNowId",this.item.id);
+
     },
     showOpaAction() {
       this.showOpa = true;
