@@ -2,6 +2,8 @@
  * @desc api 工具类
  * 实现地址的统一管理
  * @author 陈超, 郑缘，孙如意
+ * @version 11.15.1
+ * 陈超： 添加 TOP_ARTIST  EVENT 并输出
  * @version 11.12.1
  * 陈超： 添加PLAYLIST_DETAIL PLAYLIST 并输出
  * @version 11.9.2

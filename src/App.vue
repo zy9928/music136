@@ -34,10 +34,6 @@ export default {
 </script>
 
 <style lang="scss">
-<<<<<<< HEAD
-html,body{
-  // overflow: hidden;
-=======
 body {
   background: #f5f5f5;
 }
@@ -45,7 +41,6 @@ html,
 body {
   width: 100%;
   height: 100%;
->>>>>>> chenchao
 }
 //页面主体部分公用版心
 .view-wrap {
