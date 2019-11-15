@@ -191,8 +191,8 @@ export default {
   width: 710px;
   padding: 34px 30px 34px 38px;
   box-sizing: border-box;
-  border: 1px solid #ddd;
-  margin-left: 50px;
+  // border: 1px solid #ddd;
+  // margin-left: 50px;
   position: relative;
   .mask {
     width: 100%;

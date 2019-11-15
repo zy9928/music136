@@ -116,7 +116,6 @@ export default {
         this.id = this.playList[newVal].id;
         await this.handleGetSongInfo(this.id);
         await this.handleGetSongUrl(this.id);
-        this.$refs.audio.load();
         this.$refs.audio.play();
         var _this = this;
         this.handleProgress(

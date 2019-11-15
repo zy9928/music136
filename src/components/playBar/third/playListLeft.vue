@@ -12,8 +12,6 @@
         <router-link to="/myMusic">我的音乐</router-link>收听自己收藏的歌单
       </p>
     </section>
-    <button class="text" @click="text">测试</button>
-    {{playNowId}}
   </div>
 </template>
 
@@ -30,7 +28,6 @@ export default {
   },
   data() {
     return {
-      textData: [346013, 64153, 1337934765, 167640, 187813, 1400256289],
       songInfo: {}
     };
   },
@@ -100,13 +97,6 @@ export default {
     }
   },
   methods: {
-    text() {
-      if (textIndex >= 6) {
-        textIndex = 0;
-      }
-      this.$store.commit("playBar/setAddSongId", this.textData[textIndex]);
-      textIndex++;
-    },
     async handleGetSongInfo(value) {
       const result = await getSongInfo(value);
       this.songInfo = result.songInfoAll;
@@ -117,12 +107,25 @@ export default {
 
 <style scoped lang="scss">
 .playListLift {
-  width: 552px;
+  width: 558px;
   height: 260px;
   float: left;
-  border-right: 6px solid #0f0b0b;
   background-color: rgba(0, 0, 0, 0.88);
   position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar{
+    width: 8px;
+    height: 8px;
+    background-color: #0F0B0B;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: #494949;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 10px;
+  }
   .noSongTip {
     position: absolute;
     left: 50%;
