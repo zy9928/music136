@@ -58,7 +58,7 @@
         @click="loopModeClc"
       ></span>
       <div class="loopModeShowBox" v-show="isloopModeShowBox">{{loopModeShow}}</div>
-      <span class="songListBtn" @click="songListBtnClc"> {{this.playList.length}} </span>
+      <span class="songListBtn" @click="songListBtnClc">{{this.playList.length}}</span>
     </div>
   </div>
 </template>
@@ -112,34 +112,36 @@ export default {
   },
   watch: {
     async "playerSetting.index"(newVal, oldVal) {
-      this.id = this.playList[newVal].id;
-      await this.handleGetSongInfo(this.id);
-      await this.handleGetSongUrl(this.id);
-      this.$refs.audio.play();
-      var _this = this;
-      this.handleProgress(
-        this.$refs.audio,
-        this.$refs.ctrlBtn,
-        this.$refs.porgress,
-        _this
-      );
-      this.isPlay = true;
+      if (this.playList.length != 0) {
+        this.id = this.playList[newVal].id;
+        await this.handleGetSongInfo(this.id);
+        await this.handleGetSongUrl(this.id);
+        this.$refs.audio.play();
+        var _this = this;
+        this.handleProgress(
+          this.$refs.audio,
+          this.$refs.ctrlBtn,
+          this.$refs.porgress,
+          _this
+        );
+        this.isPlay = true;
+      }
     }
   },
   methods: {
     // 上一曲/下一曲
-    playNextLast(kind){
-      var obj = {...this.playerSetting};
-      if(kind == -1){
-        if(this.playerSetting.index <= 0){
+    playNextLast(kind) {
+      var obj = { ...this.playerSetting };
+      if (kind == -1) {
+        if (this.playerSetting.index <= 0) {
           obj.index = this.playList.length - 1;
-        }else{
+        } else {
           obj.index = obj.index - 1;
         }
-      }else if(kind == 1){
-        if(this.playerSetting.index >= this.playList.length - 1){
+      } else if (kind == 1) {
+        if (this.playerSetting.index >= this.playList.length - 1) {
           obj.index = 0;
-        }else{
+        } else {
           obj.index = obj.index + 1;
         }
       }

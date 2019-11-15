@@ -5,6 +5,7 @@
       v-for="(songLi, key) in playList"
       :key="key"
       :class="{playListLiActive: key == playerSetting.index}"
+      @click="playThisSong(key)"
     >
       <span class="isPlay" v-show="key == playerSetting.index"></span>
       <span class="songName">{{songLi.name}}</span>
@@ -12,7 +13,7 @@
         <span class="linkBtn"></span>
         <span class="shareBtn"></span>
         <span class="downBtn"></span>
-        <span class="deleteBtn"></span>
+        <span class="deleteBtn" @click.stop="deleteBtn(key)"></span>
       </p>
       <p class="singerBox">
         <router-link
@@ -62,6 +63,29 @@ export default {
   methods: {
     handleTime(value){
       return transforTime(value);
+    },
+    playThisSong(key){
+      var obj = {...this.playerSetting};
+      obj.index = key;
+      this.$store.commit('playBar/setPlayerSetting', obj);
+    },
+    deleteBtn(key){
+      var arr = [...this.playList];
+      arr.splice(key, 1);
+      this.$store.commit('playBar/setPlayList', arr);
+      var obj = {...this.playerSetting};
+      if(this.playerSetting.index >key){
+        obj.index = obj.index - 1;
+      }else if(this.playerSetting.index == key){
+        if(key == this.playList.length){
+          obj.index = 0;
+        }else{
+          obj.index = obj.index - 1;
+        }
+      }else if(this.playerSetting.index < key){
+        obj.index = obj.index;
+      }
+      this.$store.commit("playBar/setPlayerSetting", obj);
     }
   }
 };

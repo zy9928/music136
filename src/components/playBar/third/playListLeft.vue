@@ -1,6 +1,15 @@
 <template>
   <div class="playListLift">
-    <playListUl/>
+    <playListUl />
+    <section class="noSongTip" v-show="playList.length == 0">
+      <p class="fistLine">
+        <span class="ico"></span>
+        <span class="text">你还没有添加任何歌曲</span>
+      </p>
+      <p class="secendLine">
+        去首页<router-link to="/home/recommend">发现音乐</router-link>，或在<router-link to="/myMusic">我的音乐</router-link>收听自己收藏的歌单
+      </p>
+    </section>
     <button class="text" @click="text">测试</button>
     {{playNowId}}
   </div>
@@ -9,7 +18,7 @@
 <script>
 import { getSongInfo } from "./../../../services/playServe.js";
 import { mapState } from "vuex";
-import playListUl from './../fourth/playListUl';
+import playListUl from "./../fourth/playListUl";
 var textIndex = 0;
 let playListMiddle = [];
 let playerSettingMiddle = {};
@@ -19,7 +28,7 @@ export default {
   },
   data() {
     return {
-      textData: [346013, 64153, 1337934765, 167640, 187813],
+      textData: [346013, 64153, 1337934765, 167640, 187813, 1400256289],
       songInfo: {}
     };
   },
@@ -67,7 +76,7 @@ export default {
   },
   methods: {
     text() {
-      if (textIndex >= 5) {
+      if (textIndex >= 6) {
         textIndex = 0;
       }
       this.$store.commit("playBar/setPlayNowId", this.textData[textIndex]);
@@ -87,6 +96,31 @@ export default {
   height: 260px;
   float: left;
   border-right: 6px solid #0f0b0b;
-  background-color: rgba(0,0,0,0.88);
+  background-color: rgba(0, 0, 0, 0.88);
+  position: relative;
+  .noSongTip{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &>p{
+      text-align: center;
+      color: #AAAAAA;
+      line-height: 40px;
+      &>a{
+        color: #AAAAAA;
+        text-decoration: underline;
+      }
+      &>span{
+        vertical-align: middle;
+      }
+      .ico{
+        display: inline-block;
+        width: 36px;
+        height: 28px;
+        background: url(./../../../assets/zy_playlist.png) no-repeat -138px 0;
+      }
+    }
+  }
 }
 </style>

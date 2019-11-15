@@ -160,7 +160,7 @@ export default {
     // 刷新页面时，判断路径，更改导航栏活动状态
     this.refreshNavActive();
   },
-  undate() {
+  update() {
     this.refreshNavActive();
   }
 };
