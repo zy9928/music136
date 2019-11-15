@@ -4,13 +4,15 @@ import api from "../utils/api";
 export default{
     namespaced:true,
     state:{
-        lasttime: localStorage.getItem('lasttime')?localStorage.getItem('lasttime'):-1
+        lasttime: localStorage.getItem('lasttime')?JSON.parse(localStorage.getItem('lasttime')):-1
     },
     getters:{
 
     },
     mutations:{
-
+        lasttimeState(state,lasttime){
+            state.lasttime = lasttime;
+        }
     },
     actions:{
         async getEvents(context,params){
@@ -23,7 +25,9 @@ export default{
             return result;
         },
         async setLasttime(context,lasttime){
-            localStorage.setItem("lasttime",lasttime);
+            context.commit("lasttimeState",lasttime);
+            await localStorage.setItem("lasttime",lasttime);
+
         },
         // //点赞
         // async likeEvent(context,params){

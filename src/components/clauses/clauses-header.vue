@@ -16,7 +16,7 @@
       </div>
       <div class="opa">
         <a class="play" href="#">
-          <span class="iconfont iconcc-play"></span>
+          <span   class="iconfont iconcc-play"></span>
           播放
         </a>
         <a class="add" href="#">

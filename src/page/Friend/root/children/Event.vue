@@ -35,7 +35,7 @@
     <div class="event-bottom">
       <a href="#">
         <span class="iconfont iconzan"></span>
-        {{item.info.likedCount}}
+        ({{item.info.likedCount}})
       </a>|
       <a href="#">转发({{item.info.shareCount}})</a>|
       <a href="#">评论({{item.info.commentCount}})</a>
