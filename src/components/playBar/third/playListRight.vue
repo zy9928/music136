@@ -1,6 +1,6 @@
 <template>
   <div class="playListRight">
-    <ul class="songWordBox" :style="ulStyle">
+    <ul class="songWordBox" :style="ulStyle" v-if="this.lyric.indexOf('\n') != -1">
       <li
         class="songWordLi"
         :class="{songWordLiActive: linesNow == key}"
@@ -9,6 +9,7 @@
         :data_time="songWordLi.time"
       >{{songWordLi.word}}</li>
     </ul>
+    <p class="absoluteMusic" v-if="this.lyric.indexOf('\n') == -1">{{songWord}}</p>
   </div>
 </template>
 
@@ -32,7 +33,12 @@ export default {
     }),
     songWord() {
       this.getLyric(this.playList[this.playerSetting.index].id);
-      return parseLyric(this.lyric);
+      if(this.lyric.indexOf('\n') == -1){
+        return this.lyric
+      }else{
+        return parseLyric(this.lyric);
+      }
+      
     },
     ulStyle() {
       if(this.playNowTime == 0){
@@ -41,7 +47,6 @@ export default {
       if(this.songWord.length == 0){
         return "";
       }
-      console.log(this.playNowTime , this.songWord[this.songWord.length - 1].time)
       if (this.playNowTime*1000 < this.songWord[this.songWord.length - 1].time) {
         this.songWord.forEach(({ time }, key) => {
           if (key < this.songWord.length - 1) {
@@ -54,11 +59,9 @@ export default {
           }
         });
       } else if(this.playNowTime*1000 >= this.songWord[this.songWord.length - 1].time){
-        console.log('a');
         this.linesNow = this.songWord.length - 1;
       }
       var moveValue = 32 * this.linesNow;
-      console.log(moveValue);
       return {
         transform: `translateY(${-moveValue}px)`
       };
@@ -66,8 +69,13 @@ export default {
   },
   methods: {
     async getLyric(value) {
-      const lyric = await getSongWord(value);
-      this.lyric = lyric;
+      const result = await getSongWord(value);
+      if(result.lrc){
+        this.lyric = result.lrc.lyric;
+      }
+      if(result.nolyric){
+        this.lyric = '此为轻音乐，请欣赏';
+      }
     }
   },
   mounted() {}
@@ -99,6 +107,14 @@ export default {
       font-size: 14px;
       color: #f5f4f4;
     }
+  }
+  .absoluteMusic{
+    color: #f5f4f4;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

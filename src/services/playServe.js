@@ -125,7 +125,6 @@ export const getSongWord = async (value) => {
   const { data: result } = await Http.get(api.SONG_WORD, { id: value });
   // 判断请求结果
   if (result.code === 200){
-    const { lyric } = result.lrc
-    return lyric;
+    return result;
   }
 }
