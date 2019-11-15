@@ -3,7 +3,14 @@ import Http from '../utils/Http'
 //请求歌曲、mv、视频等评论  参数分别为：种类，资源id，offset偏移量，上一页的最后一个评论的time（超过5000条时使用）
 export const getSongComments = async (kinds, id, num, time) => {
   //发送请求
-  const {data: result} = await Http.get(kinds, {id: id, offset: num, before: time});
+  let result = null;
+  if(time){
+    const {data} = await Http.get(kinds, {id: id, offset: num, before: time});
+    result = data;
+  }else{
+    const {data} = await Http.get(kinds, {id: id, offset: num});
+    result = data;
+  }
   console.log(result);
   
   if(result.code == 200){
@@ -50,15 +57,10 @@ export const getSongComments = async (kinds, id, num, time) => {
       hotCom,
       totalCom
     }
-    
-    
-
   }else {
     //请求失败
     throw new Error(result.message);
   }
-  
-  
 }
 
 
@@ -77,8 +79,14 @@ export const getSongLike = async (kinds, id, cid, t, type) => {
 
 //发送评论或删除评论  t(1:发送 2：回复 0：删除) type类型 id对应资源id  content发送的内容 commentId回复的评论id
 export const getSendDelete = async (kinds, t, type, id, content, commentId) => {
-  const {data: result} = await Http.get(kinds, {t: t, type: type, id: id, content: content, commentId: commentId});
+  console.log(kinds, t, type, id, content, commentId);
+  if(commentId){
+    const {data: result} = await Http.get(kinds, {t: t, type: type, id: id, content: content, commentId: commentId});
+  }else{
+    const {data: result} = await Http.get(kinds, {t: t, type: type, id: id, content: content});
+  }
   console.log(result);
+  
   
 }
 export default{

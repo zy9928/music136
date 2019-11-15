@@ -1,6 +1,7 @@
 <template>
   <div class="page" id="songerPage">
     歌手
+    <artist/>
   </div>
 </template>
 

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { Pagination } from 'element-ui';
+
 import { getTime } from '../util'
 import { getSongLike } from '../../../services/comment'
 import api from '../../../utils/api'
@@ -40,7 +40,7 @@ export default {
     totalNum: String
   },
   components:{
-    [Pagination.name]: Pagination
+    // [Pagination.name]: Pagination
   },
   data(){
     return{

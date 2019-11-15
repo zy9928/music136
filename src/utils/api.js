@@ -62,6 +62,8 @@ const SONG_LIKE = HOST + '/comment/like';
 //发送、删除评论
 const SONG_SEND_DELETE = HOST + '/comment';
 
+//歌手热门50首歌曲
+const SONG_ARTIST_TOP = HOST + '/artist/top/song';
 
 //获取动态消息
 const EVENT = HOST +"/event";
@@ -82,7 +84,14 @@ export default{
   SONG_COMMENT,
   SONG_LIKE,
   SONG_SEND_DELETE,
+  SONG_ALBUM,
+  SONG_PLAYLIST,
+  SONG_MV,
+  SONG_DJ,
+  SONG_VIDEO,
+  SONG_HOT,
   EVENT,
-  TOP_ARTIST
+  TOP_ARTIST,
+  SONG_ARTIST_TOP
 }
 
