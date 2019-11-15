@@ -1,7 +1,7 @@
 @font-face {font-family: "iconfont";
   src: url('iconfont.eot?t=1573284036504'); /* IE9 */
   src: url('iconfont.eot?t=1573284036504#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.ttf?t=1573378140896') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.ttf?t=1573810271045') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 }
 
 .iconfont {
@@ -36,12 +36,20 @@
   content: "\e610";
 }
 
+.iconcc-load:before {
+  content: "\e62b";
+}
+
 .iconzan:before {
   content: "\e6a3";
 }
 
 .iconcc-comment:before {
   content: "\e600";
+}
+
+.iconcc-video:before {
+  content: "\e61f";
 }
 
 .iconcc-download:before {
@@ -52,12 +60,20 @@
   content: "\e64a";
 }
 
+.iconcc-playing:before {
+  content: "\e61c";
+}
+
 .iconxiaolian:before {
   content: "\ec80";
 }
 
 .iconcc-edit:before {
   content: "\e640";
+}
+
+.iconcc-event:before {
+  content: "\e6c4";
 }
 
 .iconcc-add:before {
