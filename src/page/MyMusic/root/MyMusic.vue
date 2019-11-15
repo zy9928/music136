@@ -1,5 +1,5 @@
 <template>
-  <div class="myMusic">
+  <div class="myMusic" ref="wrap">
     <div class="view-wrap">
       <div class="play-nav">
         <play-list :createNum="createList.length" :collectNum="collectList.length">
@@ -29,7 +29,7 @@
           ></playlist-item>
         </play-list>
       </div>
-      <div class="play-content">
+      <div ref="content" class="play-content">
         <clauses-header
           :picture="selected&&selected.coverImgUrl"
           :title="selected&&selected.name"
@@ -147,6 +147,12 @@ export default {
     let body = document.querySelector("body");
     body.style.overflow = "auto";
   },
+  mounted() {
+    this.handleWindowChange();
+  },
+  destroyed(){
+    window.onresize= null;
+  },
   watch: {
     //监听器
     selected() {
@@ -177,6 +183,17 @@ export default {
     },
     tabAction(item) {
       this.selected = item;
+    },
+    //窗口变化事件
+    windowChange() {
+      window.onresize = this.handleWindowChange;
+    },
+    handleWindowChange() {
+      let height = document.documentElement.clientHeight;
+      let content = this.$refs.content;
+      let musicWrap = this.$refs.wrap;
+      // content.style.height = height + "px";
+      musicWrap.style.height = height-70 + "px";
     }
   }
 };
@@ -184,11 +201,14 @@ export default {
 
 <style scoped lang="scss">
 .myMusic {
-  // height: 678px;
+  
+  height: 678px;
   overflow: auto;
+
   .view-wrap {
-    // height: 100%;
     position: relative;
+    height: 100%;
+    background: #fff;
 
     .play-nav {
       height: 100%;
@@ -213,10 +233,12 @@ export default {
       }
     }
     .play-content {
-      height: 678px;
+     
       padding-left: 242px;
       float: left;
-    }
+      background: #fff;
+      padding-bottom: 50px;
+    } 
   }
 }
 </style>

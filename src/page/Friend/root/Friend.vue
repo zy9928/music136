@@ -86,6 +86,9 @@
             </a>
           </div>
         </div>
+        <div class="friend-left-content">
+          <Event v-for="item in event" :item="item" :key="item.id"/>
+        </div>
       </div>
     </div>
   </div>
@@ -97,6 +100,9 @@ import TimeHandle from "../../../utils/TimeHandle";
 import { mapState } from "vuex";
 
 export default {
+  components:{
+    Event:()=>import ("./children/Event.vue")
+  },
   //路由拦截
   beforeRouteEnter(to, from, next) {
     console.log("进入朋友页面");
@@ -111,6 +117,7 @@ export default {
     this.getEvents()
       .then(data => {
         this.event = [...this.event, ...data.event];
+        this.$store.dispatch("event/setLasttime",data.lasttime);
       })
       .catch(err => {
         console.log(err);
@@ -135,7 +142,6 @@ export default {
 
   data() {
     return {
-      lasttime: -1,
       pagesize: 20,
       event: [],
       //推荐明星和感兴趣的人相关
@@ -195,7 +201,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.userInfo
+      userInfo: state => state.user.userInfo,
+      lasttime:state=>state.event.lasttime
     }),
     offset1() {
       return this.limit1 * this.changeNum1;
