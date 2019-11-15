@@ -15,6 +15,15 @@
  */
 import { transforTime, computedOff } from "./../../../utils/util";
 
+const randomValue = (oldVal, maxVal, cb) => {
+  var value = Math.floor(Math.random() * maxVal);
+  if (value == oldVal) {
+    cb();
+  } else {
+    return value;
+  }
+};
+
 export const progressCtrl = (audio, ctrlBtn, porgress, _this) => {
   // 播放时，进度条实时变化
   audio.ontimeupdate = function() {
@@ -25,6 +34,33 @@ export const progressCtrl = (audio, ctrlBtn, porgress, _this) => {
     ctrlBtn.style.transform = `translateX(${486 * percent}px)`;
     porgress.style.backgroundImage = `linear-gradient(to right, #C70C0C 0%, #C70C0C ${percent *
       100}%, #191919 ${percent * 100}%, #191919 100%)`;
+    // 判断循环方式
+    if (_this.playerSetting.loopMode == 2) {
+      audio.loop = true;
+    } else {
+      audio.loop = false;
+      var obj = { ..._this.playerSetting };
+      if (_this.playerSetting.loopMode == 0) {
+        if (audio.ended) {
+          if (_this.playerSetting.index >= _this.playList.length - 1) {
+            obj.index = 0;
+          } else {
+            obj.index++;
+          }
+          _this.$store.commit("playBar/setPlayerSetting", obj);
+        }
+      } else if (_this.playerSetting.loopMode == 1) {
+        // var value = Math.floor(Math.random()*_this.playList.length);
+        if (audio.ended) {
+          obj.index = randomValue(
+            _this.playerSetting.index,
+            _this.playList.length,
+            randomValue
+          );
+          _this.$store.commit("playBar/setPlayerSetting", obj);
+        }
+      }
+    }
   };
 };
 // 点击进度条实时变化播放时间

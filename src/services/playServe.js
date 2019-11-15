@@ -4,12 +4,12 @@
  * @author 郑缘
  * @param getSongUrl
  * 请求音频地址的方法
- * 传入参数： id 为歌曲id
+ * 传入参数： value 为歌曲id
  * 返回值为：|—— type 音频类型;
  *          |—— url 音频地址
  * @param getSongInfo
  * 请求歌曲信息的方法
- * 传入参数： ids 为歌曲id
+ * 传入参数： value 为歌曲id
  * 返回值为：|—— songName 歌曲名字;
  *          |—— singerName 歌手名字;
  *          |—— singerId 歌手id
@@ -25,9 +25,15 @@ import api from "./../utils/api";
 import Http from "./../utils/Http";
 
 // 请求音频地址
-export const getSongUrl = async id => {
+export const getSongUrl = async value => {
   // 发送请求
-  const { data: result } = await Http.get(api.SONG_URL, { id: 429450258 });
+  if(!value){
+    return {
+      type: '',
+      url: '',
+    }
+  }
+  const { data: result } = await Http.get(api.SONG_URL, { id: value });
   // 判断请求的结果
   if (result.code === 200) {
     // 处理数据
@@ -45,13 +51,32 @@ export const getSongUrl = async id => {
 };
 
 // 请求歌曲数据
-export const getSongInfo = async ids => {
+export const getSongInfo = async (value) => {
   // 发送请求
-  const { data: result } = await Http.get(api.SONG_INFO, { ids: 429450258 });
-  // console.log(result.songs);
+  if(!value){
+    return {
+      // 歌曲信息的全部数据
+      songInfoAll: {},
+      // 歌曲名字
+      songName: '',
+      // 歌手
+      singer: [],
+      // 专辑名称
+      albumName: '',
+      // 专辑封面
+      albumImg: '',
+      // 专辑ID
+      albumId: '',
+      // 歌曲时长
+      duration: ''
+    }
+  }
+  const { data: result } = await Http.get(api.SONG_INFO, { ids: value });
+  console.log(result.songs[0]);
   // 判断请求的结果
   if (result.code === 200) {
     // 处理数据
+    const songInfoAll = result.songs[0];
     const { name: songName, ar, al: album, dt: duration } = result.songs[0];
     // const {name: singerName, id:singerId} = singer[0];
     var singer = [];
@@ -70,6 +95,8 @@ export const getSongInfo = async ids => {
     });
     const { name: albumName, picUrl: albumImg, id: albumId } = album;
     return {
+      // 歌曲信息的全部数据
+      songInfoAll,
       // 歌曲名字
       songName,
       // 歌手

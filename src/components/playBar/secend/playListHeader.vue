@@ -1,7 +1,7 @@
 <template>
   <div class="playListHeader">
     <section class="headerLeft">
-      <p class="playListSum">播放列表(2)</p>
+      <p class="playListSum">播放列表({{playList.length}})</p>
       <div class="playListCtrlBtn">
         <p class="linkAll">
           <i></i>
@@ -14,14 +14,21 @@
       </div>
     </section>
     <div class="songNameBox">
-      大田后生仔
+      {{playList[playerSetting.index].name}}
       <span @click="closePlayList"></span>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
+  computed: {
+    ...mapState({
+      playList: state=>state.playBar.playList,
+      playerSetting: state=>state.playBar.playerSetting
+    })
+  },
   methods: {
     closePlayList(){
       this.$store.commit("playBar/setIsPlayListShow", false);
