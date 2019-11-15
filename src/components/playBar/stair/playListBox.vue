@@ -25,9 +25,15 @@ export default {
       playerSetting: state=>state.playBar.playerSetting,
     }),
     bgImg(){
+      if(this.playList.length == 0){
+        return '';
+      }
       return this.playList[this.playerSetting.index].al.picUrl;
     },
     playListBoxStyle(){
+      if(this.bgImg == ''){
+        return;
+      }
       return {
         'background-image': `url(${this.bgImg})`
       }

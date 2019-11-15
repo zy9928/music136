@@ -69,22 +69,6 @@ export default {
         this.isPlayShow = false;
       }, 1000);
       this.isMouseOn = false;
-    },
-    async getShopeList() {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/lyric?id=33894312",
-          {
-            withCredentials: true
-          },
-        );
-        this.list = response.data.lrc.lyric;
-        this.list = parseLyric(this.list);
-        // console.log(this.list);
-        // console.log(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
     }
   },
   mounted() {
@@ -106,8 +90,6 @@ export default {
         this.isPlayShow = false;
       }
     }, 2000);
-    // console.log(parseLyric);
-    this.getShopeList();
   }
 };
 </script>

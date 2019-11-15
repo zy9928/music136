@@ -27,6 +27,8 @@ const randomValue = (oldVal, maxVal, cb) => {
 export const progressCtrl = (audio, ctrlBtn, porgress, _this) => {
   // 播放时，进度条实时变化
   audio.ontimeupdate = function() {
+    // 记录播放时间
+    _this.$store.commit("playBar/setPlayNowTime", audio.currentTime);
     // 时间显示实时变化
     _this.timeNow = transforTime(audio.currentTime * 1000);
     var percent = audio.currentTime / audio.duration;
