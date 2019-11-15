@@ -44,6 +44,10 @@ const PLAYLIST_DETAIL = HOST+"/playlist/detail";
 //歌曲评论
 const SONG_COMMENT = HOST + "/comment/music";
 
+//获取动态消息
+const EVENT = HOST +"/event";
+//获取热门歌手
+const TOP_ARTIST = HOST+"/top/artists";
 
 export default{
   SONG_WORD,
@@ -56,6 +60,8 @@ export default{
   VERIFY_CODE,
   PLAYLIST,
   PLAYLIST_DETAIL,
-  SONG_COMMENT
+  SONG_COMMENT,
+  EVENT,
+  TOP_ARTIST
 }
 

@@ -107,6 +107,8 @@ export default {
   //实例创建钩子函数
   created() {
     console.log("调用了");
+    let body = document.querySelector("body");
+    body.style.overflow = "hidden";
     this.getPlaylist()
       .then(result => {
         let userId = this.userInfo.userId;
@@ -138,6 +140,12 @@ export default {
         alert("获取歌单失败");
         console.error(err);
       });
+  },
+
+  beforeDestroy() {
+    console.log("执行了");
+    let body = document.querySelector("body");
+    body.style.overflow = "auto";
   },
   watch: {
     //监听器
@@ -175,15 +183,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-body {
-  overflow: hidden;
-}
 .myMusic {
-  background: #f5f5f5;
-  height: 678px;
+  // height: 678px;
   overflow: auto;
   .view-wrap {
-    height: 100%;
+    // height: 100%;
     position: relative;
 
     .play-nav {
@@ -217,4 +221,7 @@ body {
 }
 </style>
 <style lang="scss">
+body {
+  overflow: hidden;
+}
 </style>

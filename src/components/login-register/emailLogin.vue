@@ -17,14 +17,13 @@
             自动登录
           </label>
           <a href="javascript:void(0)">忘记密码?</a>
-          <my-btn @click="loginAction" fontColor="#fff" bgColor="#2b7cc9" class="btn">登录</my-btn>
+          <my-btn @click="loginAction" fontColor="#fff" bgcolor="#2b7cc9" class="btn">登录</my-btn>
         </div>
       </div>
     </template>
   </my-window>
 </template>
 <script>
-import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 import userService from "../../services/userService";
 // console.log(MyWindow);
@@ -37,7 +36,6 @@ export default {
   },
   props: ["value"],
   components: {
-    [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
   },
   methods: {
@@ -50,7 +48,27 @@ export default {
 
       try {
         let result = await userService.loginEmail(this.email, this.password);
-        console.log(result);
+        if (result.data.code == "200") {
+          //保存用户登录状态
+          await this.$store.dispatch("user/setLogin", "true");
+
+          //保存用户信息
+          let userInfo = {};
+          //用户id
+          userInfo.userId = result.data.profile.userId;
+          //用户昵称
+          userInfo.nickname = result.data.profile.nickname;
+          //用户头像url
+          userInfo.avatarUrl = result.data.profile.avatarUrl;
+          //用户签名
+          userInfo.signature = result.data.profile.signature;
+
+          this.$store.dispatch("user/setUserInfo", userInfo);
+
+          //关闭当前窗口
+          this.$center.$emit("openWindow", false);
+          // this.$router.back();
+        }
       } catch (error) {
         alert("用户名或密码错误");
       }

@@ -15,7 +15,6 @@
   </my-window>
 </template>
 <script>
-import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 import { mapState } from "vuex";
 import userService from "../../services/userService";
@@ -30,7 +29,6 @@ export default {
   },
   props: ["value"],
   components: {
-    [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
   },
   computed: {

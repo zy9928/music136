@@ -26,7 +26,6 @@
   </my-window>
 </template>
 <script>
-import MyWindow from "./my-window";
 import MyBtn from "./my-btn";
 import userService from "../../services/userService";
 // console.log(MyWindow);
@@ -39,7 +38,6 @@ export default {
   },
   props: ["value"],
   components: {
-    [MyWindow.name]: MyWindow,
     [MyBtn.name]: MyBtn
   },
   computed:{
@@ -59,7 +57,7 @@ export default {
           //保存用户登录状态
           await this.$store.dispatch('user/setLogin',"true");
 
-          //保存用户信息
+          /***保存用户信息**/
           let  userInfo = {};
           //用户id
           userInfo.userId = result.data.profile.userId;
@@ -67,6 +65,15 @@ export default {
           userInfo.nickname = result.data.profile.nickname;
           //用户头像url
           userInfo.avatarUrl = result.data.profile.avatarUrl;
+          //用户签名
+          userInfo.signature = result.data.profile.signature;
+          //用户关注数
+          userInfo.follows = result.data.profile.follows;
+          //用户粉丝数
+          userInfo.followeds = result.data.profile.followeds;
+          //用户动态数
+          userInfo.eventCount = result.data.profile.eventCount;
+
           this.$store.dispatch('user/setUserInfo',userInfo);
 
           //关闭当前窗口
