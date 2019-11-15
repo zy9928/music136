@@ -1,6 +1,4 @@
-
 import Http from '../utils/Http'
-
 
 //请求歌曲、mv、视频等评论  参数分别为：种类，资源id，offset偏移量，上一页的最后一个评论的time（超过5000条时使用）
 export const getSongComments = async (kinds, id, num, time) => {
@@ -47,8 +45,6 @@ export const getSongComments = async (kinds, id, num, time) => {
     console.log(comments);
     // console.log(hotComments);
     // console.log(total);
-    
-    
     return {
       timeCom,
       hotCom,
@@ -64,8 +60,9 @@ export const getSongComments = async (kinds, id, num, time) => {
   
   
 }
-//给评论点赞  参数分别为：资源id,评论cid，t是否点赞（1：点赞  0：取消点赞），type资源类型（数字0~6）
 
+
+//给评论点赞  参数分别为：资源id,评论cid，t是否点赞（1：点赞  0：取消点赞），type资源类型（数字0~6）
 //点赞的API疑似有问题
 export const getSongLike = async (kinds, id, cid, t, type) => {
   console.log(kinds, id,cid,t,type);

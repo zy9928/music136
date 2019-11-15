@@ -54,7 +54,7 @@
 <script>
 import comList from "./sonList/comList";
 import hotList from "./sonList/hotList";
-import { getSongComments } from "../../services/comment";
+import { getSongComments, getSendDelete } from "../../services/comment";
 import { log } from "util";
 import Vue from "vue";
 import VueTextaSuggester from "vue-textarea-suggester";
@@ -146,10 +146,13 @@ export default {
 
     //去评论
     goComment() {
-      if (this.show < 0) {
-        //不能评论
-      } else {
+      if ((this.show > 0) && (this.show < 140)) {
         //可以评论
+        console.log('可以评论');
+        
+        getSendDelete(api.SONG_SEND_DELETE, 1, 0, 186016, this.$refs.textArea.value);
+      } else {
+        //不能评论
       }
     },
     //点击分页器的事件

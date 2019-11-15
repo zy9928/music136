@@ -93,7 +93,7 @@ export default {
       //   // alert('请先登录');
       // }else{
 
-       this.comdData.forEach((item, index)=>{
+        this.comdData.forEach((item, index)=>{
         // console.log(item);
          
         if(item.liked){
@@ -103,7 +103,7 @@ export default {
           this.t = 0;
           this.$refs.icon[index].style.color = '';
         }
-       })
+      })
        
         
         getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
