@@ -9,12 +9,12 @@
         </p>
         <p class="clearAll">
           <i></i>
-          <span>清除</span>
+          <span @click="clearAll">清除</span>
         </p>
       </div>
     </section>
     <div class="songNameBox">
-      {{playList[playerSetting.index].name}}
+      {{playList.length != 0 ?playList[playerSetting.index].name : ''}}
       <span @click="closePlayList"></span>
     </div>
   </div>
@@ -32,6 +32,12 @@ export default {
   methods: {
     closePlayList(){
       this.$store.commit("playBar/setIsPlayListShow", false);
+    },
+    clearAll(){
+      this.$store.commit("playBar/setPlayList", []);
+      var obj = this.playerSetting;
+      obj.index = null;
+      this.$store.commit("playBar/setPlayerSetting", obj);
     }
   }
 }

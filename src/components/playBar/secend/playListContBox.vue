@@ -1,14 +1,17 @@
 <template>
   <div class="playListContBox">
     <playListLeft/>
+    <playListRight/>
   </div>
 </template>
 
 <script>
+import playListRight from './../third/playListRight';
 import playListLeft from './../third/playListLeft';
 export default {
   components: {
-    playListLeft
+    playListLeft,
+    playListRight
   }
 }
 </script>

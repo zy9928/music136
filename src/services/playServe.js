@@ -17,8 +17,10 @@
  *          |—— albumImg 专辑封面
  *          |—— albumId 专辑ID
  *          |—— duration 歌曲时长
- * @version 11.7.1
- * 郑缘 添加了输出方法 getSongUrl getSongInfo
+ * @param getSongWord
+ * 请求歌曲歌词的方法
+ * 传入参数为： value 为歌曲id
+ * 返回值为：
  */
 
 import api from "./../utils/api";
@@ -72,7 +74,6 @@ export const getSongInfo = async (value) => {
     }
   }
   const { data: result } = await Http.get(api.SONG_INFO, { ids: value });
-  console.log(result.songs[0]);
   // 判断请求的结果
   if (result.code === 200) {
     // 处理数据
@@ -115,3 +116,16 @@ export const getSongInfo = async (value) => {
     throw new Error(result.message);
   }
 };
+
+// 请求歌词
+export const getSongWord = async (value) => {
+  if(!value){
+    return '';
+  }
+  const { data: result } = await Http.get(api.SONG_WORD, { id: value });
+  // 判断请求结果
+  if (result.code === 200){
+    const { lyric } = result.lrc
+    return lyric;
+  }
+}

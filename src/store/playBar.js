@@ -15,7 +15,8 @@ export default {
     // 歌曲列表
     playList: localStorage.getItem("playList")
       ? JSON.parse(localStorage.getItem("playList"))
-      : []
+      : [],
+    playNowTime: 0
   },
   getters: {},
   mutations: {
@@ -35,6 +36,9 @@ export default {
     setPlayList(state, arr) {
       state.playList = [...arr];
       localStorage.setItem("playList", JSON.stringify(state.playList));
+    },
+    setPlayNowTime(state, num){
+      state.playNowTime = num;
     }
   },
   actions: {}
