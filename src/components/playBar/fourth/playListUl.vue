@@ -80,7 +80,12 @@ export default {
         if(key == this.playList.length){
           obj.index = 0;
         }else{
-          obj.index = obj.index - 1;
+          if(key == 0){
+            console.log('a');
+            obj.index = obj.index + 1;
+          }else{
+            obj.index = obj.index - 1;
+          }
         }
       }else if(this.playerSetting.index < key){
         obj.index = obj.index;
@@ -113,7 +118,7 @@ export default {
       color: #ffffff;
     }
     &:hover .songListCtrl {
-      display: inline-block;
+      visibility: visible;
     }
     &:hover .singerBox a{
       color: #fff;
@@ -136,7 +141,7 @@ export default {
       @include textHid;
     }
     .songListCtrl {
-      display: none;
+      visibility: hidden;
       display: inline-block;
       height: 28px;
       vertical-align: middle;

@@ -10,6 +10,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+#play{
+  
+}
 
 </style>
