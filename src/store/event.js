@@ -24,6 +24,12 @@ export default{
         },
         async setLasttime(context,lasttime){
             localStorage.setItem("lasttime",lasttime);
-        }
+        },
+        // //点赞
+        // async likeEvent(context,params){
+        //     let result = await http.get()
+        // }
+
+
     }
 }
