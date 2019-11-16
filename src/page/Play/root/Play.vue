@@ -17,6 +17,17 @@ export default {
   props: {
     id: String,
   },
+  methods: {
+    rememberId(){
+      this.$store.commit("aside/setSongId", this.id);
+    }
+  },
+  mounted(){
+    this.rememberId();
+  },
+  updated(){
+    this.rememberId();
+  }
 }
 </script>
 

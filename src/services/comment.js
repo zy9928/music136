@@ -6,7 +6,7 @@ import Http from '../utils/Http'
 export const getSongComments = async (kinds, id, num, time) => {
   //发送请求
   const {data: result} = await Http.get(kinds, {id: id, offset: num, before: time});
-  console.log(result);
+  // console.log(result);
   
   if(result.code == 200){
     //请求成功
@@ -44,7 +44,7 @@ export const getSongComments = async (kinds, id, num, time) => {
     //处理总的评论数据
     const totalCom = total.toString();
 
-    console.log(comments);
+    // console.log(comments);
     // console.log(hotComments);
     // console.log(total);
     

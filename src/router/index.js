@@ -44,6 +44,24 @@ const routes = [
       import(/* webpackChunkName: 'singer' */ "../page/singer/root/singer.vue")
   },
   {
+    path: "/user/:id",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: 'user' */ "../page/user/root/user.vue")
+  },
+  {
+    path: "/songList/:id",
+    props: true,
+    component: () =>
+    import(/* webpackChunkName: 'songList' */ "../page/songList/root/songList.vue")
+  },
+  {
+    path: "/album/:id",
+    props: true,
+    component: () =>
+    import(/* webpackChunkName: 'album' */ "../page/album/root/album.vue")
+  },
+  {
     path: "**",
     component: () =>
       import(/* webpackChunkName: 'notFound' */ "./../page/notFound.vue")

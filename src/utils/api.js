@@ -24,6 +24,21 @@ const SONG_URL = HOST + "/song/url";
 // 获取歌曲详情————参数：?ids=音乐id[, 音乐id2，音乐id3 ...]
 const SONG_INFO = HOST + "/song/detail";
 
+// 获取最近5个听了这首歌的用户————参数：?id=歌曲id
+const LISTENER_LAST5 = HOST + "/simi/user";
+// 获取相似歌单————参数：?id=歌曲id
+const SIMILAR_SONG_LIST = HOST + "/simi/playlist";
+// 获取相似音乐————参数： ?id=歌曲id
+const SIMILAR_SONG = HOST + "/simi/song";
+// 获取相似歌手————参数：?id=歌手id
+const SIMILAR_SINGER = HOST + "/simi/artist";
+// 歌单收藏者————参数：?id=歌单id[&limit=取出评论数，默认20 &offset=偏移数量，用于分页]
+const SONG_LIST_LIKERS = HOST + "/playlist/subscribers";
+// 相关歌单推荐————参数：?id=歌单id
+const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
+// 获取歌手专辑————参数：?id=歌手id[&limit=取出数量，默认50 &offset=偏移数量，默认为0]
+const SINGER_ALBUM = HOST + "/artist/album";
+
 
 
 //发送验证码
@@ -83,6 +98,13 @@ export default{
   SONG_LIKE,
   SONG_SEND_DELETE,
   EVENT,
-  TOP_ARTIST
+  TOP_ARTIST,
+  LISTENER_LAST5,
+  SIMILAR_SONG_LIST,
+  SIMILAR_SONG,
+  SIMILAR_SINGER,
+  SONG_LIST_LIKERS,
+  RELATE_SONG_LIST_RECOMMEND,
+  SINGER_ALBUM,
 }
 
