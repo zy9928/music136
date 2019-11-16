@@ -32,13 +32,15 @@ export default {
       playNowTime: state => state.playBar.playNowTime
     }),
     songWord() {
+      if(this.playList.length == 0){
+        return '';
+      }
       this.getLyric(this.playList[this.playerSetting.index].id);
       if(this.lyric.indexOf('\n') == -1){
         return this.lyric
       }else{
         return parseLyric(this.lyric);
       }
-      
     },
     ulStyle() {
       if(this.playNowTime == 0){
@@ -84,7 +86,7 @@ export default {
 
 <style scoped lang="scss">
 .playListRight {
-  width: 422px;
+  width: 424px;
   height: 100%;
   float: left;
   overflow: hidden;

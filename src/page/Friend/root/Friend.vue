@@ -87,7 +87,10 @@
           </div>
         </div>
         <div class="friend-left-content">
-          <Event v-for="item in event" :item="item" :key="item.id"/>
+          <div class="load" v-show="isLoad">
+            <span class="iconfont iconcc-load"></span>加载中
+          </div>
+          <Event v-for="item in event" :item="item" :key="item.id" />
         </div>
       </div>
     </div>
@@ -100,8 +103,8 @@ import TimeHandle from "../../../utils/TimeHandle";
 import { mapState } from "vuex";
 
 export default {
-  components:{
-    Event:()=>import ("./children/Event.vue")
+  components: {
+    Event: () => import("./children/Event.vue")
   },
   //路由拦截
   beforeRouteEnter(to, from, next) {
@@ -117,7 +120,7 @@ export default {
     this.getEvents()
       .then(data => {
         this.event = [...this.event, ...data.event];
-        this.$store.dispatch("event/setLasttime",data.lasttime);
+        this.$store.dispatch("event/setLasttime", data.lasttime);
       })
       .catch(err => {
         console.log(err);
@@ -139,7 +142,6 @@ export default {
         console.log(err);
       });
   },
-
   data() {
     return {
       pagesize: 20,
@@ -150,7 +152,8 @@ export default {
       artists1: [], //歌手
       limit2: 5,
       changeNum2: 0, //换一批数字
-      artists2: [] //歌手
+      artists2: [], //歌手,
+      isLoad: true
     };
   },
   watch: {
@@ -173,6 +176,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    event() {
+      this.isLoad = false;
     }
   },
   methods: {
@@ -202,7 +208,7 @@ export default {
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo,
-      lasttime:state=>state.event.lasttime
+      lasttime: state => state.event.lasttime
     }),
     offset1() {
       return this.limit1 * this.changeNum1;
@@ -215,6 +221,14 @@ export default {
 </script>
 
 <style scopde lang="scss">
+@keyframes roate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .friend {
   min-height: 678px;
   background: #f5f5f5;
@@ -228,6 +242,15 @@ export default {
       padding: 20px 30px;
       border-left: 1px solid #ccc;
       border-right: 1px solid #ccc;
+      .load {
+        margin-top: 10px;
+        text-align: center;
+        span {
+          display: inline-block;
+          padding: 0 5px;
+          animation: roate 1.5s infinite linear;
+        }
+      }
       &-title {
         height: 42px;
         border-bottom: 1px solid #c20c0c;

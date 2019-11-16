@@ -18,7 +18,7 @@ export default {
 
 <style scoped lang="scss">
 .playListContBox{
-  width: 980px;
+  width: 982px;
   height: 260px;
   border-top: 1px solid #1C1C1C;
 }
