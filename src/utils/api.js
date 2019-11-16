@@ -69,7 +69,8 @@ const EVENT = HOST +"/event";
 const TOP_ARTIST = HOST+"/top/artists";
 //资源点赞(此处目前用于动态点赞)
 const  RESOURCE_LIKE  = HOST+"/resource/like";
-
+//获取动态评论(参数treadId:线程id)
+const COMMENT_EVENT = HOST+"/comment/event";
 
 export default{
   SONG_WORD,
@@ -89,5 +90,6 @@ export default{
   EVENT,
   TOP_ARTIST,
   RESOURCE_LIKE,
+  COMMENT_EVENT
 }
 

@@ -260,7 +260,7 @@ export default {
 };
 </script>
 
-<style scopde lang="scss">
+<style scoped lang="scss">
 @keyframes roate {
   from {
     transform: rotate(0deg);
