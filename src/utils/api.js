@@ -67,6 +67,9 @@ const SONG_SEND_DELETE = HOST + '/comment';
 const EVENT = HOST +"/event";
 //获取热门歌手
 const TOP_ARTIST = HOST+"/top/artists";
+//资源点赞(此处目前用于动态点赞)
+const  RESOURCE_LIKE  = HOST+"/resource/like";
+
 
 export default{
   SONG_WORD,
@@ -82,7 +85,9 @@ export default{
   SONG_COMMENT,
   SONG_LIKE,
   SONG_SEND_DELETE,
+  //动态相关
   EVENT,
-  TOP_ARTIST
+  TOP_ARTIST,
+  RESOURCE_LIKE,
 }
 

@@ -29,11 +29,15 @@ export default{
             await localStorage.setItem("lasttime",lasttime);
 
         },
-        // //点赞
-        // async likeEvent(context,params){
-        //     let result = await http.get()
-        // }
-
-
+        //动态点赞
+        async likeEvent(context,params){
+            let result = await http.get(api.RESOURCE_LIKE,params);
+            console.log(result);
+            if(result.data.code=="200"){
+                return result;
+            }else{
+                throw new Error("操作失败");
+            }
+        }
     }
 }

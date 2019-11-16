@@ -77,11 +77,11 @@
           <h1>动态</h1>
           <div class="opa">
             <a href="#">
-              <span class="iconfont"></span>
+              <span class="iconfont iconcc-event"></span>
               发动态
             </a>
             <a href="#">
-              <span class="iconfont"></span>
+              <span class="iconfont iconcc-video"></span>
               发布视频
             </a>
           </div>
@@ -223,12 +223,12 @@ export default {
     //滚动条监听
     scrollListen() {
       window.onscroll = e => {
-        console.log("滚动了");
+        // console.log("滚动了");
         if (this.scrollHeight < document.documentElement.scrollHeight) {
           this.scrollHeight = document.documentElement.scrollHeight;
         }
         let scrollTop = document.documentElement.scrollTop;
-        console.log(scrollTop);
+        // console.log(scrollTop);
         if (scrollTop + this.clientHeight >= this.scrollHeight) {
           console.log("到底了");
           this.isLoad = true;
@@ -310,6 +310,9 @@ export default {
             border-radius: 28px;
             border: 1px solid #ccc;
             margin-left: 10px;
+            span{
+              color: #b92813;
+            }
           }
         }
       }
