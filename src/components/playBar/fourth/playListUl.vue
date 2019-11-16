@@ -24,7 +24,7 @@
         >{{singer.name}}</router-link>
       </p>
       <span class="songLong"> {{handleTime(songLi.dt)}} </span>
-    </li>播放列表
+    </li>
   </ul>
 </template>
 
@@ -80,10 +80,13 @@ export default {
         if(key == this.playList.length){
           obj.index = 0;
         }else{
-          obj.index = obj.index - 1;
+          obj.index = obj.index;
         }
       }else if(this.playerSetting.index < key){
         obj.index = obj.index;
+      }
+      if(this.playList.length == 0){
+        obj.index = null;
       }
       this.$store.commit("playBar/setPlayerSetting", obj);
     }
@@ -94,7 +97,6 @@ export default {
 <style scoped lang="scss">
 .playListUl {
   color: #cccccc;
-  width: 100%;
   font-size: 12px;
   @mixin textHid {
     overflow: hidden;
@@ -113,7 +115,7 @@ export default {
       color: #ffffff;
     }
     &:hover .songListCtrl {
-      display: inline-block;
+      visibility: visible;
     }
     &:hover .singerBox a{
       color: #fff;
@@ -132,11 +134,11 @@ export default {
       height: 12px;
       line-height: 12px;
       vertical-align: middle;
-      width: 218px;
+      width: 216px;
       @include textHid;
     }
     .songListCtrl {
-      display: none;
+      visibility: hidden;
       display: inline-block;
       height: 28px;
       vertical-align: middle;

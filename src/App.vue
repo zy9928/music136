@@ -50,4 +50,8 @@ body {
 #page {
   min-width: 1135px;
 }
+.page{
+  width: 980px;
+  margin: 0 auto;
+}
 </style>

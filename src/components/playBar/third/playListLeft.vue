@@ -7,11 +7,11 @@
         <span class="text">你还没有添加任何歌曲</span>
       </p>
       <p class="secendLine">
-        去首页<router-link to="/home/recommend">发现音乐</router-link>，或在<router-link to="/myMusic">我的音乐</router-link>收听自己收藏的歌单
+        去首页
+        <router-link to="/home/recommend">发现音乐</router-link>，或在
+        <router-link to="/myMusic">我的音乐</router-link>收听自己收藏的歌单
       </p>
     </section>
-    <button class="text" @click="text">测试</button>
-    {{playNowId}}
   </div>
 </template>
 
@@ -28,7 +28,6 @@ export default {
   },
   data() {
     return {
-      textData: [346013, 64153, 1337934765, 167640, 187813, 1400256289],
       songInfo: {}
     };
   },
@@ -36,10 +35,33 @@ export default {
     ...mapState({
       playNowId: state => state.playBar.playNowId,
       playList: state => state.playBar.playList,
-      playerSetting: state => state.playBar.playerSetting
+      playerSetting: state => state.playBar.playerSetting,
+      addSongId: state => state.playBar.addSongId
     })
   },
   watch: {
+    async addSongId(newVal, oldVal) {
+      if (newVal) {
+        // 请求当前请求的音乐信息
+        await this.handleGetSongInfo(newVal);
+        // 将store中的值赋值出来（因为不能直接更改）
+        playListMiddle = [...this.playList];
+        if (this.playList.length == 0) {
+          playListMiddle.push(this.songInfo);
+          this.$store.commit("playBar/setPlayList", playListMiddle);
+        } else {
+          // 若歌单不为空，查找当前请求ID是否在歌单中拥有
+          var found = playListMiddle.find(info => {
+            return info.id == newVal;
+          });
+          if (!found) {
+            // 不拥有，添加进歌单，
+            playListMiddle.push(this.songInfo);
+            this.$store.commit("playBar/setPlayList", playListMiddle);
+          }
+        }
+      }
+    },
     async playNowId(newVal, oldVal) {
       if (newVal) {
         // 请求当前请求的音乐信息
@@ -75,13 +97,6 @@ export default {
     }
   },
   methods: {
-    text() {
-      if (textIndex >= 6) {
-        textIndex = 0;
-      }
-      this.$store.commit("playBar/setPlayNowId", this.textData[textIndex]);
-      textIndex++;
-    },
     async handleGetSongInfo(value) {
       const result = await getSongInfo(value);
       this.songInfo = result.songInfoAll;
@@ -92,29 +107,42 @@ export default {
 
 <style scoped lang="scss">
 .playListLift {
-  width: 552px;
+  width: 558px;
   height: 260px;
   float: left;
-  border-right: 6px solid #0f0b0b;
   background-color: rgba(0, 0, 0, 0.88);
   position: relative;
-  .noSongTip{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar{
+    width: 8px;
+    height: 8px;
+    background-color: #0F0B0B;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: #494949;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track{
+    border-radius: 10px;
+  }
+  .noSongTip {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    &>p{
+    & > p {
       text-align: center;
-      color: #AAAAAA;
+      color: #aaaaaa;
       line-height: 40px;
-      &>a{
-        color: #AAAAAA;
+      & > a {
+        color: #aaaaaa;
         text-decoration: underline;
       }
-      &>span{
+      & > span {
         vertical-align: middle;
       }
-      .ico{
+      .ico {
         display: inline-block;
         width: 36px;
         height: 28px;

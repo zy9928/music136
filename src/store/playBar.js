@@ -12,6 +12,8 @@ export default {
     isPlayListShow: false,
     // 传入当前歌曲ID
     playNowId: "",
+    // 添加进播放列表
+    addSongId: "",
     // 歌曲列表
     playList: localStorage.getItem("playList")
       ? JSON.parse(localStorage.getItem("playList"))
@@ -39,6 +41,9 @@ export default {
     },
     setPlayNowTime(state, num){
       state.playNowTime = num;
+    },
+    setAddSongId(state, num){
+      state.addSongId = num;
     }
   },
   actions: {}
