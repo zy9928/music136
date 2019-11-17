@@ -5,7 +5,8 @@ import myMusic from "./myMusic";
 import playBar from "./playBar";
 import event from "./event";
 import aside from './aside';
-import artist50 from './artist50'
+import artist50 from './artist50';
+import home from './home';
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     playBar,
     event,
     aside,
-    artist50
+    artist50,
+    home
   }
 })

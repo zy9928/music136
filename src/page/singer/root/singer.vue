@@ -1,9 +1,9 @@
 <template>
   <div class="art">
     <div class="leftAr">
-      <h2 class="tit">Fine乐团</h2>
+      <h2 class="tit">{{name}}</h2>
       <div class="artCon">
-        <img src="../../../assets/sry-hot50.jpg" alt="歌手图片" class="artImg" />
+        <img :src="picUrl" alt="歌手图片" class="artImg" />
         <div class="mask"></div>
         <el-button type="primary" icon="el-icon-user" class="mine btn">个人主页</el-button>
         <el-button type="primary" icon="el-icon-folder-add" class="coll btn">收藏</el-button>
@@ -26,8 +26,16 @@
 <script>
 import ArtistList from "../sonList/artistList";
 import pageAside from './../../../components/pageAside/pageAside';
+import {mapState} from "vuex"
 export default {
   name: "artist",
+  computed: {
+    ...mapState({
+      name: state=>state.artist50.name,
+      picUrl: state=>state.artist50.picUrl,
+
+    })
+  },
   components: {
     ArtistList,
     pageAside
@@ -64,7 +72,7 @@ export default {
 .art {
   width: 982px;
   margin: 0 auto;
-  padding: 20px 0 50px 0;
+  padding: 0 0 50px 0;
   border: 1px solid #ddd;
   box-sizing: border-box;
   background: #fff;
