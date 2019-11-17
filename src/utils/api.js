@@ -5,6 +5,7 @@
  * @version 11.17.1
  * 孙如意： 添加了SONG_ARTIST_ALBUM  SONG_ARTIST_TOP  SONG_SEND_DELETE  SONG_LIKE  SONG_HOT  SONG_VIDEO  SONG_DJ  SONG_MV  SONG_PLAYLIST  SONG_ALBUM  并输出
  * 郑缘： 添加了SINGER_ALBUM  RELATE_SONG_LIST_RECOMMEND  SONG_LIST_LIKERS  SIMILAR_SINGER  SIMILAR_SONG  SIMILAR_SONG_LIST  LISTENER_LAST5 并输出
+ * 陈超： 添加了RESOURCE_LIKE 并输出
  * @version 11.15.1
  * 陈超： 添加 TOP_ARTIST  EVENT 并输出
  * @version 11.12.1
@@ -89,6 +90,9 @@ const SONG_ARTIST_ALBUM = HOST + '/artist/album';
 const EVENT = HOST +"/event";
 //获取热门歌手
 const TOP_ARTIST = HOST+"/top/artists";
+//资源点赞(此处目前用于动态点赞)
+const  RESOURCE_LIKE  = HOST+"/resource/like";
+
 
 export default{
   SONG_WORD,
@@ -120,6 +124,7 @@ export default{
   RELATE_SONG_LIST_RECOMMEND,
   SINGER_ALBUM,
   SONG_ARTIST_TOP,
-  SONG_ARTIST_ALBUM
+  SONG_ARTIST_ALBUM,
+  RESOURCE_LIKE,
 }
 

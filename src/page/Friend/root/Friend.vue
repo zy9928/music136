@@ -1,5 +1,5 @@
 <template>
-  <div class="friend">
+  <div class="friend" ref="currentPage">
     <div class="view-wrap">
       <div class="friend-right">
         <div class="userInfo">
@@ -77,20 +77,23 @@
           <h1>动态</h1>
           <div class="opa">
             <a href="#">
-              <span class="iconfont"></span>
+              <span class="iconfont iconcc-event"></span>
               发动态
             </a>
             <a href="#">
-              <span class="iconfont"></span>
+              <span class="iconfont iconcc-video"></span>
               发布视频
             </a>
           </div>
         </div>
         <div class="friend-left-content">
-          <div class="load" v-show="isLoad">
+          <div class="refresh" v-show="isRefresh">
             <span class="iconfont iconcc-load"></span>加载中
           </div>
           <Event v-for="item in event" :item="item" :key="item.id" />
+          <div class="load" v-show="isLoad">
+            <span class="iconfont iconcc-load"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -116,6 +119,7 @@ export default {
     }
   },
   created() {
+    window.onscroll = null;
     //请求动态列表
     this.getEvents()
       .then(data => {
@@ -142,6 +146,14 @@ export default {
         console.log(err);
       });
   },
+  mounted() {
+    console.log("挂载");
+    //添加滚动条监听
+    this.scrollListen();
+  },
+  beforeDestroy() {
+    window.onscroll = null;
+  },
   data() {
     return {
       pagesize: 20,
@@ -153,7 +165,11 @@ export default {
       limit2: 5,
       changeNum2: 0, //换一批数字
       artists2: [], //歌手,
-      isLoad: true
+      isRefresh: true,
+      isLoad: false,
+      count: 0, //滚动计数器,防抖,
+      clientHeight: document.documentElement.clientHeight, // 屏幕可视区高度.
+      scrollHeight: document.documentElement.scrollHeight
     };
   },
   watch: {
@@ -178,7 +194,7 @@ export default {
         });
     },
     event() {
-      this.isLoad = false;
+      this.isRefresh = false;
     }
   },
   methods: {
@@ -203,6 +219,30 @@ export default {
       } else {
         this.changeNum2++;
       }
+    },
+    //滚动条监听
+    scrollListen() {
+      window.onscroll = e => {
+        // console.log("滚动了");
+        if (this.scrollHeight < document.documentElement.scrollHeight) {
+          this.scrollHeight = document.documentElement.scrollHeight;
+        }
+        let scrollTop = document.documentElement.scrollTop;
+        // console.log(scrollTop);
+        if (scrollTop + this.clientHeight >= this.scrollHeight) {
+          console.log("到底了");
+          this.isLoad = true;
+          //再次加载数据
+          this.getEvents()
+            .then(data => {
+              this.event = [...this.event, ...data.event];
+              this.$store.dispatch("event/setLasttime", data.lasttime);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      };
     }
   },
   computed: {
@@ -242,6 +282,7 @@ export default {
       padding: 20px 30px;
       border-left: 1px solid #ccc;
       border-right: 1px solid #ccc;
+      .refresh,
       .load {
         margin-top: 10px;
         text-align: center;
@@ -269,6 +310,9 @@ export default {
             border-radius: 28px;
             border: 1px solid #ccc;
             margin-left: 10px;
+            span{
+              color: #b92813;
+            }
           }
         }
       }
