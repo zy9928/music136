@@ -39,12 +39,9 @@ export default {
     }
   },
   mounted(){
-   
-    
     //初始样式
   },
   methods:{
-    
   }
 }
 </script>
@@ -53,6 +50,7 @@ export default {
 .art {
   width: 982px;
   margin: 0 auto;
+  padding: 20px 0 50px 0;
   border: 1px solid #ddd;
   box-sizing: border-box;
   background: #fff;

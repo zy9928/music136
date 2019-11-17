@@ -1,13 +1,13 @@
 <template>
   <div class="album">
     <ul class="imgItems">
-      <li class="imgItem">
+      <li class="imgItem" v-for='item in allAlbums' :key='item.id'>
         <div class="imgRow">
-          <img src="../../../assets/sry-artistAlbum.jpg" alt="专辑图片" class="img">
+          <img :src="item.picUrl" alt="专辑图片" class="img">
           <div class="mask"></div>
         </div>
-        <p class="tit"><a href="#">双赢</a></p>
-        <p class="time">2018.9.14</p>
+        <p class="tit"><a href="#">{{item.songTit}}</a></p>
+        <p class="time">{{item.pubTime}}</p>
       </li>
     </ul>
   </div>
@@ -29,19 +29,16 @@ export default {
     async getArtistAlbum(){
       let {data: result} = await this.$store.dispatch('artist50/getArtistAlbum',{id: this.id});
       result.hotAlbums.map(item => {
-        
+        // console.log(item);
         this.hotAlbums = {
+          'id': item.id,
           'songTit': item.name,
           'pubTime': item.publishTime,
           'picUrl': item.picUrl
         }
-        // console.log(this.hotAlbums);
-       
-        
+        this.allAlbums.push(this.hotAlbums);
       });
-       this.allAlbums.push(this.hotAlbums);
-        // console.log(this.allAlbums);
-      
+      // console.log(this.allAlbums);
     }
   }
 }
@@ -52,13 +49,17 @@ export default {
   width: 100%;
   padding: 10px 0 50px 0;
   box-sizing: border-box;
-  border: 1px solid #ddd; 
+  // border: 1px solid #ddd;
+  background: #fff; 
   margin-top: 10px;
   .imgItems {
     width: 100%;
     box-sizing: border-box;
     .imgItem {
+      float: left;
+      width: 120px;
       height: 205px;
+      margin-right: 40px;
       .imgRow {
         width: 120px;
         height: 120px;
