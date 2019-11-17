@@ -92,7 +92,7 @@ export default class TimeHandle {
       return "刚刚";
     } else if (diffSecond >= 60 && diffSecond < 60 * 60) {
       //大于1分钟，小于1小时,显示分钟
-      return `${last.getMinutes} 分钟前`;
+      return `${last.getMinutes()} 分钟前`;
     } else if (diffSecond >= 60 * 60 && diffSecond < 60 * 60 * 24) {
       //大于等于1小时,小于24小时,显示具体时间
       return this.getHS(time);
