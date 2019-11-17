@@ -2,6 +2,9 @@
  * @desc api 工具类
  * 实现地址的统一管理
  * @author 陈超, 郑缘，孙如意
+ * @version 11.17.1
+ * 孙如意： 添加了SONG_ARTIST_ALBUM  SONG_ARTIST_TOP  SONG_SEND_DELETE  SONG_LIKE  SONG_HOT  SONG_VIDEO  SONG_DJ  SONG_MV  SONG_PLAYLIST  SONG_ALBUM  并输出
+ * 郑缘： 添加了SINGER_ALBUM  RELATE_SONG_LIST_RECOMMEND  SONG_LIST_LIKERS  SIMILAR_SINGER  SIMILAR_SONG  SIMILAR_SONG_LIST  LISTENER_LAST5 并输出
  * @version 11.15.1
  * 陈超： 添加 TOP_ARTIST  EVENT 并输出
  * @version 11.12.1
@@ -77,6 +80,10 @@ const SONG_LIKE = HOST + '/comment/like';
 //发送、删除评论
 const SONG_SEND_DELETE = HOST + '/comment';
 
+//歌手热门50首歌曲
+const SONG_ARTIST_TOP = HOST + '/artist/top/song';
+//歌手说有专辑
+const SONG_ARTIST_ALBUM = HOST + '/artist/album';
 
 //获取动态消息
 const EVENT = HOST +"/event";
@@ -97,6 +104,12 @@ export default{
   SONG_COMMENT,
   SONG_LIKE,
   SONG_SEND_DELETE,
+  SONG_ALBUM,
+  SONG_PLAYLIST,
+  SONG_MV,
+  SONG_DJ,
+  SONG_VIDEO,
+  SONG_HOT,
   EVENT,
   TOP_ARTIST,
   LISTENER_LAST5,
@@ -106,5 +119,7 @@ export default{
   SONG_LIST_LIKERS,
   RELATE_SONG_LIST_RECOMMEND,
   SINGER_ALBUM,
+  SONG_ARTIST_TOP,
+  SONG_ARTIST_ALBUM
 }
 

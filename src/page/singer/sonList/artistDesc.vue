@@ -1,7 +1,5 @@
 <template>
-  <div class="page" id="songerPage">
-    
-  </div>
+  <h1>简介</h1>
 </template>
 
 <script>

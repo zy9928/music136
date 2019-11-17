@@ -1,6 +1,7 @@
 <template>
   <div class="page" id="recommend">
     推荐
+    <comment/>
   </div>
 </template>
 

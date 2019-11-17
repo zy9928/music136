@@ -46,6 +46,8 @@
     </div>
 
     <div class="mask" ref="mask" @click="maskAction"></div>
+    <!-- <div class="popCon"></div> -->
+
     <hotList :hotData="hotCom" v-if="hotCom"></hotList>
     <comList :comdData="timeCom" :totalNum="totalCom" @offsetNumAction="handleoffsetNum"></comList>
   </div>
@@ -54,7 +56,7 @@
 <script>
 import comList from "./sonList/comList";
 import hotList from "./sonList/hotList";
-import { getSongComments } from "../../services/comment";
+import { getSongComments, getSendDelete } from "../../services/comment";
 import { log } from "util";
 import Vue from "vue";
 import VueTextaSuggester from "vue-textarea-suggester";
@@ -64,6 +66,10 @@ Vue.use(VueTextaSuggester);
 import api from "../../utils/api";
 export default {
   name: "comment",
+  props: {
+    type: String,
+    // ID: String
+  },
   components: {
     comList,
     hotList
@@ -77,6 +83,7 @@ export default {
       totalCom: "",
       num: "",
       time: "",
+      ID: '',
       aiteList: ["云音乐小秘书", "网易UFO丁嘉", "网易云音乐"],
       target: null,
       extracts: [],
@@ -93,14 +100,32 @@ export default {
     };
   },
   computed: {
-   
+    
   },
   methods: {
     //请求评论数据
     async getInit() {
+      if(this.type== 'music'){
+        var comType = api.SONG_COMMENT;
+      }else if(this.type== 'album'){
+        var comType = api.SONG_ALBUM;
+      }else if(this.type== 'playList'){
+        var comType = api.SONG_PLAYLIST;
+      }else if(this.type== 'mv'){
+        var comType = api.SONG_MV;
+      }else if(this.type== 'dj'){
+        var comType = api.SONG_DJ;
+      }else if(this.type== 'video'){
+        var comType = api.SONG_VIDEO;
+      }else if(this.type== 'hot'){
+        var comType = api.SONG_HOT;
+      }
+
+      var comType = api.SONG_COMMENT;
+      this.ID = 186016;
       const { timeCom, hotCom, totalCom } = await getSongComments(
-        api.SONG_COMMENT,
-        186016,
+        comType,
+        this.ID,
         this.num,
         this.time
       );
@@ -146,10 +171,14 @@ export default {
 
     //去评论
     goComment() {
-      if (this.show < 0) {
-        //不能评论
-      } else {
+      if ((this.show > 0) && (this.show < 140)) {
         //可以评论
+        console.log('可以评论');
+
+        getSendDelete(api.SONG_SEND_DELETE, 1, 0, 186016, this.$refs.textArea.value);
+      } else {
+        //不能评论
+        alert('请正确输入');
       }
     },
     //点击分页器的事件
@@ -310,7 +339,20 @@ export default {
       }
     }
   }
+  .popCon {
+    width: 150px;
+    height: 50px;
+    border: 1px solid #ddd;
+    background: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 500;
+    transform: translate(-50%, -50%);
+  }
+
 }
+
 </style>
 <style lang='scss'>
 .suggester .suggester-list .suggester-list-item {

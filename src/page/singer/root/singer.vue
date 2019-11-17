@@ -1,15 +1,142 @@
 <template>
-  <div class="page" id="songer">
-    歌手
+  <div class="art">
+    <div class="leftAr">
+      <h2 class="tit">Fine乐团</h2>
+      <div class="artCon">
+        <img src="../../../assets/sry-hot50.jpg" alt="歌手图片" class='artImg'>
+        <div class="mask"></div>
+        <el-button type="primary" icon="el-icon-user" class="mine btn">个人主页</el-button>
+        <el-button type="primary" icon="el-icon-folder-add" class="coll btn">收藏</el-button>
+      </div>
+      <nav class="navItems">
+        <router-link class="navItem"  v-for='item in navList' :key='item.index' :to='item.to'>{{item.title}}</router-link>
+      </nav>
+
+     <router-view/>
+  </div>
+
   </div>
 </template>
 
 <script>
+import ArtistList from '../sonList/artistList'
 export default {
-
+  name: "artist",
+  components:{
+    ArtistList
+  },
+  props: {
+    id: ''
+  },
+  data(){
+    return {
+      navList:[
+        {to: `/singer/${this.id}/list`, title: '热门作品', index: 0},
+        {to: `/singer/${this.id}/album`, title: '所有专辑', index: 1},
+        {to: `/singer/${this.id}/mv`, title: '相关MV', index: 2},
+        {to: `/singer/${this.id}/desc`, title: '艺人介绍', index: 3},
+      ]
+    }
+  },
+  mounted(){
+   
+    
+    //初始样式
+  },
+  methods:{
+    
+  }
 }
 </script>
 
-<style>
+<style scoped lang='scss'>
+.art {
+  width: 982px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  background: #fff;
+  .leftAr {
+    width: 710px;
+    box-sizing: border-box;
+    padding: 20px 30px 50px 38px;
+    border-right:1px solid #ddd;
+    .tit {
+      color: #222;
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+    .artCon {
+      width: 640px;
+      height: 300px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      position: relative;
+      .artImg {
+        width: 640px;
+        height: 300px;
+        position: absolute;
+      }
+      .mask {
+        width: 640px;
+        height: 300px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+        border-right: 1px solid #ddd;
+        background: linear-gradient(to top, #858585 10%, #ccc 20%, transparent 40% );
+      }
+      .btn {
+        position: absolute;
+        bottom: 20px;
+        opacity: 0.7;
+      }
+      .mine {
+        right: 110px;
+      }
+      .coll {
+        right: 20px;
+      }
+      .el-button--primary {
+        border-color: #444;
+        background: #444;
+      }
+    }
+    .navItems {
+      width: 100%;
+      height: 38px;
+      background: #F8F8F8;
+      display: flex;
+      border: 1px solid #ccc;
+      .navItem {
+        flex: 1;
+        display: flex;
+        height: 38px;
+        line-height: 38px;
+        justify-content: center;
+        color: #333;
+        font-size: 14px;
+        &:hover{
+          position: relative;
+          top: -1px;
+          border-top: 2px solid red;
+        }
+      }
+      .router-link-active {
+        position: relative;
+        top: -1px;
+        border-top: 2px solid red;
+        border-right: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        background: #FAFAFA;
+      }
+    }
+  }
+  
+
+}
+</style>
+<style lang="scss">
 
 </style>
