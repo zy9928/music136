@@ -1,6 +1,6 @@
 <template>
   <div class="event-comment">
-    <comment-wrap :threadId="threadId" :haveData="haveData" @handleFold="handleFold">
+    <comment-wrap :threadId="threadId" :haveData="comments.length>0||hotComments.length>0" @handleFold="handleFold">
       <comment-item></comment-item>
     </comment-wrap>
   </div>
@@ -8,6 +8,7 @@
 
 <script>
 import { mapState } from "vuex";
+let _this = null;
 export default {
   components: {
     "comment-wrap": () => import("./comment-wrap"),
@@ -22,7 +23,7 @@ export default {
   },
     
   created(){
-  
+    _this= this;
   },
   methods: {
     hideAction() {
@@ -35,17 +36,10 @@ export default {
   },
   computed: {
     ...mapState({
-      comments: state => state.event.comments,
-      hotComments: state => state.event.hotComments
-    }),
-    haveData(){
-      console.log(1);
-      if(this.comments[this.threadId]&&this.comments[this.threadId].length>0){
-        return true;
-      }else{
-        return false;
-      }
-    }
+      comments: state => state.event.comments[_this.threadId]||[],
+      hotComments: state => state.event.hotComments[_this.threadId]||[]
+    })
+   
   }
 };
 </script>

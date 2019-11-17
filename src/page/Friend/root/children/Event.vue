@@ -42,7 +42,7 @@
         <a href="#" @click.prevent="commentAction">评论({{item.info.commentCount}})</a>
       </div>
 
-      <event-comment :threadId="item.info.threadId" v-show="showComment" v-model="showComment"></event-comment>
+      <event-comment :threadId="item.info.threadId" v-if="showComment" v-model="showComment"></event-comment>
     </div>
     <div class="concern">
       <button>

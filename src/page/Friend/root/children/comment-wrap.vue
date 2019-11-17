@@ -14,9 +14,11 @@
       </div>
       <div class="comment-list">
         <comment-list v-if="hotComments.length>0" title="精彩评论">
-          <comment-item></comment-item>
+          <comment-item :item="item" v-for="item in hotComments" :key="item.id"></comment-item>
         </comment-list>
-        <comment-list v-if="comments.length>0" title="最新评论"></comment-list>
+        <comment-list v-if="comments.length>0"  title="最新评论">
+          <comment-item :item="item" v-for="item in comments" :key="item.id"></comment-item>
+        </comment-list>
       </div>
       <div class="fold" :class="{noborder:haveData}">
         <a @click.prevent="foldAction" href="#">
@@ -30,6 +32,7 @@
 
 <script>
 import { mapState } from "vuex";
+let _this = null;
 export default {
   props: {
     threadId: {
@@ -65,11 +68,12 @@ export default {
   },
   computed: {
     ...mapState({
-      comments: state => state.event.comments,
-      hotComments: state => state.event.hotComments
+      comments: state => state.event.comments[_this.threadId]||[],
+      hotComments: state => state.event.hotComments[_this.threadId]||[]
     })
   },
   created() {
+    _this= this;
     //获取评论
     this.getEventComment()
       .then(result => {})

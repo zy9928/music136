@@ -16,10 +16,20 @@ export default {
       state.lasttime = lasttime;
     },
     setComments(state, {comments, threadId}) {
-      state.comments[threadId] = comments;
+      state.comments = {
+        ...state.comments,
+        ...{
+          [threadId]:comments
+        }
+      }
     },
     setHotComments(state, {hotComments, threadId}) {
-      state.hotComments[threadId] = hotComments;
+      state.hotComments = {
+        ...state.hotComments,
+        ...{
+          [threadId]:hotComments
+        }
+      }
     }
   },
   actions: {
