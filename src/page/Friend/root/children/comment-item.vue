@@ -50,6 +50,7 @@ export default {
     float: left;
     height: 30px;
     img {
+      width: 30px;
       height: 30px;
     }
   }

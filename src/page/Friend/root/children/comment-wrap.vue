@@ -9,14 +9,14 @@
         <a href="#">
           <span class="iconfont iconaite"></span>
         </a>
-        <a class="send" @click="sendAction" href="#">评论</a>
+        <a class="send" @click.prevent="sendAction" href="#">评论</a>
         <span>{{inputCount}}</span>
       </div>
       <div class="comment-list">
         <comment-list v-if="hotComments.length>0" title="精彩评论">
           <comment-item :item="item" v-for="item in hotComments" :key="item.id"></comment-item>
         </comment-list>
-        <comment-list v-if="comments.length>0"  title="最新评论">
+        <comment-list v-if="comments.length>0" title="最新评论">
           <comment-item :item="item" v-for="item in comments" :key="item.id"></comment-item>
         </comment-list>
       </div>
@@ -54,7 +54,32 @@ export default {
   },
   methods: {
     //发送评论
-    sendAction() {},
+    async sendAction() {
+      if(!this.message.trim()){
+        alert("输入不能为空")
+        return false;
+      }
+      let params = {
+        t: 1,
+        type: 6,
+        threadId: this.threadId,
+        content: this.message
+      };
+
+      try {
+        let result = await this.$store.dispatch(
+          "event/sendOrDelComment",
+          params
+        );
+        let comment = result.data.comment;
+        this.comments.unshift(comment);
+        this.message = '';
+        alert("评论成功");
+      } catch (error) {
+        console.error(error);
+        alert("发送失败");
+      }
+    },
     //评论收起
     foldAction() {
       this.$emit("handleFold", false);
@@ -68,12 +93,12 @@ export default {
   },
   computed: {
     ...mapState({
-      comments: state => state.event.comments[_this.threadId]||[],
-      hotComments: state => state.event.hotComments[_this.threadId]||[]
+      comments: state => state.event.comments[_this.threadId] || [],
+      hotComments: state => state.event.hotComments[_this.threadId] || []
     })
   },
   created() {
-    _this= this;
+    _this = this;
     //获取评论
     this.getEventComment()
       .then(result => {})

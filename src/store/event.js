@@ -67,6 +67,17 @@ export default {
       } else {
         return new Error("获取失败");
       }
+    },
+    //发送或删除评论
+    async sendOrDelComment(context,params){
+      let result  = await http.get(api.SONG_SEND_DELETE,params);
+      if(result.data.code=='200'){
+        return result;
+      }else{
+        return new Error("发送失败");
+      }
     }
+
+
   }
 };

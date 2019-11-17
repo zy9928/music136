@@ -98,7 +98,7 @@ export default class TimeHandle {
       return this.getHS(time);
     } else if (diffSecond >= 60 * 60 * 24 && diffSecond < 60 * 60 * 24 * 3) {
       //大于等于1天，显示昨天加上具体时间
-      return "昨天" + this.getHS(time);
+      return "昨天"+ " " + this.getHS(time);
     } else if (last.getFullYear == now.getFullYear) {
       //两者同一年，显示月份加时间
       return this.getMDT(time);
