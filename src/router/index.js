@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "./../page/Home/root/Home.vue";
 import HomeChild from "./Home";
 import MyMusic from "./MyMusic";
+import Artist from './artist'
+import Home from "./../page/Home/root/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -40,8 +41,28 @@ const routes = [
   {
     path: "/singer/:id",
     props: true,
+    children: Artist,
+    redirect: '/singer/:id/list',
     component: () =>
       import(/* webpackChunkName: 'singer' */ "../page/singer/root/singer.vue")
+  },
+  {
+    path: "/user/:id",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: 'user' */ "../page/user/root/user.vue")
+  },
+  {
+    path: "/songList/:id",
+    props: true,
+    component: () =>
+    import(/* webpackChunkName: 'songList' */ "../page/songList/root/songList.vue")
+  },
+  {
+    path: "/album/:id",
+    props: true,
+    component: () =>
+    import(/* webpackChunkName: 'album' */ "../page/album/root/album.vue")
   },
   {
     path: "**",
