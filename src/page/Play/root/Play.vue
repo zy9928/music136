@@ -4,7 +4,7 @@
       {{id}}
       <comment/>
     </main>
-    <pageAside/>
+    <pageAside kind="song"/>
   </div>
 </template>
 
