@@ -11,8 +11,7 @@ export const getSongComments = async (kinds, id, num, time) => {
     const {data} = await Http.get(kinds, {id: id, offset: num});
     result = data;
   }
-  // console.log(result);
-  
+ 
   if(result.code == 200){
     //请求成功
     //获得数据
@@ -49,7 +48,7 @@ export const getSongComments = async (kinds, id, num, time) => {
     //处理总的评论数据
     const totalCom = total.toString();
 
-    console.log(comments);
+    // console.log(comments);
     // console.log(hotComments);
     // console.log(total);
     return {

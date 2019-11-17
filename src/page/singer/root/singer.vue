@@ -3,47 +3,61 @@
     <div class="leftAr">
       <h2 class="tit">Fine乐团</h2>
       <div class="artCon">
-        <img src="../../../assets/sry-hot50.jpg" alt="歌手图片" class='artImg'>
+        <img src="../../../assets/sry-hot50.jpg" alt="歌手图片" class="artImg" />
         <div class="mask"></div>
         <el-button type="primary" icon="el-icon-user" class="mine btn">个人主页</el-button>
         <el-button type="primary" icon="el-icon-folder-add" class="coll btn">收藏</el-button>
       </div>
       <nav class="navItems">
-        <router-link class="navItem"  v-for='item in navList' :key='item.index' :to='item.to'>{{item.title}}</router-link>
+        <router-link
+          class="navItem"
+          v-for="item in navList"
+          :key="item.index"
+          :to="item.to"
+        >{{item.title}}</router-link>
       </nav>
 
-     <router-view/>
-  </div>
-
+      <router-view />
+    </div>
+    <pageAside kind="singer"/>
   </div>
 </template>
 
 <script>
-import ArtistList from '../sonList/artistList'
+import ArtistList from "../sonList/artistList";
+import pageAside from './../../../components/pageAside/pageAside';
 export default {
   name: "artist",
-  components:{
-    ArtistList
+  components: {
+    ArtistList,
+    pageAside
   },
   props: {
-    id: ''
+    id: ""
   },
-  data(){
+  data() {
     return {
-      navList:[
-        {to: `/singer/${this.id}/list`, title: '热门作品', index: 0},
-        {to: `/singer/${this.id}/album`, title: '所有专辑', index: 1},
-        {to: `/singer/${this.id}/mv`, title: '相关MV', index: 2},
-        {to: `/singer/${this.id}/desc`, title: '艺人介绍', index: 3},
+      navList: [
+        { to: `/singer/${this.id}/list`, title: "热门作品", index: 0 },
+        { to: `/singer/${this.id}/album`, title: "所有专辑", index: 1 },
+        { to: `/singer/${this.id}/mv`, title: "相关MV", index: 2 },
+        { to: `/singer/${this.id}/desc`, title: "艺人介绍", index: 3 }
       ]
-    }
+    };
   },
   mounted(){
     //初始样式
+    this.rememberId();
   },
-  methods:{
+  methods: {
+    rememberId(){
+      this.$store.commit("aside/setSingerId", this.id);
+    }
+  },
+  updated(){
+    this.rememberId();
   }
-}
+};
 </script>
 
 <style scoped lang='scss'>
@@ -54,11 +68,13 @@ export default {
   border: 1px solid #ddd;
   box-sizing: border-box;
   background: #fff;
+  overflow: hidden;
   .leftAr {
     width: 710px;
     box-sizing: border-box;
     padding: 20px 30px 50px 38px;
-    border-right:1px solid #ddd;
+    border-right: 1px solid #ddd;
+    float: left;
     .tit {
       color: #222;
       font-size: 22px;
@@ -83,7 +99,12 @@ export default {
         left: 0;
         opacity: 0.7;
         border-right: 1px solid #ddd;
-        background: linear-gradient(to top, #858585 10%, #ccc 20%, transparent 40% );
+        background: linear-gradient(
+          to top,
+          #858585 10%,
+          #ccc 20%,
+          transparent 40%
+        );
       }
       .btn {
         position: absolute;
@@ -104,7 +125,7 @@ export default {
     .navItems {
       width: 100%;
       height: 38px;
-      background: #F8F8F8;
+      background: #f8f8f8;
       display: flex;
       border: 1px solid #ccc;
       .navItem {
@@ -115,7 +136,7 @@ export default {
         justify-content: center;
         color: #333;
         font-size: 14px;
-        &:hover{
+        &:hover {
           position: relative;
           top: -1px;
           border-top: 2px solid red;
@@ -127,14 +148,11 @@ export default {
         border-top: 2px solid red;
         border-right: 1px solid #ccc;
         border-left: 1px solid #ccc;
-        background: #FAFAFA;
+        background: #fafafa;
       }
     }
   }
-  
-
 }
 </style>
 <style lang="scss">
-
 </style>

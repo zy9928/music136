@@ -33,9 +33,9 @@
       </div>
     </div>
     <div class="event-bottom">
-      <a href="#">
-        <span class="iconfont iconzan"></span>
-        {{item.info.likedCount}}
+      <a href="#" @click.prevent="likeAction">
+        <span class="iconfont iconzan" :class="{isLike:item.info.liked}"></span>
+        ({{item.info.likedCount}})
       </a>|
       <a href="#">转发({{item.info.shareCount}})</a>|
       <a href="#">评论({{item.info.commentCount}})</a>
@@ -76,8 +76,8 @@ export default {
         ? this.jsonData.video.playTime
         : (this.jsonData.video.playTime / 10000).toFixed(1) + "万";
     },
-    duration(){
-        return TimeHandle.getMS(this.jsonData.video.durationms);
+    duration() {
+      return TimeHandle.getMS(this.jsonData.video.durationms);
     }
   },
   filters: {
@@ -85,11 +85,38 @@ export default {
       value = value.replace(/\n/g, "<br/>");
       return value;
     }
+  },
+  methods: {
+    //给动态点赞
+    async likeAction() {
+      let params = {
+        t: this.item.info.liked ? 0 : 1,
+        threadId: this.item.info.threadId,
+        type:'6'
+      };
+      try {
+        let result = await this.$store.dispatch("event/likeEvent", params);
+        console.log(result);
+        this.item.info.liked = !this.item.info.liked;
+        if(params.t=='1'){
+           this.item.info.likedCount++;
+        }else{
+           this.item.info.likedCount--;
+        }
+      } catch (error) {
+        console.log(error);
+        alert("点赞失败");
+      }
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+//已经点赞样式
+.isLike {
+  color: #be2914;
+}
 .event {
   border-bottom: 1px solid #e8e8e9;
   min-height: 200px;
@@ -227,6 +254,9 @@ export default {
     a {
       padding: 0 10px;
       color: #0e73ba;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

@@ -1,10 +1,9 @@
 <template>
-  <div class="page" id="play">
-    <main class="playPageMain">
-      {{id}}
-      <comment/>
+  <div class="page" id="songList">
+    <main class="songlistMain">
+      歌单{{id}}
     </main>
-    <pageAside kind="song"/>
+    <pageAside kind="songList"/>
   </div>
 </template>
 
@@ -15,11 +14,11 @@ export default {
     pageAside
   },
   props: {
-    id: String,
+    id: ''
   },
   methods: {
     rememberId(){
-      this.$store.commit("aside/setSongId", this.id);
+      this.$store.commit("aside/setSongListId", this.id);
     }
   },
   mounted(){
@@ -32,12 +31,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#play{
+#songList{
   border-left: 1px solid #E9E9E9;
   border-right: 1px solid #E9E9E9;
   background-color: #fff;
   overflow: hidden;
-  .playPageMain{
+  .songlistMain{
     width: 709px;
     float: left;
     border-right: 1px solid #E9E9E9;

@@ -2,6 +2,10 @@
  * @desc api 工具类
  * 实现地址的统一管理
  * @author 陈超, 郑缘，孙如意
+ * @version 11.17.1
+ * 孙如意： 添加了SONG_ARTIST_ALBUM  SONG_ARTIST_TOP  SONG_SEND_DELETE  SONG_LIKE  SONG_HOT  SONG_VIDEO  SONG_DJ  SONG_MV  SONG_PLAYLIST  SONG_ALBUM  并输出
+ * 郑缘： 添加了SINGER_ALBUM  RELATE_SONG_LIST_RECOMMEND  SONG_LIST_LIKERS  SIMILAR_SINGER  SIMILAR_SONG  SIMILAR_SONG_LIST  LISTENER_LAST5 并输出
+ * 陈超： 添加了RESOURCE_LIKE 并输出
  * @version 11.15.1
  * 陈超： 添加 TOP_ARTIST  EVENT 并输出
  * @version 11.12.1
@@ -23,6 +27,21 @@ const SONG_WORD = HOST + "/lyric";
 const SONG_URL = HOST + "/song/url";
 // 获取歌曲详情————参数：?ids=音乐id[, 音乐id2，音乐id3 ...]
 const SONG_INFO = HOST + "/song/detail";
+
+// 获取最近5个听了这首歌的用户————参数：?id=歌曲id
+const LISTENER_LAST5 = HOST + "/simi/user";
+// 获取相似歌单————参数：?id=歌曲id
+const SIMILAR_SONG_LIST = HOST + "/simi/playlist";
+// 获取相似音乐————参数： ?id=歌曲id
+const SIMILAR_SONG = HOST + "/simi/song";
+// 获取相似歌手————参数：?id=歌手id
+const SIMILAR_SINGER = HOST + "/simi/artist";
+// 歌单收藏者————参数：?id=歌单id[&limit=取出评论数，默认20 &offset=偏移数量，用于分页]
+const SONG_LIST_LIKERS = HOST + "/playlist/subscribers";
+// 相关歌单推荐————参数：?id=歌单id
+const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
+// 获取歌手专辑————参数：?id=歌手id[&limit=取出数量，默认50 &offset=偏移数量，默认为0]
+const SINGER_ALBUM = HOST + "/artist/album";
 
 
 
@@ -71,6 +90,9 @@ const SONG_ARTIST_ALBUM = HOST + '/artist/album';
 const EVENT = HOST +"/event";
 //获取热门歌手
 const TOP_ARTIST = HOST+"/top/artists";
+//资源点赞(此处目前用于动态点赞)
+const  RESOURCE_LIKE  = HOST+"/resource/like";
+
 
 export default{
   SONG_WORD,
@@ -94,7 +116,15 @@ export default{
   SONG_HOT,
   EVENT,
   TOP_ARTIST,
+  LISTENER_LAST5,
+  SIMILAR_SONG_LIST,
+  SIMILAR_SONG,
+  SIMILAR_SINGER,
+  SONG_LIST_LIKERS,
+  RELATE_SONG_LIST_RECOMMEND,
+  SINGER_ALBUM,
   SONG_ARTIST_TOP,
-  SONG_ARTIST_ALBUM
+  SONG_ARTIST_ALBUM,
+  RESOURCE_LIKE,
 }
 
