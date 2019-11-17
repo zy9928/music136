@@ -59,6 +59,7 @@ export default {
     }
     &-bottom {
       margin-top: 15px;
+      overflow: hidden;
       .time {
         float: left;
       }
