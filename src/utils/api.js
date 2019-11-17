@@ -64,6 +64,8 @@ const SONG_SEND_DELETE = HOST + '/comment';
 
 //歌手热门50首歌曲
 const SONG_ARTIST_TOP = HOST + '/artist/top/song';
+//歌手说有专辑
+const SONG_ARTIST_ALBUM = HOST + '/artist/album';
 
 //获取动态消息
 const EVENT = HOST +"/event";
@@ -92,6 +94,7 @@ export default{
   SONG_HOT,
   EVENT,
   TOP_ARTIST,
-  SONG_ARTIST_TOP
+  SONG_ARTIST_TOP,
+  SONG_ARTIST_ALBUM
 }
 
