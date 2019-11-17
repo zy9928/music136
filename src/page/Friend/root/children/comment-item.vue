@@ -11,7 +11,7 @@
         :{{item.content}}
       </p>
       <div class="content-bottom">
-        <span class="time">10分钟前</span>
+        <span class="time">{{time}}</span>
         <div class="opa">
           <a href="#">
             <span class="iconfont iconzan"></span>
@@ -26,9 +26,16 @@
 </template>
 
 <script>
+import TimeHandle from "../../../../utils/TimeHandle";
+
 export default {
   props: {
     item: Object
+  },
+  computed:{
+    time(){
+      return TimeHandle.getDiffTime(this.item.time);
+    }
   }
 };
 </script>
