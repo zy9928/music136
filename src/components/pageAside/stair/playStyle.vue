@@ -49,7 +49,6 @@ export default {
     async getData() {
       // 放入computed不加async就死循环
       await this.$store.dispatch("aside/getSimilarSong", { id: this.id });
-      console.log(this.similarSong);
       this.dataValue = this.similarSong;
     },
     playClc(id) {

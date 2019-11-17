@@ -1,18 +1,20 @@
 <template>
   <div class="page" id="play">
     <main class="playPageMain">
-      {{id}}
-      <comment/>
+      <songInfo/>
+      <comment type="music" :ID="id"/>
     </main>
     <pageAside kind="song"/>
   </div>
 </template>
 
 <script>
+import songInfo from './../stair/songInfo';
 import pageAside from './../../../components/pageAside/pageAside';
 export default {
   components: {
-    pageAside
+    pageAside,
+    songInfo
   },
   props: {
     id: String,
