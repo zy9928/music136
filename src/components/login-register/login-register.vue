@@ -1,6 +1,8 @@
 <template>
   <div class="login-register">
-    <component v-model="currentWindow" :is="currentWindow" />
+      <keep-alive>
+        <component v-model="currentWindow" :is="currentWindow" />
+      </keep-alive>
   </div>
 </template>
 <script>
@@ -11,6 +13,7 @@ import register from "./register";
 import registerCode from "./register-code";
 import registerNick from "./register-nick";
 import AddEvent from "../../page/Friend/root/children/AddEvent";
+import AddMusic from "../../page/Friend/root/children/AddMusic"
 
 export default {
   name: "login-register",
@@ -33,7 +36,8 @@ export default {
     register,
     registerCode,
     registerNick,
-    AddEvent
+    AddEvent,
+    AddMusic
   }
 };
 </script>

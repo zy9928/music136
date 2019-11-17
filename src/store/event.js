@@ -8,7 +8,8 @@ export default {
       ? JSON.parse(localStorage.getItem("lasttime"))*/
     lasttime: -1,
     comments: {}, //最新评论
-    hotComments: {} //最热评论
+    hotComments: {}, //最热评论
+    eventMusic:{},//动态的音乐
   },
   getters: {},
   mutations: {
