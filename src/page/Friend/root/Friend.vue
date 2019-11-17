@@ -76,7 +76,7 @@
         <div class="friend-left-title">
           <h1>动态</h1>
           <div class="opa">
-            <a href="#">
+            <a @click.prevent="sendEvent" href="#">
               <span class="iconfont iconcc-event"></span>
               发动态
             </a>
@@ -243,6 +243,12 @@ export default {
             });
         }
       };
+    },
+    //发布动态
+    sendEvent() {
+      this.$center.$emit("changeWindow", "AddEvent");
+
+      this.$center.$emit("openWindow", true);
     }
   },
   computed: {
@@ -310,8 +316,11 @@ export default {
             border-radius: 28px;
             border: 1px solid #ccc;
             margin-left: 10px;
-            span{
+            span {
               color: #b92813;
+            }
+            &:hover {
+              background: #eee;
             }
           }
         }

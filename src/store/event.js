@@ -4,9 +4,9 @@ import api from "../utils/api";
 export default {
   namespaced: true,
   state: {
-    lasttime: localStorage.getItem("lasttime")
-      ? JSON.parse(localStorage.getItem("lasttime"))
-      : -1,
+    /*localStorage.getItem("lasttime")
+      ? JSON.parse(localStorage.getItem("lasttime"))*/
+    lasttime: -1,
     comments: {}, //最新评论
     hotComments: {} //最热评论
   },
@@ -15,21 +15,21 @@ export default {
     lasttimeState(state, lasttime) {
       state.lasttime = lasttime;
     },
-    setComments(state, {comments, threadId}) {
+    setComments(state, { comments, threadId }) {
       state.comments = {
         ...state.comments,
         ...{
-          [threadId]:comments
+          [threadId]: comments
         }
-      }
+      };
     },
-    setHotComments(state, {hotComments, threadId}) {
+    setHotComments(state, { hotComments, threadId }) {
       state.hotComments = {
         ...state.hotComments,
         ...{
-          [threadId]:hotComments
+          [threadId]: hotComments
         }
-      }
+      };
     }
   },
   actions: {
@@ -44,7 +44,7 @@ export default {
     },
     async setLasttime(context, lasttime) {
       context.commit("lasttimeState", lasttime);
-      await localStorage.setItem("lasttime", lasttime);
+      // await localStorage.setItem("lasttime", lasttime);
     },
     //动态点赞
     async likeEvent(context, params) {
@@ -69,15 +69,13 @@ export default {
       }
     },
     //发送或删除评论
-    async sendOrDelComment(context,params){
-      let result  = await http.get(api.SONG_SEND_DELETE,params);
-      if(result.data.code=='200'){
+    async sendOrDelComment(context, params) {
+      let result = await http.get(api.SONG_SEND_DELETE, params);
+      if (result.data.code == "200") {
         return result;
-      }else{
+      } else {
         return new Error("发送失败");
       }
     }
-
-
   }
 };

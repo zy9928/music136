@@ -1,31 +1,37 @@
-import {user_info} from "../utils/localStorage";
+import { user_info } from "../utils/localStorage";
 
 export default {
   namespaced: true,
   state: {
-    isLogin: localStorage.getItem('isLogin')=="true"?true:false,
+    isLogin: localStorage.getItem("isLogin") == "true" ? true : false,
     userInfo: user_info.get(),
     registerObject: {
       phone: "",
       password: "",
-      captcha:""//验证码
+      captcha: "" //验证码
     }
   },
-  getters:{
-
-  },
+  getters: {},
   mutations: {
     setRegisterObject(state, registerObject) {
       state.registerObject = registerObject;
+    },
+    setStateLogin(state, bool) {
+      state.isLogin = bool;
+    },
+    setStateUserInfo(state, userInfo) {
+      state.userInfo = userInfo;
     }
   },
   actions: {
-    async setLogin(context,bool){
+    async setLogin(context, bool) {
       console.log(bool);
-      await localStorage.setItem('isLogin',bool);
+      await localStorage.setItem("isLogin", bool);
+      context.commit("setStateLogin", bool);
     },
-    async setUserInfo(context,userInfo){
+    async setUserInfo(context, userInfo) {
       await user_info.set(userInfo);
+      context.commit("setStateUserInfo", userInfo);
     }
   }
 };
