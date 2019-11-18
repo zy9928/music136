@@ -33,12 +33,16 @@
       </div>
     </div>
     <div class="event-bottom">
-      <a href="#" @click.prevent="likeAction">
-        <span class="iconfont iconzan" :class="{isLike:item.info.liked}"></span>
-        ({{item.info.likedCount}})
-      </a>|
-      <a href="#">转发({{item.info.shareCount}})</a>|
-      <a href="#">评论({{item.info.commentCount}})</a>
+      <div>
+        <a href="#" @click.prevent="likeAction">
+          <span class="iconfont iconzan" :class="{isLike:item.info.liked}"></span>
+          ({{item.info.likedCount}})
+        </a>|
+        <a href="#">转发({{item.info.shareCount}})</a>|
+        <a href="#" @click.prevent="commentAction">评论({{item.info.commentCount}})</a>
+      </div>
+
+      <event-comment :threadId="item.info.threadId" v-if="showComment" v-model="showComment"></event-comment>
     </div>
     <div class="concern">
       <button>
@@ -58,13 +62,19 @@ export default {
   props: {
     item: Object
   },
+  components: {
+    "event-comment": () => import("./event-comment")
+  },
   data() {
     return {
       resourceType: {
         "39": "发布视频",
         "18": "分享单曲",
         "19": "发布专辑"
-      }
+      },
+      showComment: false,
+      comments: [],
+      requestCount:0,//请求次数计数器
     };
   },
   computed: {
@@ -92,20 +102,43 @@ export default {
       let params = {
         t: this.item.info.liked ? 0 : 1,
         threadId: this.item.info.threadId,
-        type:'6'
+        type: "6"
       };
       try {
         let result = await this.$store.dispatch("event/likeEvent", params);
         console.log(result);
         this.item.info.liked = !this.item.info.liked;
-        if(params.t=='1'){
-           this.item.info.likedCount++;
-        }else{
-           this.item.info.likedCount--;
+        if (params.t == "1") {
+          this.item.info.likedCount++;
+        } else {
+          this.item.info.likedCount--;
         }
       } catch (error) {
         console.log(error);
         alert("点赞失败");
+      }
+    },
+    //展开收起评论并获取评论
+    async commentAction() {
+      this.showComment = !this.showComment;
+
+      if (this.requestCount== 0) {
+        try {
+          let result = await this.$store.dispatch(
+            "event/getEventComment",
+            this.item.info.threadId
+          );
+          this.requestCount++;
+          let comments = result.data.comments;
+          let hotComments = result.data.hotComments;
+          let threadId = this.item.info.threadId;
+          this.$store.commit("event/setComments",{comments,threadId});
+          this.$store.commit("event/setHotComments",{hotComments,threadId});
+
+        } catch (error) {
+          console.log(error);
+          alert("获取评论失败");
+        }
       }
     }
   }
@@ -113,6 +146,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// .fold {
+//   animation: fold 0.25s linear;
+// }
+// .expand {
+//   animation: expand 0.25s linear;
+// }
+// @keyframes fold {
+//   from {
+//     height: 152px;
+//   }
+//   to {
+//     height: 0;
+//   }
+// }
+// @keyframes expand {
+//   from {
+//     height: 0;
+//   }
+//   to {
+//     height: 152px;
+//   }
+// }
 //已经点赞样式
 .isLike {
   color: #be2914;

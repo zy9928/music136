@@ -5,7 +5,7 @@
       <router-view />
     </div>
     <playBar />
-    <login-register v-if="showWindow"></login-register>
+    <login-register v-show="showWindow"></login-register>
   </div>
 </template>
 

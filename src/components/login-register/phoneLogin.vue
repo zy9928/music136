@@ -40,9 +40,7 @@ export default {
   components: {
     [MyBtn.name]: MyBtn
   },
-  computed:{
-
-  },
+  computed: {},
   methods: {
     //处理登录事件
     async loginAction() {
@@ -53,12 +51,12 @@ export default {
 
       try {
         let result = await userService.loginPhone(this.phone, this.password);
-        if(result.data.code=="200"){
+        if (result.data.code == "200") {
           //保存用户登录状态
-          await this.$store.dispatch('user/setLogin',"true");
+          await this.$store.dispatch("user/setLogin", "true");
 
           /***保存用户信息**/
-          let  userInfo = {};
+          let userInfo = {};
           //用户id
           userInfo.userId = result.data.profile.userId;
           //用户昵称
@@ -74,15 +72,17 @@ export default {
           //用户动态数
           userInfo.eventCount = result.data.profile.eventCount;
 
-          this.$store.dispatch('user/setUserInfo',userInfo);
+          this.$store.dispatch("user/setUserInfo", userInfo);
 
           //关闭当前窗口
-          this.$center.$emit('openWindow',false);
-          // this.$router.back();
+          this.$center.$emit("openWindow", false);
+          if (this.$route.fullPath != "/home/recommend") {
+            this.$router.back();
+          }
         }
       } catch (error) {
-          alert('用户名或密码错误');
-          console.log(error);
+        alert("用户名或密码错误");
+        console.log(error);
       }
     },
     registerAction() {
