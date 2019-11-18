@@ -11,7 +11,7 @@ export const getSongComments = async (kinds, id, num, time) => {
     const {data} = await Http.get(kinds, {id: id, offset: num});
     result = data;
   }
-  
+ 
   if(result.code == 200){
     //请求成功
     //获得数据
