@@ -46,7 +46,6 @@
     </div>
 
     <div class="mask" ref="mask" @click="maskAction"></div>
-    <!-- <div class="popCon"></div> -->
 
     <hotList :hotData="hotCom" v-if="hotCom"></hotList>
     <comList :comdData="timeCom" :totalNum="totalCom" @offsetNumAction="handleoffsetNum"></comList>
@@ -225,7 +224,7 @@ export default {
   box-sizing: border-box;
   // border: 1px solid #ddd;
   // margin-left: 50px;
-  position: relative;
+  // position: relative;
   .mask {
     width: 100%;
     height: 100%;
@@ -259,7 +258,7 @@ export default {
   .com {
     width: 100%;
     display: flex;
-    position: relative;
+    // position: relative;
     .photo {
       width: 50px;
       height: 50px;
@@ -286,12 +285,15 @@ export default {
         font-size: 12px;
       }
     }
-    .comIptBox:before {
-      @include befor;
+    .suggester {
       position: absolute;
-      left: 56px;
-      top: 12px;
     }
+    // .comIptBox:before {
+    //   @include befor;
+    //   position: absolute;
+    //   left: 56px;
+    //   top: 12px;
+    // }
   }
   .navBox {
     margin-left: 60px;

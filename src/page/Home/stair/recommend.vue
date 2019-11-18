@@ -3,6 +3,10 @@
    <div class="main">
       <div class="leftCon">
         <Banner/>
+        <div class="content">
+          <HotList/>
+        </div>
+        
 
       </div>
       <div class="rightCon"></div>
@@ -19,9 +23,11 @@
 
 <script>
 import Banner from './recomment/banner'
+import HotList from './recomment/hotList'
 export default {
   components:{
-    Banner
+    Banner,
+    HotList
   }
 }
 </script>
@@ -30,6 +36,7 @@ export default {
 .recommend {
   width: 100%;
   padding: 0 0 20px 0;
+  background: #fff;
   .main {
     width: 100%;
     margin: 0 auto;
@@ -48,5 +55,8 @@ export default {
   float: left;
   border-right: 1px solid #ddd;
   box-sizing: border-box;
+  .content {
+    padding: 15px 20px;
+  }
 }
 </style>

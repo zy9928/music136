@@ -98,6 +98,9 @@ const  RESOURCE_LIKE  = HOST+"/resource/like";
 //获取动态评论(参数treadId:线程id)
 const COMMENT_EVENT = HOST+"/comment/event";
 
+//获取每日歌单推荐
+const RECOMMEND_RESOURCE = HOST + '/recommend/resource';
+
 export default{
   SONG_WORD,
   SONG_URL,
@@ -132,6 +135,7 @@ export default{
   RESOURCE_LIKE,
   SONG_ARTIST_DESC,
   HOME_BANNER,
-  COMMENT_EVENT
+  COMMENT_EVENT,
+  RECOMMEND_RESOURCE
 }
 
