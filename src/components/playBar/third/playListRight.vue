@@ -73,7 +73,11 @@ export default {
     async getLyric(value) {
       const result = await getSongWord(value);
       if(result.lrc){
-        this.lyric = result.lrc.lyric;
+        if(result.lrc.lyric == ""){
+          this.lyric = '此为轻音乐，请欣赏';
+        }else{
+          this.lyric = result.lrc.lyric;
+        }
       }
       if(result.nolyric){
         this.lyric = '此为轻音乐，请欣赏';

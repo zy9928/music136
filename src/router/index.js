@@ -42,7 +42,7 @@ const routes = [
     path: "/singer/:id",
     props: true,
     children: Artist,
-    redirect: '/singer/:id/list',
+    redirect: '/singer/:id/album',
     component: () =>
       import(/* webpackChunkName: 'singer' */ "../page/singer/root/singer.vue")
   },

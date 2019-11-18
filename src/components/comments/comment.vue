@@ -1,5 +1,5 @@
 <template>
-  <div class="comment">
+  <div class="comment" id="comment">
     <div class="tit">
       <h3 class="title">评论</h3>
       <span class="subTitle">
@@ -68,7 +68,7 @@ export default {
   name: "comment",
   props: {
     type: String,
-    // ID: String
+    ID: String
   },
   components: {
     comList,
@@ -83,7 +83,7 @@ export default {
       totalCom: "",
       num: "",
       time: "",
-      ID: '',
+      // ID: '',
       aiteList: ["云音乐小秘书", "网易UFO丁嘉", "网易云音乐"],
       target: null,
       extracts: [],
@@ -99,8 +99,10 @@ export default {
       ]
     };
   },
-  computed: {
-    
+  watch: {
+    ID(newVal, oldVal){
+      this.getInit();
+    }
   },
   methods: {
     //请求评论数据
@@ -121,8 +123,9 @@ export default {
         var comType = api.SONG_HOT;
       }
 
-      var comType = api.SONG_COMMENT;
-      this.ID = 186016;
+      // var comType = api.SONG_COMMENT;
+      // this.ID = 186016;
+      console.log("s",this.ID);
       const { timeCom, hotCom, totalCom } = await getSongComments(
         comType,
         this.ID,

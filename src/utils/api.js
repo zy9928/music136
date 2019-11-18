@@ -43,7 +43,8 @@ const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
 // 获取歌手专辑————参数：?id=歌手id[&limit=取出数量，默认50 &offset=偏移数量，默认为0]
 const SINGER_ALBUM = HOST + "/artist/album";
 
-
+//获取首页banner图
+const HOME_BANNER = HOST + '/banner';
 
 //发送验证码
 const SEND_CODE = HOST+"/captcha/sent";
@@ -83,8 +84,10 @@ const SONG_SEND_DELETE = HOST + '/comment';
 
 //歌手热门50首歌曲
 const SONG_ARTIST_TOP = HOST + '/artist/top/song';
-//歌手说有专辑
+//歌手所有专辑
 const SONG_ARTIST_ALBUM = HOST + '/artist/album';
+//歌手描述
+const SONG_ARTIST_DESC = HOST + '/artist/desc';
 
 //获取动态消息
 const EVENT = HOST +"/event";
@@ -127,6 +130,8 @@ export default{
   SONG_ARTIST_TOP,
   SONG_ARTIST_ALBUM,
   RESOURCE_LIKE,
+  SONG_ARTIST_DESC,
+  HOME_BANNER,
   COMMENT_EVENT
 }
 
