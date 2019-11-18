@@ -14,7 +14,7 @@
       </div>
     </section>
     <div class="songNameBox">
-      {{playList.length != 0 ?playList[playerSetting.index].name : ''}}
+      {{playList.length != 0 && playerSetting.index != 'null' ?playList[playerSetting.index].name : ''}}
       <span @click="closePlayList"></span>
     </div>
   </div>

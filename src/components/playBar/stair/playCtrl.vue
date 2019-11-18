@@ -254,11 +254,11 @@ export default {
     // this.playerSetting = this.$store.state.playBar.playerSetting;
     // 获取歌曲路径
     if (this.playList.length != 0) {
-      var id = this.playList[this.playerSetting.index].id;
+      this.id = this.playList[this.playerSetting.index].id;
     }
-    this.handleGetSongUrl(id);
+    this.handleGetSongUrl(this.id);
     // 获取歌曲信息
-    this.handleGetSongInfo(id);
+    this.handleGetSongInfo(this.id);
     // 获取当前音量
     var _this = this;
     volumeShow(this.$refs.audio, this.$refs.volumeVule, _this);

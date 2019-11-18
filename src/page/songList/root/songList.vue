@@ -2,6 +2,7 @@
   <div class="page" id="songList">
     <main class="songlistMain">
       歌单{{id}}
+      <comment type="playList" :ID="id"/>
     </main>
     <pageAside kind="songList"/>
   </div>
