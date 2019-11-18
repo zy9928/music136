@@ -33,7 +33,7 @@ export default {
 <style scoped lang="scss">
 .music-tab {
   height: 28px;
-
+  
   &-item {
     width: 88px;
     height: 28px;

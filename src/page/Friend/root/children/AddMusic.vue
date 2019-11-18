@@ -14,7 +14,7 @@
               <music-tab :itemList="itemList" v-model="selectType"></music-tab>
             </div>
             <div class="main-content-list">
-              <music-item></music-item>
+              <music-list :list="selectList" :listType="selectType"></music-list>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export default {
   },
   components: {
     "music-tab": () => import("./music-tab"),
-    "music-item": () => import("./music-item")
+    "music-list": () => import("./music-list")
   },
   watch: {
     //监听关键词的变化，请求数据
@@ -91,6 +91,7 @@ export default {
       if (!this.searchValue) {
         return false;
       }
+
 
       try {
         let params = {
@@ -243,6 +244,13 @@ export default {
         outline: none;
         border: none;
       }
+    }
+    &-tab {
+      overflow: hidden;
+    }
+    &-list {
+      overflow: auto;
+      height: 196px;
     }
   }
   .opa {
