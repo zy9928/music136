@@ -98,6 +98,11 @@ const  RESOURCE_LIKE  = HOST+"/resource/like";
 //获取动态评论(参数treadId:线程id)
 const COMMENT_EVENT = HOST+"/comment/event";
 
+//搜索
+// 必选参数 : keywords : 关键词
+// 可选参数 : limit : 返回数量 , 默认为 30 offset : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
+const SEARCH = HOST +"/search";
+
 export default{
   SONG_WORD,
   SONG_URL,
@@ -132,6 +137,7 @@ export default{
   RESOURCE_LIKE,
   SONG_ARTIST_DESC,
   HOME_BANNER,
-  COMMENT_EVENT
+  COMMENT_EVENT,
+  SEARCH
 }
 

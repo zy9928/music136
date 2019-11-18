@@ -11,10 +11,10 @@
               <input type="text" v-model="searchValue" />
             </div>
             <div class="main-content-tab">
-                <music-tab :itemList="itemList"></music-tab>
+              <music-tab :itemList="itemList" v-model="selectType"></music-tab>
             </div>
             <div class="main-content-list">
-
+              <music-item></music-item>
             </div>
           </div>
 
@@ -33,31 +33,47 @@ export default {
   data() {
     return {
       searchValue: "",
+      selectType: "1", //1单曲、10: 专辑, 100: 歌手, 1000: 歌单 1009: 电台,
       itemList: [
         {
-          title:"单曲"
+          type: "1",
+          index: 0,
+          title: "单曲"
         },
         {
-          title:"歌手"
+          type: "100",
+          index: 1,
+          title: "歌手"
         },
         {
-          title:"专辑"
+          type: "10",
+          index: 2,
+          title: "专辑"
         },
         {
-          title:"歌单"
+          type: "1000",
+          index: 3,
+          title: "歌单"
         },
         {
-          title:"主播电台"
+          type: "1009",
+          index: 4,
+          title: "主播电台"
         }
       ]
     };
   },
   computed: {
     ...mapState({
-      eventMusic: state => state.event.eventMusic
+      eventMusic: state => state.event.eventMusic,
+      musicList: state => state.event.musicList
     }),
     title() {
       return this.eventMusic.length > 0 ? "修改音乐" : "添加音乐";
+    },
+    selectList() {
+      //选择的音乐列表
+      return this.musicList[this.selectType] || [];
     }
   },
   methods: {
@@ -65,8 +81,134 @@ export default {
       this.$center.$emit("changeWindow", "AddEvent");
     }
   },
-  components:{
-    'music-tab':()=> import ("./music-tab")
+  components: {
+    "music-tab": () => import("./music-tab"),
+    "music-item": () => import("./music-item")
+  },
+  watch: {
+    //监听关键词的变化，请求数据
+    async searchValue() {
+      if (!this.searchValue) {
+        return false;
+      }
+
+      try {
+        let params = {
+          keywords: this.searchValue,
+          limit: 10,
+          type: this.selectType
+        };
+        let result = await this.$store.dispatch(
+          "event/searchMusicList",
+          params
+        );
+        let key = "";
+        let arr = [];
+        switch (this.selectType) {
+          case "1": //单曲
+            key = "1";
+            arr = result.data.result.songs;
+
+            break;
+          case "10": //专辑
+            key = "10";
+            arr = result.data.result.albums;
+            break;
+          case "100": //歌手
+            key = "100";
+            arr = result.data.result.artists;
+            break;
+          case "1000": //歌单
+            key = "1000";
+            arr = result.data.result.playlists;
+            break;
+          case "1009": //电台
+            key = "1009";
+            arr = result.data.result.djRadios;
+            break;
+        }
+        //给数组添加关键词标志，防止重复请求
+        arr.unshift({
+          keywords: this.searchValue
+        });
+        this.$store.commit("event/setMusicList", { key, arr });
+        //为了触发set方法
+        let type = this.selectType;
+        this.selectType = -1;
+        this.selectType = type;
+      } catch (error) {
+        alert("获取失败");
+        console.log(error);
+      }
+    },
+
+    //监听tab的变化请求数据
+    async selectType() {
+      if (!this.searchValue) {
+        return false;
+      }
+
+      if (
+        Object.keys(this.musicList).length > 0 &&
+        this.musicList[this.selectType]
+      ) {
+        console.log(this.musicList[this.selectType][0].keywords);
+        if (this.musicList[this.selectType][0].keywords == this.searchValue) {
+          //如果关键词不变，切仓库中有数据，不再重新请求,返回缓存数据
+          console.log("返回缓存数据");
+          return;
+        }
+      }
+
+      try {
+        let params = {
+          keywords: this.searchValue,
+          limit: 10,
+          type: this.selectType
+        };
+        let result = await this.$store.dispatch(
+          "event/searchMusicList",
+          params
+        );
+        let key = "";
+        let arr = [];
+        switch (this.selectType) {
+          case "1": //单曲
+            key = "1";
+            arr = result.data.result.songs;
+
+            //给数组添加关键词标志，防止重复请求
+            break;
+          case "10": //专辑
+            key = "10";
+            arr = result.data.result.albums;
+            break;
+          case "100": //歌手
+            key = "100";
+            arr = result.data.result.artists;
+            break;
+          case "1000": //歌单
+            key = "1000";
+            arr = result.data.result.playlists;
+            break;
+          case "1009": //电台
+            key = "1009";
+            arr = result.data.result.djRadios;
+            break;
+        }
+        arr.unshift({
+          keywords: this.searchValue
+        });
+        this.$store.commit("event/setMusicList", { key, arr });
+        //为了触发set方法
+        let type = this.selectType;
+        this.selectType = -1;
+        this.selectType = type;
+      } catch (error) {
+        alert("获取失败");
+        console.log(error);
+      }
+    }
   }
 };
 </script>
@@ -84,22 +226,22 @@ export default {
       height: 27px;
       padding: 5px 10px 6px 0;
       border-bottom: 1px solid #ccc;
-      p{
+      p {
         text-align: center;
         float: left;
         width: 27px;
         height: 27px;
         line-height: 27px;
-        .iconfont{
+        .iconfont {
           font-size: 18px;
         }
       }
-      input{
+      input {
         float: left;
         width: 401px;
         height: 27px;
         outline: none;
-        border:none;
+        border: none;
       }
     }
   }
