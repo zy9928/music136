@@ -43,6 +43,9 @@ const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
 // 获取歌手专辑————参数：?id=歌手id[&limit=取出数量，默认50 &offset=偏移数量，默认为0]
 const SINGER_ALBUM = HOST + "/artist/album";
 
+// 获取歌单详情————参数：?id=歌单id[&s=歌单最近s个收藏者];
+const SONG_LIST_INFO = HOST + "/playlist/detail";
+
 //获取首页banner图
 const HOME_BANNER = HOST + '/banner';
 
@@ -132,6 +135,7 @@ export default{
   RESOURCE_LIKE,
   SONG_ARTIST_DESC,
   HOME_BANNER,
-  COMMENT_EVENT
+  COMMENT_EVENT,
+  SONG_LIST_INFO,
 }
 

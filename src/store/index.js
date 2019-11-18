@@ -8,7 +8,7 @@ import aside from './aside';
 import artist50 from './artist50'
 import songInfo from './songInfo';
 import home from './home';
-
+import songList from './songList';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -26,6 +26,7 @@ export default new Vuex.Store({
     aside,
     artist50,
     songInfo,
-    home
+    home,
+    songList,
   }
 })
