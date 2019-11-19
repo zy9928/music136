@@ -72,6 +72,9 @@ export default {
       return this.eventMusic.length > 0 ? "修改音乐" : "添加音乐";
     },
     selectList() {
+      if(this.searchValue==''){
+        return [];
+      }
       //选择的音乐列表
       return this.musicList[this.selectType] || [];
     }
