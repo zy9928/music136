@@ -7,7 +7,8 @@ export default {
   state: {
     listInfo: {},
     createrInfo: {},
-    songList: []
+    songList: [],
+    songListAll: []
   },
   getters: {},
   mutations: {
@@ -19,15 +20,20 @@ export default {
     },
     setSongList(state, arr) {
       state.songList = [...arr];
+    },
+    setSongListAll(state, arr) {
+      state.songListAll = [...arr];
     }
   },
   actions: {
     async getSongListInfo(context, params) {
       let { data: result } = await Http.get(api.SONG_LIST_INFO, params);
-      // 为啥不行
-      // var str = result.playlist.description.replace("\n", "<br/>");
-      var str = result.playlist.description.split("\n");
-      str = str.join("<br/>")
+      if(result.playlist.description){
+        var str = result.playlist.description.split("\n");
+        str = str.join("<br/>")
+      }else{
+        var str = '';
+      }
       var objList = {
         img: result.playlist.coverImgUrl,
         name: result.playlist.name,
@@ -54,7 +60,7 @@ export default {
       };
       context.commit("setCreaterInfo", objCreater);
       var arrSong = [];
-      result.playlist.tracks.forEach(song => {
+      result.playlist.tracks.forEach((song, index) => {
         var singers = [];
         song.ar.forEach((singer, key) => {
           if (key == song.ar.length - 1) {
@@ -70,6 +76,7 @@ export default {
           }
         });
         arrSong.push({
+          index: index + 1,
           name: song.name,
           id: song.id,
           album: {
@@ -82,6 +89,7 @@ export default {
         });
       });
       context.commit("setSongList", arrSong);
+      context.commit("setSongListAll", result.playlist.tracks);
     }
   }
 };

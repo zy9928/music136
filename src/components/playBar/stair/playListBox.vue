@@ -28,7 +28,7 @@ export default {
       if(this.playList.length == 0){
         return '';
       }
-      if(this.playerSetting.index != "null"){
+      if(this.playerSetting.index != null){
         return this.playList[this.playerSetting.index].al.picUrl;
       }
     },

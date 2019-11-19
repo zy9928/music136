@@ -17,23 +17,23 @@
     <p class="pagePlayCtrl">
       <span class="playBtn">
         <i class="el-icon-video-play"></i>
-        <i title="播放">播放</i>
-        <i class="el-icon-plus addBtn" title="添加到播放列表"></i>
+        <i title="播放" @click="playClc">播放</i>
+        <i class="el-icon-plus addBtn" @click="addClc" title="添加到播放列表"></i>
       </span>
       <span class="likeBtn" title="收藏">
         <i class="el-icon-star-off"></i>
-        ({{dataList.subscribedCount}})
+        ({{likeCount}})
       </span>
       <span class="shareBtn" title="分享">
         <i class="el-icon-share"></i>
-        ({{dataList.shareCount}})
+        ({{shareCount}})
       </span>
       <span class="downBtn" title="下载">
         <i class="el-icon-download"></i>下载
       </span>
       <a href="#comment" class="commentBtn" title="评论">
         <i class="el-icon-s-comment"></i>
-        ({{dataList.commentCount}})
+        ({{commentCount}})
       </a>
     </p>
     <p class="tags">
@@ -45,10 +45,66 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     dataList: {},
     dataCreater: {},
+    dataSongs: Array
+  },
+  computed: {
+    likeCount() {
+      var num =
+        this.dataList.subscribedCount < 10000
+          ? this.dataList.subscribedCount
+          : `${Math.floor(this.dataList.subscribedCount / 10000)}万`;
+      return num;
+    },
+    shareCount() {
+      var num =
+        this.dataList.shareCount < 10000
+          ? this.dataList.shareCount
+          : `${Math.floor(this.dataList.shareCount / 10000)}万`;
+      return num;
+    },
+    commentCount() {
+      var num =
+        this.dataList.commentCount < 10000
+          ? this.dataList.commentCount
+          : `${Math.floor(this.dataList.commentCount / 10000)}万`;
+      return num;
+    },
+    ...mapState({
+      playerSetting: state => state.playBar.playerSetting,
+      playList: state => state.playBar.playList,
+      songListAll: state => state.songList.songListAll
+    })
+  },
+  methods: {
+    playClc() {
+      this.addClc();
+      this.$store.commit("playBar/setPlayNowId", this.dataSongs[0].id);
+      var obj = { ...this.playerSetting };
+      obj.loopMode = 0;
+      this.$store.commit("playBar/setPlayerSetting", obj);
+    },
+    addClc() {
+      var listNow = this.playList;
+      var arr = [];
+      listNow.forEach((item, key) => {
+        var found = this.songListAll.find(value => {
+          return value.id == item.id;
+        });
+        if (found) {
+          arr.unshift(key);
+        }
+      });
+      arr.forEach(item => {
+        listNow.splice(item, 1);
+      });
+      listNow = [...listNow, ...this.songListAll];
+      this.$store.commit("playBar/setPlayList", listNow);
+    }
   }
 };
 </script>
@@ -126,7 +182,7 @@ export default {
     & > span,
     & > a {
       display: inline-block;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 30px;
       background: #f1f1f1;
       padding: 0 5px;
@@ -146,21 +202,21 @@ export default {
       }
     }
   }
-  .tags{
+  .tags {
     color: #999;
     display: flex;
     align-items: center;
     margin: 10px 0;
-    &>span{
+    & > span {
       display: block;
       padding: 1px 10px;
-      background: #F5F5F5;
-      border: 1px solid #D1D1D1;
+      background: #f5f5f5;
+      border: 1px solid #d1d1d1;
       border-radius: 10px;
       margin: 0 5px;
     }
   }
-  .description{
+  .description {
     color: #666;
   }
 }

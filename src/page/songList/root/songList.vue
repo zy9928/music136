@@ -7,14 +7,11 @@
             <img :src="listInfo.img" alt />
           </div>
         </aside>
-        <listInfo :dataList="listInfo" :dataCreater="createrInfo" />
+        <listInfo :dataList="listInfo" :dataCreater="createrInfo" :dataSongs="songList"/>
       </div>
-      <h6 class="songListTitle">
-        歌曲列表
-        <span>{{songList.length}}首歌</span>
-        <p class="playCount">播放：<span>{{listInfo.playCount}}</span>次</p>
-      </h6>
-      <musicList :dataList="songList"/>
+      <div class="musicBox">
+        <musicList :dataList="songList" :dataInfo="listInfo"/>
+      </div>
       <comment type="playList" :ID="id" />
     </main>
     <pageAside kind="songList" />
@@ -101,25 +98,8 @@ export default {
         }
       }
     }
-    .songListTitle{
+    .musicBox{
       padding: 0 30px 0 38px;
-      font-size: 18px;
-      color: #333;
-      line-height: 25px;
-      margin-bottom: 5px;
-      &>span{
-        font-size: 12px;
-        color: #666;
-        margin: 0 10px;
-      }
-      .playCount{
-        float: right;
-        font-size: 12px;
-        &>span{
-          color: #C20C0C;
-          font-weight: bold;
-        }
-      }
     }
   }
 }

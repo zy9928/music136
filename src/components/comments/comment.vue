@@ -124,7 +124,6 @@ export default {
 
       // var comType = api.SONG_COMMENT;
       // this.ID = 186016;
-      console.log("s",this.ID);
       const { timeCom, hotCom, totalCom } = await getSongComments(
         comType,
         this.ID,

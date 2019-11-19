@@ -35,7 +35,7 @@ export default {
       if(this.playList.length == 0){
         return '';
       }
-      if(this.playerSetting.index != "null"){
+      if(this.playerSetting.index != null){
         this.getLyric(this.playList[this.playerSetting.index].id);
         if(this.lyric.indexOf('\n') == -1){
           return this.lyric
