@@ -3,7 +3,7 @@
     <h6 class="songListTitle">
       歌曲列表
       <span>{{dataList.length}}首歌</span>
-      <p class="playCount">
+      <p class="playCount"  v-if="dataInfo.playCount">
         播放：
         <span>{{dataInfo.playCount}}</span>次
       </p>

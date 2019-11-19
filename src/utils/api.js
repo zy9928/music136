@@ -46,6 +46,9 @@ const SINGER_ALBUM = HOST + "/artist/album";
 // 获取歌单详情————参数：?id=歌单id[&s=歌单最近s个收藏者];
 const SONG_LIST_INFO = HOST + "/playlist/detail";
 
+// 获取专辑详情————参数：?id=专辑id
+const ALBUM_INFO = HOST + "/album";
+
 //获取首页banner图
 const HOME_BANNER = HOST + '/banner';
 
@@ -145,6 +148,7 @@ export default{
   COMMENT_EVENT,
   SONG_LIST_INFO,
   RECOMMEND_RESOURCE,
-  SEARCH
+  SEARCH,
+  ALBUM_INFO,
 }
 

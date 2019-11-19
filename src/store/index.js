@@ -9,6 +9,8 @@ import artist50 from './artist50'
 import songInfo from './songInfo';
 import home from './home';
 import songList from './songList';
+import albumInfo from './albumInfo';
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -28,5 +30,6 @@ export default new Vuex.Store({
     songInfo,
     home,
     songList,
+    albumInfo,
   }
 })
