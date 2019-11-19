@@ -10,14 +10,29 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
   data(){
     return {
       // id: 12085569
-      id: 6452,
+      // id: 6452,
       briefDesc: '',
       introduction: [],
 
+    }
+  },
+  computed: {
+    ...mapState({
+      singerId: state => state.aside.singerId,
+    }),
+    id(){
+      return this.singerId;
+    },
+  },
+  //更新页面
+  watch: {
+    id(newVal, oldVal){
+      this.getArtistAlbum();
     }
   },
   mounted(){

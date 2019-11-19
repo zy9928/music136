@@ -26,6 +26,7 @@
 <script>
 import TimeHandle from '../../../utils/TimeHandle';
 import {mapState} from 'vuex';
+
 export default {
   data(){
     return {

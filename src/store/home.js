@@ -12,6 +12,10 @@ export default {
     async getBannerData(context, params){
       let result = await http.get(api.HOME_BANNER, params);
       return result;
+    },
+    async getRecommendResource(context){
+      let result = await http.get(api.RECOMMEND_RESOURCE);
+      return result;
     }
   }
 }
