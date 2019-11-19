@@ -26,6 +26,7 @@ export default {
   methods:{
       selectAction(){
           this.$store.commit("event/setEventMusic",this.item);
+          this.$center.$emit("changeWindow",'AddEvent');
       }
   }
 };

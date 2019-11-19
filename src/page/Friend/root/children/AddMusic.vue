@@ -82,6 +82,8 @@ export default {
   methods: {
     backAction() {
       this.$center.$emit("changeWindow", "AddEvent");
+      this.searchValue = '';
+      this.selectType='1';
     }
   },
   components: {
