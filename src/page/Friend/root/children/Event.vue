@@ -8,7 +8,8 @@
         <div class="event-header-title-text">
           <span class="name">{{item.user.nickname}}</span>
           <span class="action">{{resourceType[item.type]}}</span>
-          <p class="time">最近</p>
+          <p class="time" v-if="!followed">最近</p>
+          <p class="time" v-else>{{showTime}}</p>
         </div>
       </div>
     </div>
@@ -45,7 +46,7 @@
       <event-comment :threadId="item.info.threadId" v-if="showComment" v-model="showComment"></event-comment>
     </div>
     <div class="concern">
-      <button>
+      <button v-if="!followed">
         <span class="iconfont iconcc-add"></span>
         关注
       </button>
@@ -56,11 +57,11 @@
 
 <script>
 import TimeHandle from "../../../../utils/TimeHandle";
-
 export default {
   name: "Event",
   props: {
-    item: Object
+    item: Object,
+    userId: Number
   },
   components: {
     "event-comment": () => import("./event-comment")
@@ -74,7 +75,7 @@ export default {
       },
       showComment: false,
       comments: [],
-      requestCount:0,//请求次数计数器
+      requestCount: 0 //请求次数计数器
     };
   },
   computed: {
@@ -88,6 +89,12 @@ export default {
     },
     duration() {
       return TimeHandle.getMS(this.jsonData.video.durationms);
+    },
+    followed() {
+      return this.item.user.followed || this.userId == this.item.user.userId;
+    },
+    showTime() {
+      return TimeHandle.getDiffTime(this.item.showTime);
     }
   },
   filters: {
@@ -122,7 +129,7 @@ export default {
     async commentAction() {
       this.showComment = !this.showComment;
 
-      if (this.requestCount== 0) {
+      if (this.requestCount == 0) {
         try {
           let result = await this.$store.dispatch(
             "event/getEventComment",
@@ -132,9 +139,8 @@ export default {
           let comments = result.data.comments;
           let hotComments = result.data.hotComments;
           let threadId = this.item.info.threadId;
-          this.$store.commit("event/setComments",{comments,threadId});
-          this.$store.commit("event/setHotComments",{hotComments,threadId});
-
+          this.$store.commit("event/setComments", { comments, threadId });
+          this.$store.commit("event/setHotComments", { hotComments, threadId });
         } catch (error) {
           console.log(error);
           alert("获取评论失败");

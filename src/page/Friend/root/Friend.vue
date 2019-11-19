@@ -90,7 +90,7 @@
           <div class="refresh" v-show="isRefresh">
             <span class="iconfont iconcc-load"></span>加载中
           </div>
-          <Event v-for="(item,index) in event" :item="item" :key="index" />
+          <Event :userId="userInfo.userId" v-for="(item,index) in event" :item="item" :key="index" />
           <div class="load" v-show="isLoad">
             <span class="iconfont iconcc-load"></span>
           </div>
