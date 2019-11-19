@@ -48,7 +48,7 @@ export default {
       let { data: result } = await this.$store.dispatch("home/getBannerData", {
         type: this.type
       });
-      console.log(result);
+      // console.log(result);
       result.banners.map(item => {
         let obj = {
           bannerUrl: item.imageUrl
@@ -87,4 +87,8 @@ export default {
   }
 }
 </style>
-<style lang="scss"></style>
+<style lang="scss">
+.swiper-container {
+  z-index: 0;
+}
+</style>

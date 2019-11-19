@@ -55,7 +55,7 @@ export default {
         recommendObj.playCount = parseInt(recommendObj.playCount/10000) + '万';
         this.recommendArr.push(recommendObj);
       })
-      console.log(this.recommendArr);
+      // console.log(this.recommendArr);
       
     }
   },
@@ -103,7 +103,9 @@ export default {
         padding-right: 5px;
       }
       .right {
+        color: red;
         line-height: 36px;
+        font-weight: 600;
       }
     }
     .navItems {
@@ -148,7 +150,7 @@ export default {
           opacity: 0.5;
           background: #000;
           position: absolute;
-          z-index: 10;
+          z-index: 0;
           bottom: 0;
           color: #fff;
           .s {
