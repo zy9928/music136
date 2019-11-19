@@ -44,68 +44,71 @@ const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
 const SINGER_ALBUM = HOST + "/artist/album";
 
 //获取首页banner图
-const HOME_BANNER = HOST + '/banner';
+const HOME_BANNER = HOST + "/banner";
 
 //发送验证码
-const SEND_CODE = HOST+"/captcha/sent";
+const SEND_CODE = HOST + "/captcha/sent";
 //验证验证码
-const VERIFY_CODE =HOST+"/captcha/verify";
+const VERIFY_CODE = HOST + "/captcha/verify";
 // 手机号注册
-const REGISTER_PHONE =HOST+"/register/cellphone";
+const REGISTER_PHONE = HOST + "/register/cellphone";
 
 //手机号登陆
-const LOGIN_PHONE = HOST+"/login/cellphone";
+const LOGIN_PHONE = HOST + "/login/cellphone";
 //邮箱登陆
-const LOGIN_EMAIL = HOST+"/login";
+const LOGIN_EMAIL = HOST + "/login";
 
 //获取用户歌单
-const PLAYLIST = HOST+"/user/playlist";
+const PLAYLIST = HOST + "/user/playlist";
 //获取歌单详情(歌单歌曲)
-const PLAYLIST_DETAIL = HOST+"/playlist/detail";
+const PLAYLIST_DETAIL = HOST + "/playlist/detail";
 
 //歌曲评论
 const SONG_COMMENT = HOST + "/comment/music";
 //专辑评论
-const SONG_ALBUM = HOST + '/comment/album';
+const SONG_ALBUM = HOST + "/comment/album";
 //歌单评论
-const SONG_PLAYLIST = HOST + '/comment/playlist';
+const SONG_PLAYLIST = HOST + "/comment/playlist";
 //MV评论
-const SONG_MV = HOST + '/comment/mv';
+const SONG_MV = HOST + "/comment/mv";
 //电台节目评论
-const SONG_DJ = HOST + '/comment/dj';
+const SONG_DJ = HOST + "/comment/dj";
 //视频评论
-const SONG_VIDEO = HOST + '/comment/video';
+const SONG_VIDEO = HOST + "/comment/video";
 //热门评论
-const SONG_HOT = HOST + '/comment/hot';
-//给评论点赞  
-const SONG_LIKE = HOST + '/comment/like';
+const SONG_HOT = HOST + "/comment/hot";
+//给评论点赞
+const SONG_LIKE = HOST + "/comment/like";
 //发送、删除评论
-const SONG_SEND_DELETE = HOST + '/comment';
+const SONG_SEND_DELETE = HOST + "/comment";
 
 //歌手热门50首歌曲
-const SONG_ARTIST_TOP = HOST + '/artist/top/song';
+const SONG_ARTIST_TOP = HOST + "/artist/top/song";
 //歌手所有专辑
-const SONG_ARTIST_ALBUM = HOST + '/artist/album';
+const SONG_ARTIST_ALBUM = HOST + "/artist/album";
 //歌手描述
-const SONG_ARTIST_DESC = HOST + '/artist/desc';
+const SONG_ARTIST_DESC = HOST + "/artist/desc";
 
 //获取动态消息
-const EVENT = HOST +"/event";
+const EVENT = HOST + "/event";
 //获取热门歌手
-const TOP_ARTIST = HOST+"/top/artists";
+const TOP_ARTIST = HOST + "/top/artists";
 //资源点赞(此处目前用于动态点赞)
-const  RESOURCE_LIKE  = HOST+"/resource/like";
+const RESOURCE_LIKE = HOST + "/resource/like";
 //获取动态评论(参数treadId:线程id)
-const COMMENT_EVENT = HOST+"/comment/event";
+const COMMENT_EVENT = HOST + "/comment/event";
 //发布动态
-const SHARE_RESOURCE = HOST+"/share/resource";
+const SHARE_RESOURCE = HOST + "/share/resource";
 
 //搜索
 // 必选参数 : keywords : 关键词
 // 可选参数 : limit : 返回数量 , 默认为 30 offset : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
-const SEARCH = HOST +"/search";
+const SEARCH = HOST + "/search";
 
-export default{
+//视频(需要参数id:视频id)
+const VIDEO = HOST + "/video/url";
+
+export default {
   SONG_WORD,
   SONG_URL,
   SONG_INFO,
@@ -141,6 +144,6 @@ export default{
   HOME_BANNER,
   COMMENT_EVENT,
   SEARCH,
-  SHARE_RESOURCE
-}
-
+  SHARE_RESOURCE,
+  VIDEO
+};
