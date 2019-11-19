@@ -47,6 +47,7 @@
             :key="index"
             :item="item"
             :index="index"
+            @addMusic="addMusic(item.id)"
           />
         </clauses-list>
       </div>
@@ -194,6 +195,9 @@ export default {
       let musicWrap = this.$refs.wrap;
       // content.style.height = height + "px";
       musicWrap.style.height = height-70 + "px";
+    },
+    addMusic(id){
+      this.$store.commit("playBar/setAddSongId",id);
     }
   }
 };

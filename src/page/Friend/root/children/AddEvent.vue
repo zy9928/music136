@@ -5,14 +5,21 @@
         <div class="main">
           <div class="main-ipt">
             <textarea placeholder="一起聊聊吧~" :message="message"></textarea>
-            <div class="choose">
+            <div class="choose" @click="chooseMusic">
               <div class="choose-main">
+                <p>
+                  <span class="iconfont iconcc-music"></span>
+                </p>
                 <span>给动态配上音乐</span>
-                <span></span>
+                <span class="iconfont iconcc-add"></span>
               </div>
             </div>
           </div>
-          <div class="main-func"></div>
+          <div class="main-func">
+            <span class="iconfont iconxiaolian"></span>
+            <span class="iconfont iconaite"></span>
+            <span class="iconfont iconcc-pic"></span>
+          </div>
           <div class="main-opa">
             <button class="share">分享</button>
             <button @click="cancelAction" class="cancel">取消</button>
@@ -27,13 +34,17 @@
 export default {
   data() {
     return {
-      canShare: false
+      canShare: false,
+      message:''
     };
   },
-  methods:{
-        cancelAction(){
-            this.$center.$emit("openWindow",false);
-        }
+  methods: {
+    cancelAction() {
+      this.$center.$emit("openWindow", false);
+    },
+    chooseMusic(){
+      this.$center.$emit("changeWindow",'AddMusic');
+    }
   }
 };
 </script>
@@ -70,12 +81,41 @@ export default {
           line-height: 45px;
           border-top: 1px solid #ccc;
           margin: 0 auto;
+          overflow: hidden;
+          p {
+            float: left;
+            width: 30px;
+            height: 30px;
+            margin: 8px 8px 0 0;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            background: #d33a31;
+            .iconfont {
+              font-size: 18px;
+            }
+          }
+          span {
+            font-size: 14px;
+          }
+          .iconcc-add {
+            font-size: 12px;
+            float: right;
+          }
         }
       }
     }
     &-func {
       height: 20px;
       margin-top: 10px;
+      span{
+          margin-right: 10px;
+      }
+      .iconfont{
+          color: #bababa;
+          font-size:18px;
+          cursor: pointer;
+      }
     }
     &-opa {
       margin-top: 30px;
@@ -97,8 +137,8 @@ export default {
       }
       .cancel {
         margin-left: 10px;
-        &:hover{
-            background: #eee;
+        &:hover {
+          background: #eee;
         }
       }
     }

@@ -103,6 +103,10 @@ const COMMENT_EVENT = HOST+"/comment/event";
 
 //获取每日歌单推荐
 const RECOMMEND_RESOURCE = HOST + '/recommend/resource';
+//搜索
+// 必选参数 : keywords : 关键词
+// 可选参数 : limit : 返回数量 , 默认为 30 offset : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
+const SEARCH = HOST +"/search";
 
 export default{
   SONG_WORD,
@@ -141,5 +145,6 @@ export default{
   COMMENT_EVENT,
   SONG_LIST_INFO,
   RECOMMEND_RESOURCE,
+  SEARCH
 }
 

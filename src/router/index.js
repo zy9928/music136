@@ -23,6 +23,11 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: 'friend' */ "../page/Friend/root/Friend.vue")
   },
+  //朋友页面未登录
+  {
+    path: "/fr",
+    component: () => import("../page/Friend/beforeLogin/fr")
+  },
 
   //我的音乐登录页面
   MyMusic,

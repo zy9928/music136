@@ -13,8 +13,8 @@
       <keep-alive>
         <span v-if="!showOpa">{{time}}</span>
         <div class="show-opa" v-else>
-          <a href="#">
-            <span class="iconfont iconcc-add"></span>
+          <a href="#" @click.prevent="handleAdd">
+            <span  class="iconfont iconcc-add"></span>
           </a>
           <a href="#">
             <span class="iconfont iconcc-collect"></span>
@@ -43,7 +43,7 @@ export default {
   name: "clauses-item",
   data() {
     return {
-      showOpa: false //是否显示操作栏
+      showOpa: false //是否显示操作栏,
     };
   },
   props: {
@@ -53,7 +53,8 @@ export default {
     },
     index: Number,
     value: Number, //当前播放音乐的id
-    isMine: Boolean //是否是当前用户创建的条目
+    isMine: Boolean//是否是当前用户创建的条目
+   
   },
   computed: {
     author() {
@@ -68,14 +69,16 @@ export default {
     playAction() {
       this.$emit("input", this.item.id);
       //调用播放接口
-      this.$store.commit("playBar/setPlayNowId",this.item.id);
-
+      this.$store.commit("playBar/setPlayNowId", this.item.id);
     },
     showOpaAction() {
       this.showOpa = true;
     },
     hideOpaAction() {
       this.showOpa = false;
+    },
+    handleAdd(){
+      this.$emit('addMusic');
     }
   }
 };

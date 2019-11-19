@@ -8,7 +8,9 @@ export default {
       ? JSON.parse(localStorage.getItem("lasttime"))*/
     lasttime: -1,
     comments: {}, //最新评论
-    hotComments: {} //最热评论
+    hotComments: {}, //最热评论
+    eventMusic:{},//选择动态的音乐，
+    musicList:{}//音乐列表
   },
   getters: {},
   mutations: {
@@ -30,6 +32,15 @@ export default {
           [threadId]: hotComments
         }
       };
+    },
+    setMusicList(state,{key,arr}){
+        console.log(arr);
+        state.musicList = {
+          ...state.musicList,
+          ...{
+            [key]:arr
+          }
+        }
     }
   },
   actions: {
@@ -75,6 +86,14 @@ export default {
         return result;
       } else {
         return new Error("发送失败");
+      }
+    },
+    async searchMusicList(context,params){
+      let result = await http.get(api.SEARCH,params);
+      if(result.data.code=='200'){
+        return result;
+      }else{
+        return new Error("获取失败");
       }
     }
   }

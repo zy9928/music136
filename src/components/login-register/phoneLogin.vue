@@ -77,7 +77,11 @@ export default {
           //关闭当前窗口
           this.$center.$emit("openWindow", false);
           if (this.$route.fullPath != "/home/recommend") {
-            this.$router.back();
+            if (this.$route.fullPath == "/my") {
+              this.$router.push("/myMusic");
+            } else if (this.$route.fullPath == "/fr") {
+              this.$router.push("/friend");
+            }
           }
         }
       } catch (error) {
