@@ -32,15 +32,40 @@
           {{duration}}
         </p>
       </div>
+      <div class="song" v-else-if="item.type==18">
+          <div class="song-box">
+            <a href="#" @click.prevent="playSongAction()">
+              <img :src="jsonData.song.album.picUrl" alt="">
+              <span class="iconfont iconcc-play"></span>
+            </a>
+            <div class="text">
+              <h1>{{jsonData.song.name}}</h1>
+              <h2>
+                  {{artists}}
+              </h2>
+            </div>
+          </div>
+      </div>
     </div>
     <div class="event-bottom">
       <div>
         <a href="#" @click.prevent="likeAction">
           <span class="iconfont iconzan" :class="{isLike:item.info.liked}"></span>
-          ({{item.info.likedCount}})
+          <template v-if="item.info.likedCount">
+             ({{item.info.likedCount}})
+          </template>
         </a>|
-        <a href="#">转发({{item.info.shareCount}})</a>|
-        <a href="#" @click.prevent="commentAction">评论({{item.info.commentCount}})</a>
+        <a href="#">转发
+            <template v-if="item.info.shareCount">
+              ({{item.info.shareCount}})
+            </template>
+          </a>|
+        <a href="#" @click.prevent="commentAction">
+          评论
+          <template v-if="item.info.commentCount">
+            ({{item.info.commentCount}})
+          </template>
+        </a>
       </div>
 
       <event-comment :threadId="item.info.threadId" v-if="showComment" v-model="showComment"></event-comment>
@@ -95,6 +120,10 @@ export default {
     },
     showTime() {
       return TimeHandle.getDiffTime(this.item.showTime);
+    },
+    artists(){
+        let nameArr = this.jsonData.song.artists.map(item => item.name);
+      return nameArr.join("/");
     }
   },
   filters: {
@@ -146,34 +175,18 @@ export default {
           alert("获取评论失败");
         }
       }
+    },
+
+    //播放歌曲方法
+    playSongAction(){
+    //调用播放接口
+      this.$store.commit("playBar/setPlayNowId", this.jsonData.song.id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-// .fold {
-//   animation: fold 0.25s linear;
-// }
-// .expand {
-//   animation: expand 0.25s linear;
-// }
-// @keyframes fold {
-//   from {
-//     height: 152px;
-//   }
-//   to {
-//     height: 0;
-//   }
-// }
-// @keyframes expand {
-//   from {
-//     height: 0;
-//   }
-//   to {
-//     height: 152px;
-//   }
-// }
 //已经点赞样式
 .isLike {
   color: #be2914;
@@ -303,6 +316,51 @@ export default {
 
       .iconfont {
         font-size: 30px;
+      }
+    }
+    .song{
+      &-box{
+        width: 545px;
+        height: 40px;
+        padding: 10px;
+        background: #f5f5f5;
+        margin:4px 0 5px;
+        a{
+          float: left;
+          position: relative;
+          width: 40px;
+          height: 40px;
+          img{
+            width: 40px;
+            height: 40px;
+          }
+         span{
+           position: absolute;
+           left:50%;
+           top: 50%;
+           transform: translate(-50%,-50%);
+           color: #fff;
+           &:hover{
+             color: #eee;
+           }
+         }
+         .iconfont{
+           font-size:20px;
+         }
+        }
+        .text{
+          float: left;
+          margin-left: 8px;
+          h1{
+            color: #333;
+            font-size:14px;
+            line-height: 22px;
+          }
+          h2{
+            color: #666;
+            font-size: 12px;
+          }
+        }
       }
     }
   }
