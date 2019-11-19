@@ -10,7 +10,7 @@
                 <p>
                   <span class="iconfont iconcc-music"></span>
                 </p>
-                <span>给动态配上音乐</span>
+                <span>{{desc}}</span>
                 <span class="iconfont iconcc-add"></span>
               </div>
             </div>
@@ -31,19 +31,40 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       canShare: false,
-      message:''
+      message: ""
     };
   },
   methods: {
     cancelAction() {
       this.$center.$emit("openWindow", false);
+      this.$store.commit("event/setEventMusic", {});
     },
-    chooseMusic(){
-      this.$center.$emit("changeWindow",'AddMusic');
+    chooseMusic() {
+      this.$center.$emit("changeWindow", "AddMusic");
+    }
+  },
+  computed: {
+    ...mapState({
+       eventMusic: state => state.event.eventMusic
+    }),
+    desc() {
+      if (Object.keys(this.eventMusic).length <= 0) {
+        return "添加动态音乐";
+      }
+      console.log(this.eventMusic.rtype);
+      if(this.eventMusic.rtype=='0'){
+        console.log('进来')
+          let name = this.eventMusic.name;
+          let artists = this.eventMusic.artists[0].name;
+         
+          return `单曲: ${name}-${artists} `
+      }
+      return "请重新选择"
     }
   }
 };
@@ -108,13 +129,13 @@ export default {
     &-func {
       height: 20px;
       margin-top: 10px;
-      span{
-          margin-right: 10px;
+      span {
+        margin-right: 10px;
       }
-      .iconfont{
-          color: #bababa;
-          font-size:18px;
-          cursor: pointer;
+      .iconfont {
+        color: #bababa;
+        font-size: 18px;
+        cursor: pointer;
       }
     }
     &-opa {

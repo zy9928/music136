@@ -41,6 +41,10 @@ export default {
             [key]:arr
           }
         }
+    },
+    setEventMusic(state,eventMusic){
+        console.log(eventMusic);
+        state.eventMusic = eventMusic;
     }
   },
   actions: {
@@ -94,6 +98,14 @@ export default {
         return result;
       }else{
         return new Error("获取失败");
+      }
+    },
+    async  addEvent(context,params){
+      let result = await http.get(api.SHARE_RESOURCE,params);
+      if(result.data.code=='200'){
+        return result;
+      }else{
+        return new Error("操作失败");
       }
     }
   }

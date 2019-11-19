@@ -1,58 +1,76 @@
 <template>
   <div class="music-list">
-    <div class="music-list-item" v-if="listType==1">
-      <music-item v-for="(item,index) in  musicList" :item="item" :key="index">
-        <template slot="left">
-          <span class="iconfont iconcc-play"></span>
-        </template>
-        <template slot="right">
-          <span v-for="(value,index) in item.artists" :key="index">
-            <template v-if="index!=0">/</template>
-            {{value.name}}
-          </span>
-        </template>
-      </music-item>
-    </div>
-    <div class="music-list-item" v-else-if="listType==100">
-      <music-item style="line-height:40px" v-for="(item,index) in  musicList" :item="item" :key="index">
-        <template slot="left">
-          <img :src="item.picUrl" alt="#" />
-        </template>
-      </music-item>
-    </div>
-    <div class="music-list-item" v-else-if="listType==10">
-      <music-item style="line-height:40px" v-for="(item,index) in  musicList" :item="item" :key="index">
-        <template slot="left">
-          <img :src="item.picUrl" alt="#" />
-        </template>
-        <template slot="right">
-          <span v-for="(value,index) in item.artists" :key="index">
-            <template v-if="index!=0">/</template>
-            {{value.name}}
-          </span>
-        </template>
-      </music-item>
-    </div>
-    <div class="music-list-item" v-else-if="listType==1000">
-      <music-item style="line-height:40px" v-for="(item,index) in  musicList" :item="item" :key="index">
-        <template slot="left">
-          <img :src="item.coverImgUrl" alt="#" />
-        </template>
-        <template slot="right">
-          by&nbsp;{{item.creator.nickname}}
-        </template>
-      </music-item>
-    </div>
-     <div class="music-list-item" v-else-if="listType==1009">
-      <music-item  style="line-height:40px" v-for="(item,index) in  musicList" :item="item" :key="index">
-        <template slot="left">
-          <img :src="item.picUrl" alt="#" />
-        </template>
-        <template slot="right">
-          by&nbsp;{{item.dj.nickname}}
-        </template>
-      </music-item>
-    </div>
+    <keep-alive>
+      <div class="music-list-item" v-if="listType==1">
+        <music-item v-for="(item,index) in  musicList" :item="item" :key="index">
+          <template slot="left">
+            <span class="iconfont iconcc-play"></span>
+          </template>
+          <template slot="right">
+            <span v-for="(value,index) in item.artists" :key="index">
+              <template v-if="index!=0">/</template>
+              {{value.name}}
+            </span>
+          </template>
+        </music-item>
+      </div>
+      <div class="music-list-item" v-else-if="listType==100">
+        <music-item
+          style="line-height:40px"
+          v-for="(item,index) in  musicList"
+          :item="item"
+          :key="index"
+        >
+          <template slot="left">
+            <img :src="item.picUrl" alt="#" />
+          </template>
+        </music-item>
+      </div>
+      <div class="music-list-item" v-else-if="listType==10">
+        <music-item
+          style="line-height:40px"
+          v-for="(item,index) in  musicList"
+          :item="item"
+          :key="index"
+        >
+          <template slot="left">
+            <img :src="item.picUrl" alt="#" />
+          </template>
+          <template slot="right">
+            <span v-for="(value,index) in item.artists" :key="index">
+              <template v-if="index!=0">/</template>
+              {{value.name}}
+            </span>
+          </template>
+        </music-item>
+      </div>
+      <div class="music-list-item" v-else-if="listType==1000">
+        <music-item
+          style="line-height:40px"
+          v-for="(item,index) in  musicList"
+          :item="item"
+          :key="index"
+        >
+          <template slot="left">
+            <img :src="item.coverImgUrl" alt="#" />
+          </template>
+          <template slot="right">by&nbsp;{{item.creator.nickname}}</template>
+        </music-item>
+      </div>
+      <div class="music-list-item" v-else-if="listType==1009">
+        <music-item
+          style="line-height:40px"
+          v-for="(item,index) in  musicList"
+          :item="item"
+          :key="index"
+        >
+          <template slot="left">
+            <img :src="item.picUrl" alt="#" />
+          </template>
+          <template slot="right">by&nbsp;{{item.dj.nickname}}</template>
+        </music-item>
+      </div>
+    </keep-alive>
   </div>
 </template>
 

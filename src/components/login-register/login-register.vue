@@ -1,8 +1,8 @@
 <template>
   <div class="login-register">
-      <keep-alive>
+     
         <component v-model="currentWindow" :is="currentWindow" />
-      </keep-alive>
+      
   </div>
 </template>
 <script>

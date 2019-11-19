@@ -1,5 +1,5 @@
 <template>
-  <div class="music-item">
+  <div class="music-item" @click="selectAction()">
     <div class="music-item-left">
       <slot name="left" />
     </div>
@@ -22,6 +22,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods:{
+      selectAction(){
+          this.$store.commit("event/setEventMusic",this.item);
+      }
   }
 };
 </script>

@@ -97,6 +97,8 @@ const TOP_ARTIST = HOST+"/top/artists";
 const  RESOURCE_LIKE  = HOST+"/resource/like";
 //获取动态评论(参数treadId:线程id)
 const COMMENT_EVENT = HOST+"/comment/event";
+//发布动态
+const SHARE_RESOURCE = HOST+"/share/resource";
 
 //搜索
 // 必选参数 : keywords : 关键词
@@ -138,6 +140,7 @@ export default{
   SONG_ARTIST_DESC,
   HOME_BANNER,
   COMMENT_EVENT,
-  SEARCH
+  SEARCH,
+  SHARE_RESOURCE
 }
 
