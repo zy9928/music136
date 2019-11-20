@@ -5,6 +5,9 @@
         <Banner/>
         <div class="content">
           <HotList/>
+          <New/>
+          <rowList/>
+
         </div>
         
 
@@ -24,10 +27,14 @@
 <script>
 import Banner from './recomment/banner'
 import HotList from './recomment/hotList'
+import New from './recomment/new'
+import rowList from './recomment/rowList'
 export default {
   components:{
     Banner,
-    HotList
+    HotList,
+    New,
+    rowList
   }
 }
 </script>
