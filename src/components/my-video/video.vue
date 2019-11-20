@@ -8,6 +8,7 @@
       :currentTime="currentTime"
       :duration="duration"
       @videoPlayAction="handlePlay"
+      :volume="volume"
     ></video-controll>
     <div class="big-btn">
       <span @click="playVideo" v-show="!isPlay&&!isEnd" class="iconfont iconcc-play"></span>
@@ -52,7 +53,11 @@ export default {
     }
   },
   name: "my-video",
-  computed: {},
+  computed: {
+    volume(){
+      return this.video.volume;
+    }
+  },
   watch: {},
   created() {
     //监听进度条改变（拖拽),设置当前时间
@@ -62,8 +67,10 @@ export default {
     });
 
     //监听声音进度条改变
-    this.$center.$on('soundChange',rate=>{
-      
+    this.$center.$on('soundchange',rate=>{
+      console.log(rate);
+      this.video.volume = this.volume*(1-rate);
+      // this.volume = this.video.volume;
     })
 
     this.getVideo()

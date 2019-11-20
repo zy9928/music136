@@ -13,7 +13,7 @@
     <div class="video-controll-audio"  @mouseenter="showSound=true" @mouseleave="showSound=false">
       <span class="iconfont iconcc-audio"></span>
       <div class="audio-draw-line" v-show="showSound">
-        <draw-line :dotSize="12" model="1" :height="60" :width="4" class=""></draw-line>
+        <draw-line :volume="volume" :dotSize="12" model="1" :height="60" :width="4" class=""></draw-line>
       </div>
     </div>
     <span class="changeRes">标清</span>
@@ -45,7 +45,11 @@ export default {
     isPlay: {
       type: Boolean,
       required: true
-    }
+    },
+      volume:{
+        type:Number,
+        default:1
+      }
   },
   computed: {
     ctFormat() {
@@ -58,6 +62,7 @@ export default {
     processRate() {
       return this.currentTime / this.duration;
     }
+
   },
   data(){
     return {

@@ -25,7 +25,7 @@
     >
       <div
         class="draw-line-dot"
-        :style="{top:changeHeight+'px',width:dotSize+'px',height:dotSize+'px',left:-(6/16)*dotSize+'px'}"
+        :style="{top:0,width:dotSize+'px',height:dotSize+'px',left:-(6/16)*dotSize+'px'}"
         ref="dot"
       >
         <span
@@ -55,6 +55,10 @@ export default {
     dotSize: {
       type: Number,
       default: 16
+    },
+    volume:{
+      type:Number,
+      default:1
     }
   },
   data() {
@@ -75,7 +79,8 @@ export default {
       });
     } else {
       this.drawEvent((moveTop, line) => {
-        this.soundRate = moveTop / line.offsetHeight;
+        this.soundRate = moveTop / this.height;
+        this.$center.$emit("soundchange", this.soundRate);
       });
     }
   },
@@ -84,7 +89,6 @@ export default {
       let dot = this.$refs.dot;
       let line = this.$refs.line;
       let lineIn = this.$refs.lineIn;
-      console.log(this.$refs);
       dot.onmousedown = e => {
         //记录圆点的起始位置
         let start = parseInt(dot.offsetLeft);
@@ -142,7 +146,7 @@ export default {
       return this.moveRate * this.lineWidth;
     },
     changeHeight() {
-      return (this.soundRate)*this.height;
+       return (this.soundRate-1)*this.height;
     }
   }
 };
@@ -169,6 +173,7 @@ export default {
   &-dot {
     position: absolute;
     // top: -6px;
+    top: 0;
     left: 0;
     // width: 16px;
     cursor: pointer;
