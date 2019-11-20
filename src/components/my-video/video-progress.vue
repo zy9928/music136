@@ -1,13 +1,13 @@
 <template>
-  <div class="video-progress"></div>   
+  <div class="video-progress"></div>
 </template>
 
 <script>
-export default {
-    
-}
+export default {};
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.video-progress {
+ 
+}
 </style>
