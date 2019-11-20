@@ -8,6 +8,8 @@ import aside from './aside';
 import artist50 from './artist50'
 import songInfo from './songInfo';
 import home from './home';
+import songList from './songList';
+import albumInfo from './albumInfo';
 import video from "./video";
 
 Vue.use(Vuex)
@@ -28,6 +30,8 @@ export default new Vuex.Store({
     artist50,
     songInfo,
     home,
-    video
+    songList,
+    albumInfo,
+    video,
   }
 })

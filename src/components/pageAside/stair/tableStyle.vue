@@ -65,7 +65,7 @@ export default {
         this.dataValue = this.songListLikers;
       }else if (this.data_kind == "singer"){
         await this.$store.dispatch("aside/getSimilarSinger", { id: this.id});
-        this.dataValue = this.similarSinger.splice(0, 8);
+        this.dataValue = this.similarSinger.splice(0, 6);
       }
     }
   },

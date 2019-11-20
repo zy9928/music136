@@ -35,14 +35,17 @@ export default {
       if(this.playList.length == 0){
         return '';
       }
-      this.getLyric(this.playList[this.playerSetting.index].id);
-      if(this.lyric.indexOf('\n') == -1){
-        return this.lyric
-      }else{
-        return parseLyric(this.lyric);
+      if(this.playerSetting.index != null){
+        this.getLyric(this.playList[this.playerSetting.index].id);
+        if(this.lyric.indexOf('\n') == -1){
+          return this.lyric
+        }else{
+          return parseLyric(this.lyric);
+        }
       }
     },
     ulStyle() {
+      // console.log(this.lyric)
       if(this.playNowTime == 0){
         this.linesNow = 0;
       }
@@ -84,7 +87,9 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.getLyric();
+  }
 };
 </script>
 

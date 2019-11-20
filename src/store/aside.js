@@ -8,6 +8,7 @@ export default {
     songId: '',
     songListId: '544215255',
     singerId: '13283',
+    albumSingerId: '',
     songLikers: [],
     similarSongList: [],
     similarSong: [],
@@ -26,6 +27,9 @@ export default {
     },
     setSingerId(state, num){
       state.singerId = num;
+    },
+    setAlbumSingerId(state, num){
+      state.albumSingerId = num;
     },
     setSongLikers(state, arr) {
       state.songLikers = [...arr];

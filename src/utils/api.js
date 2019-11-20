@@ -43,6 +43,12 @@ const RELATE_SONG_LIST_RECOMMEND = HOST + "/related/playlist";
 // 获取歌手专辑————参数：?id=歌手id[&limit=取出数量，默认50 &offset=偏移数量，默认为0]
 const SINGER_ALBUM = HOST + "/artist/album";
 
+// 获取歌单详情————参数：?id=歌单id[&s=歌单最近s个收藏者];
+const SONG_LIST_INFO = HOST + "/playlist/detail";
+
+// 获取专辑详情————参数：?id=专辑id
+const ALBUM_INFO = HOST + "/album";
+
 //获取首页banner图
 const HOME_BANNER = HOST + "/banner";
 
@@ -100,6 +106,13 @@ const COMMENT_EVENT = HOST + "/comment/event";
 //发布动态
 const SHARE_RESOURCE = HOST + "/share/resource";
 
+//获取首页每日歌单推荐
+const RECOMMEND_RESOURCE = HOST + '/recommend/resource';
+//获取首页新碟上架
+const ALBUM_NEWEST = HOST + '/album/newest';
+//获取首页榜单
+const TOP_LIST = HOST + '/top/list';
+
 //搜索
 // 必选参数 : keywords : 关键词
 // 可选参数 : limit : 返回数量 , 默认为 30 offset : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
@@ -143,7 +156,12 @@ export default {
   SONG_ARTIST_DESC,
   HOME_BANNER,
   COMMENT_EVENT,
+  SONG_LIST_INFO,
+  RECOMMEND_RESOURCE,
   SEARCH,
+  ALBUM_INFO,
+  ALBUM_NEWEST,
+  TOP_LIST,
   SHARE_RESOURCE,
   VIDEO
 };

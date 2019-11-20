@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { getTime } from '../util'
+import TimeHandle from '../../../utils/TimeHandle'
+
 export default {
   props:{
     hotData: Array
@@ -31,8 +32,7 @@ export default {
     hotdata(){
       var comDataArr = [];
       this.hotData.forEach(item=>{
-        // console.log(item);
-        item.time = getTime(item);
+        item.time = TimeHandle.getDiffTime(item.time);
         comDataArr.push(item);
       })
       return comDataArr

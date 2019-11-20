@@ -28,7 +28,9 @@ export default {
       if(this.playList.length == 0){
         return '';
       }
-      return this.playList[this.playerSetting.index].al.picUrl;
+      if(this.playerSetting.index != null){
+        return this.playList[this.playerSetting.index].al.picUrl;
+      }
     },
     playListBoxStyle(){
       if(this.bgImg == ''){

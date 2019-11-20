@@ -23,16 +23,15 @@
       prev-text='<上一页'
       next-text='下一页>'
       @current-change='changeAction'
-      :total=Math.round(totalNum/20)>
+      :total=Math.ceil(totalNum/20*10)>
     </el-pagination>
   </div>
 </template>
 
 <script>
-
-import { getTime } from '../util'
 import { getSongLike } from '../../../services/comment'
 import api from '../../../utils/api'
+import TimeHandle from '../../../utils/TimeHandle'
 
 export default {
   props:{
@@ -57,7 +56,7 @@ export default {
       this.comdData.forEach(item=>{
         value = {...item};
         //处理时间
-        value.time = getTime(value);
+        value.time = TimeHandle.getDiffTime(value.time);
         comDataArr.push(value);
       })
       return comDataArr;

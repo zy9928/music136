@@ -17,7 +17,7 @@
     </div>
     <div class="listStyleCont" v-if="data_kind == 'album'">
       <li class="songListLi" v-for="(item, key) in data" :key="key">
-        <router-link class="listImg" :to="`/album/${item.listId}`">
+        <router-link class="listImg" :to="`/album/${item.albumId}`">
           <img :src="item.albumImg" :alt="item.albumName" />
         </router-link>
         <div class="listText">
@@ -51,6 +51,7 @@ export default {
       songId: state => state.aside.songId,
       songListId: state => state.aside.songListId,
       singerId: state => state.aside.singerId,
+      albumSingerId: state => state.aside.albumSingerId,
       similarSongList: state => state.aside.similarSongList,
       relateSongListRecommend: state => state.aside.relateSongListRecommend,
       singerAlbum: state => state.aside.singerAlbum
@@ -61,7 +62,7 @@ export default {
       } else if (this.data_kind == "songList") {
         return this.songListId;
       } else if (this.data_kind == "album") {
-        return this.singerId;
+        return this.albumSingerId;
       }
     }
   },

@@ -43,6 +43,7 @@ export default {
       state.playNowTime = num;
     },
     setAddSongId(state, num){
+      console.log(num);
       state.addSongId = num;
     }
   },
