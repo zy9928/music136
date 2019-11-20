@@ -13,27 +13,13 @@
     <p class="line"></p>
     <div class="main">
       <div class="left">
-       <comList/>
+       <comList :idx='0'/>
       </div>
       <div class="center">
-        <!-- <div class="head">
-        </div>
-        <ul class="listItems">
-          <li class="listItem">
-            <i class="num">1</i>
-            <span class="tit">weddsadx</span>
-          </li>
-        </ul> -->
+       <comList :idx='3'/>
       </div>
       <div class="right">
-        <!-- <div class="head">
-        </div>
-        <ul class="listItems">
-          <li class="listItem">
-            <i class="num">1</i>
-            <span class="tit">weddsadx</span>
-          </li>
-        </ul> -->
+       <comList :idx='2'/>
       </div>
     </div>
   </div>
@@ -47,17 +33,14 @@ export default {
   },
   data(){
     return {
-      idx: 0   //0:新歌  2：原创  3：飙升
+    
     }
   },
   mounted(){
-    this.getTopList();
+
   },
   methods:{
-    async getTopList(){
-      let {data: result} = await this.$store.dispatch('home/getTopList', {idx: this.idx});
-      console.log(result);
-    }
+  
   }
 }
 </script>
@@ -123,11 +106,11 @@ export default {
     border: 1px solid #ddd;
     .left {
       flex: 1;
-      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
     }
     .center {
       flex: 1;
-      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
     }
     .right {
       flex: 1;
