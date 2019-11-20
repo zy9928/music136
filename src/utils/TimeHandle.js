@@ -34,9 +34,9 @@ export default class TimeHandle {
   static getHS(milliSeconds){
     let date  = new Date(milliSeconds);
     let hours = date.getHours();
-    let seconds = date.getSeconds();
+    let minutes = date.getMinutes();
 
-    return this.getDoubleNum(hours) + ":" + this.getDoubleNum(seconds);
+    return this.getDoubleNum(hours) + ":" + this.getDoubleNum(minutes);
   }
 
   /**
@@ -92,7 +92,7 @@ export default class TimeHandle {
       return "刚刚";
     } else if (diffSecond >= 60 && diffSecond < 60 * 60) {
       //大于1分钟，小于1小时,显示分钟
-      return `${last.getMinutes()} 分钟前`;
+      return `${parseInt(diffSecond/(60))} 分钟前`;
     } else if (diffSecond >= 60 * 60 && diffSecond < 60 * 60 * 24) {
       //大于等于1小时,小于24小时,显示具体时间
       return this.getHS(time);

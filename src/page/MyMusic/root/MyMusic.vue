@@ -65,7 +65,6 @@ import ClausesHeader from "../../../components/clauses/clauses-header";
 import ClausesList from "../../../components/clauses/clauses-list";
 import ClausesItem from "../../../components/clauses/clauses-item";
 import TimeHandle from "../../../utils/TimeHandle";
-import { userInfo } from "os";
 
 export default {
   data() {

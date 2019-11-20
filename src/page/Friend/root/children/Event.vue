@@ -8,44 +8,69 @@
         <div class="event-header-title-text">
           <span class="name">{{item.user.nickname}}</span>
           <span class="action">{{resourceType[item.type]}}</span>
-          <p class="time">最近</p>
+          <p class="time" v-if="!followed">最近</p>
+          <p class="time" v-else>{{showTime}}</p>
         </div>
       </div>
     </div>
     <div class="event-content">
       <p class="message" v-html="$options.filters.format(jsonData.msg)"></p>
       <div class="video" v-if="item.type==39">
-        <img :src="jsonData.video.coverUrl" alt />
-        <h1>
-          {{jsonData.video.title}}
-          <span>-by{{jsonData.video.creator.nickname}}</span>
-        </h1>
-        <span class="play iconfont iconcc-play"></span>
-        <!-- 播放量 -->
-        <p class="playNum">
-          <span class="iconfont iconcc-play"></span>
-          {{playTime}}
-        </p>
-        <p class="playDuration">
-          <!-- <span class="iconfont iconcc-play"></span> -->
-          {{duration}}
-        </p>
+        <div class="video-small"  v-show="!isplayVideo">
+          <img :src="jsonData.video.coverUrl" alt />
+          <h1>
+            {{jsonData.video.title}}
+            <span>-by{{jsonData.video.creator.nickname}}</span>
+          </h1>
+          <span @click="playVideoAction" class="play iconfont iconcc-play"></span>
+          <!-- 播放量 -->
+          <p class="playNum">
+            <span class="iconfont iconcc-play"></span>
+            {{playTime}}
+          </p>
+          <p class="playDuration">
+            <!-- <span class="iconfont iconcc-play"></span> -->
+            {{duration}}
+          </p>
+        </div>
+        <my-video :width="545"  v-if="isplayVideo" :height="306" :videoId="jsonData.video.videoId"></my-video>
+      </div>
+      <div class="song" v-else-if="item.type==18">
+        <div class="song-box">
+          <a href="#" @click.prevent="playSongAction()">
+            <img :src="jsonData.song.album.picUrl" alt />
+            <span class="iconfont iconcc-play"></span>
+          </a>
+          <div class="text">
+            <h1>{{jsonData.song.name}}</h1>
+            <h2>{{artists}}</h2>
+          </div>
+        </div>
+        <div class="img-box" v-if="item.pics.length>0">
+          <img :src="item.pics[0].originUrl" :width="item.pics[0].width/5.7" alt="#" />
+        </div>
       </div>
     </div>
     <div class="event-bottom">
       <div>
         <a href="#" @click.prevent="likeAction">
           <span class="iconfont iconzan" :class="{isLike:item.info.liked}"></span>
-          ({{item.info.likedCount}})
+          <template v-if="item.info.likedCount">({{item.info.likedCount}})</template>
         </a>|
-        <a href="#">转发({{item.info.shareCount}})</a>|
-        <a href="#" @click.prevent="commentAction">评论({{item.info.commentCount}})</a>
+        <a href="#">
+          转发
+          <template v-if="item.info.shareCount">({{item.info.shareCount}})</template>
+        </a>|
+        <a href="#" @click.prevent="commentAction">
+          评论
+          <template v-if="item.info.commentCount">({{item.info.commentCount}})</template>
+        </a>
       </div>
 
       <event-comment :threadId="item.info.threadId" v-if="showComment" v-model="showComment"></event-comment>
     </div>
     <div class="concern">
-      <button>
+      <button v-if="!followed">
         <span class="iconfont iconcc-add"></span>
         关注
       </button>
@@ -56,14 +81,15 @@
 
 <script>
 import TimeHandle from "../../../../utils/TimeHandle";
-
 export default {
   name: "Event",
   props: {
-    item: Object
+    item: Object,
+    userId: Number
   },
   components: {
-    "event-comment": () => import("./event-comment")
+    "event-comment": () => import("./event-comment"),
+    "my-video": () => import("../../../../components/my-video/video")
   },
   data() {
     return {
@@ -74,7 +100,8 @@ export default {
       },
       showComment: false,
       comments: [],
-      requestCount:0,//请求次数计数器
+      requestCount: 0,//请求次数计数器,
+      isplayVideo:false
     };
   },
   computed: {
@@ -88,6 +115,16 @@ export default {
     },
     duration() {
       return TimeHandle.getMS(this.jsonData.video.durationms);
+    },
+    followed() {
+      return this.item.user.followed || this.userId == this.item.user.userId;
+    },
+    showTime() {
+      return TimeHandle.getDiffTime(this.item.showTime);
+    },
+    artists() {
+      let nameArr = this.jsonData.song.artists.map(item => item.name);
+      return nameArr.join("/");
     }
   },
   filters: {
@@ -122,7 +159,7 @@ export default {
     async commentAction() {
       this.showComment = !this.showComment;
 
-      if (this.requestCount== 0) {
+      if (this.requestCount == 0) {
         try {
           let result = await this.$store.dispatch(
             "event/getEventComment",
@@ -132,42 +169,28 @@ export default {
           let comments = result.data.comments;
           let hotComments = result.data.hotComments;
           let threadId = this.item.info.threadId;
-          this.$store.commit("event/setComments",{comments,threadId});
-          this.$store.commit("event/setHotComments",{hotComments,threadId});
-
+          this.$store.commit("event/setComments", { comments, threadId });
+          this.$store.commit("event/setHotComments", { hotComments, threadId });
         } catch (error) {
           console.log(error);
           alert("获取评论失败");
         }
       }
+    },
+
+    //播放歌曲方法
+    playSongAction() {
+      //调用播放接口
+      this.$store.commit("playBar/setPlayNowId", this.jsonData.song.id);
+    },
+    playVideoAction() {
+      this.isplayVideo = true;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-// .fold {
-//   animation: fold 0.25s linear;
-// }
-// .expand {
-//   animation: expand 0.25s linear;
-// }
-// @keyframes fold {
-//   from {
-//     height: 152px;
-//   }
-//   to {
-//     height: 0;
-//   }
-// }
-// @keyframes expand {
-//   from {
-//     height: 0;
-//   }
-//   to {
-//     height: 152px;
-//   }
-// }
 //已经点赞样式
 .isLike {
   color: #be2914;
@@ -252,51 +275,102 @@ export default {
     .video {
       width: 339px;
       margin-top: 6px;
-      position: relative;
-      img {
-        width: 339px;
-      }
-      h1 {
-        top: 10px;
-        left: 8px;
-        position: absolute;
-        width: 318px;
-        color: #fff;
-        font-size: 14px;
-        span {
-          font-size: 12px;
-          color: #c1c1c3;
+      .video-small {
+        position: relative;
+        img {
+          width: 339px;
         }
-      }
-      .play {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #e2dbd4;
-        &:hover {
-          color: #ccc;
-          cursor: pointer;
+        h1 {
+          top: 10px;
+          left: 8px;
+          position: absolute;
+          width: 318px;
+          color: #fff;
+          font-size: 14px;
+          span {
+            font-size: 12px;
+            color: #c1c1c3;
+          }
         }
-      }
-      .playNum {
-        position: absolute;
-        left: 10px;
-        bottom: 10px;
-        color: #fff;
-        .iconfont {
-          font-size: 12px;
+        .play {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #e2dbd4;
+          &:hover {
+            color: #ccc;
+            cursor: pointer;
+          }
         }
-      }
-      .playDuration {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        color: #fff;
-      }
+        .playNum {
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          color: #fff;
+          .iconfont {
+            font-size: 12px;
+          }
+        }
+        .playDuration {
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          color: #fff;
+        }
 
-      .iconfont {
-        font-size: 30px;
+        .iconfont {
+          font-size: 30px;
+        }
+      }
+    }
+    .song {
+      &-box {
+        width: 545px;
+        height: 40px;
+        padding: 10px;
+        background: #f5f5f5;
+        margin: 4px 0 5px;
+        a {
+          float: left;
+          position: relative;
+          width: 40px;
+          height: 40px;
+          img {
+            width: 40px;
+            height: 40px;
+          }
+          span {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            &:hover {
+              color: #eee;
+            }
+          }
+          .iconfont {
+            font-size: 20px;
+          }
+        }
+        .text {
+          float: left;
+          margin-left: 8px;
+          h1 {
+            color: #333;
+            font-size: 14px;
+            line-height: 22px;
+          }
+          h2 {
+            color: #666;
+            font-size: 12px;
+          }
+        }
+      }
+      .img-box {
+        margin-top: 8px;
+        width: 565px;
       }
     }
   }

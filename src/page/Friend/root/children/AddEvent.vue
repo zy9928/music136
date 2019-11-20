@@ -4,13 +4,13 @@
       <template slot="content">
         <div class="main">
           <div class="main-ipt">
-            <textarea placeholder="一起聊聊吧~" :message="message"></textarea>
+            <textarea placeholder="一起聊聊吧~" v-model="message"></textarea>
             <div class="choose" @click="chooseMusic">
               <div class="choose-main">
                 <p>
                   <span class="iconfont iconcc-music"></span>
                 </p>
-                <span>给动态配上音乐</span>
+                <span>{{desc}}</span>
                 <span class="iconfont iconcc-add"></span>
               </div>
             </div>
@@ -21,7 +21,7 @@
             <span class="iconfont iconcc-pic"></span>
           </div>
           <div class="main-opa">
-            <button class="share">分享</button>
+            <button class="share" :class="{canShare:canShare}" @click="shareAction()">分享</button>
             <button @click="cancelAction" class="cancel">取消</button>
           </div>
         </div>
@@ -31,19 +31,67 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      canShare: false,
-      message:''
+      message: ""
     };
   },
   methods: {
     cancelAction() {
       this.$center.$emit("openWindow", false);
+      this.$store.commit("event/setEventMusic", {});
     },
-    chooseMusic(){
-      this.$center.$emit("changeWindow",'AddMusic');
+    chooseMusic() {
+      this.$center.$emit("changeWindow", "AddMusic");
+    },
+    async shareAction() {
+      if (!this.canShare) {
+        return false;
+      }
+      if (!this.message.trim()) {
+        alert("请输入文字内容");
+        return false;
+      }
+
+      try {
+        let params = {
+          id:this.eventMusic.id,
+          msg:this.message
+        };
+        let result = await this.$store.dispatch("event/addEvent", params);
+        let event = result.data.event;
+        this.message = '';
+        this.$store.commit('event/setEventMusic',{});
+        this.$center.$emit('openWindow',false);
+        this.$center.$emit('addEvent',event);
+      } catch (error) {
+        console.log(error);
+        alert('发布失败');
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      eventMusic: state => state.event.eventMusic
+    }),
+    canShare() {
+      return Object.keys(this.eventMusic).length > 0;
+    },
+    desc() {
+      if (Object.keys(this.eventMusic).length <= 0) {
+        return "添加动态音乐";
+      }
+      console.log(this.eventMusic.rtype);
+      if (this.eventMusic.rtype == "0") {
+        console.log("进来");
+        let name = this.eventMusic.name;
+        let artists = this.eventMusic.artists[0].name;
+
+        return `单曲: ${name}-${artists} `;
+      }
+      return "请重新选择";
     }
   }
 };
@@ -108,13 +156,13 @@ export default {
     &-func {
       height: 20px;
       margin-top: 10px;
-      span{
-          margin-right: 10px;
+      span {
+        margin-right: 10px;
       }
-      .iconfont{
-          color: #bababa;
-          font-size:18px;
-          cursor: pointer;
+      .iconfont {
+        color: #bababa;
+        font-size: 18px;
+        cursor: pointer;
       }
     }
     &-opa {
@@ -134,6 +182,10 @@ export default {
         color: #b6d3f1;
 
         background: #7fb0de;
+      }
+      .canShare {
+        color: #fff;
+        background: #2172c1;
       }
       .cancel {
         margin-left: 10px;

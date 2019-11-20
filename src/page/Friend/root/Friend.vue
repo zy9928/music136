@@ -90,7 +90,7 @@
           <div class="refresh" v-show="isRefresh">
             <span class="iconfont iconcc-load"></span>加载中
           </div>
-          <Event v-for="item in event" :item="item" :key="item.id" />
+          <Event :userId="userInfo.userId" v-for="(item,index) in event" :item="item" :key="index" />
           <div class="load" v-show="isLoad">
             <span class="iconfont iconcc-load"></span>
           </div>
@@ -119,11 +119,13 @@ export default {
     }
   },
   created() {
+    //动态添加监听
+    this.eventListen();
     window.onscroll = null;
     //请求动态列表
-    this.getEvents()
+    this.getEvents(-1)
       .then(data => {
-        this.event = [...this.event, ...data.event];
+        this.event = data.event;
         this.$store.dispatch("event/setLasttime", data.lasttime);
       })
       .catch(err => {
@@ -198,10 +200,11 @@ export default {
     }
   },
   methods: {
-    async getEvents() {
+    async getEvents(lasttime) {
+      let  last  = lasttime || this.lasttime;
       let result = await this.$store.dispatch("event/getEvents", {
         pagesize: this.pagesize,
-        lasttime: this.lasttime
+        lasttime: last
       });
       return result.data;
     },
@@ -249,6 +252,11 @@ export default {
       this.$center.$emit("changeWindow", "AddEvent");
 
       this.$center.$emit("openWindow", true);
+    },
+    eventListen(){
+      this.$center.$on('addEvent',event=>{
+        this.event.unshift(event);
+      })
     }
   },
   computed: {

@@ -69,9 +69,12 @@ export default {
       musicList: state => state.event.musicList
     }),
     title() {
-      return this.eventMusic.length > 0 ? "修改音乐" : "添加音乐";
+      return Object.keys(this.eventMusic).length > 0 ? "修改音乐" : "添加音乐";
     },
     selectList() {
+      if (this.searchValue == "") {
+        return [];
+      }
       //选择的音乐列表
       return this.musicList[this.selectType] || [];
     }
@@ -79,6 +82,8 @@ export default {
   methods: {
     backAction() {
       this.$center.$emit("changeWindow", "AddEvent");
+      this.searchValue = '';
+      this.selectType='1';
     }
   },
   components: {
@@ -91,7 +96,6 @@ export default {
       if (!this.searchValue) {
         return false;
       }
-
 
       try {
         let params = {
@@ -129,9 +133,13 @@ export default {
             break;
         }
         //给数组添加关键词标志，防止重复请求
-        arr.unshift({
-          keywords: this.searchValue
-        });
+        console.log(this.searchValue);
+        if (arr) {
+          arr.unshift({
+            keywords: this.searchValue
+          });
+        }
+
         this.$store.commit("event/setMusicList", { key, arr });
         //为了触发set方法
         let type = this.selectType;
@@ -197,9 +205,11 @@ export default {
             arr = result.data.result.djRadios;
             break;
         }
-        arr.unshift({
-          keywords: this.searchValue
-        });
+         if (arr) {
+          arr.unshift({
+            keywords: this.searchValue
+          });
+        }
         this.$store.commit("event/setMusicList", { key, arr });
         //为了触发set方法
         let type = this.selectType;
