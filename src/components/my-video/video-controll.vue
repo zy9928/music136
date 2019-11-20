@@ -6,6 +6,7 @@
       <draw-line :width="307" :moveRate="processRate" :duration="duration"></draw-line>
     </div>
     <span class="allTime">{{dtFormat}}</span>
+    <span class="iconfont iconcc-audio video-controll-audio"></span>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 @font-face {font-family: "iconfont";
   src: url('iconfont.eot?t=1573284036504'); /* IE9 */
   src: url('iconfont.eot?t=1573284036504#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.ttf?t=1573982823680') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.ttf?t=1574247526195') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 }
 
 .iconfont {
@@ -22,6 +22,10 @@
 
 .iconcc-arrowhead:before {
   content: "\e6aa";
+}
+
+.iconcc-audio:before {
+  content: "\e64c";
 }
 
 .iconcc-share:before {
@@ -56,6 +60,10 @@
   content: "\e600";
 }
 
+.iconcc-pause:before {
+  content: "\e668";
+}
+
 .iconcc-video:before {
   content: "\e61f";
 }
@@ -66,6 +74,10 @@
 
 .iconcc-music:before {
   content: "\e78c";
+}
+
+.iconcc-replay:before {
+  content: "\e7b4";
 }
 
 .iconcc-delete:before {
@@ -84,6 +96,14 @@
   content: "\e640";
 }
 
+.iconcc-silence:before {
+  content: "\e747";
+}
+
+.iconcc-allscreen:before {
+  content: "\e62c";
+}
+
 .iconcc-event:before {
   content: "\e6c4";
 }
@@ -91,4 +111,5 @@
 .iconcc-add:before {
   content: "\e644";
 }
+
 

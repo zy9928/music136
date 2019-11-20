@@ -205,6 +205,7 @@ export default {
 }
 .event {
   border-bottom: 1px solid #e8e8e9;
+  width: 100%;
   min-height: 200px;
   position: relative;
   overflow: hidden;
