@@ -22,7 +22,7 @@
         <ul
           v-for="(fistNav, fistKey) in navLi"
           :key="fistKey"
-          v-if="pageNow == fistNav.dataId"
+          v-if="haveSecond"
           class="navSecondBox"
         >
           <router-link
@@ -36,10 +36,18 @@
           </router-link>
         </ul>
       </nav>
-      <div class="loginBtn">
+      <div class="loginBtn" v-if="!isLogin">
         <span @click="loginAction">登录</span>
         <i></i>
         <b></b>
+      </div>
+      <div class="loginBtn" v-if="isLogin">
+        <img class="headImg" :src="userInfo.avatarUrl" alt="头像" />
+        <ul class="userBox">
+          <li class="logOut" @click="logoutBtn">
+            <span class="el-icon-switch-button"></span>退出
+          </li>
+        </ul>
       </div>
       <div class="writerCenterBox">
         <p class="writerCenter">创作者中心</p>
@@ -48,21 +56,32 @@
         <div class="navSearchWrap">
           <span></span>
           <input
+            ref="navSearch"
+            v-model="keyWord"
+            @input="navSearchCha(keyWord)"
+            @blur="navSearchBlu"
+            @focus="navSearchFoc"
             type="text"
             name="navSearch"
             id="navSearch"
             class="navSearch"
             placeholder="音乐/视频/电台/用户"
+            autocomplete="off"
           />
         </div>
+        <searchCom :dataFocu="isfocus"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// const axios = require("axios");
+import { mapState } from "vuex";
+import searchCom from './navBar/searchCom';
 export default {
+  components: {
+    searchCom
+  },
   data() {
     return {
       navLi: [
@@ -115,8 +134,16 @@ export default {
         }
       ],
       pageNow: 1,
-      haveSecond: true
+      haveSecond: true,
+      keyWord: '',
+      isfocus: false
     };
+  },
+  computed: {
+    ...mapState({
+      isLogin: state => state.user.isLogin,
+      userInfo: state => state.user.userInfo,
+    })
   },
   methods: {
     fistNavClc(id) {
@@ -135,33 +162,48 @@ export default {
         this.haveSecond = false;
       }
     },
-    refreshNavActive() {
-      this.navLi.forEach(item => {
-        if (location.pathname === item.to) {
-          this.pageNow = item.dataId;
-        }
-        if (location.pathname.indexOf("/my") != -1) {
-          this.pageNow = "2";
-        }
-        if (this.pageNow == 1) {
-          this.haveSecond = true;
-        } else {
-          this.haveSecond = false;
-        }
-      });
-    },
     //点击登陆按钮,
     loginAction() {
-      //发布打开登录注册窗口事件
       this.$center.$emit("openWindow", true);
+    },
+    // 退出dengr
+    logoutBtn() {},
+    async navSearchCha(str) {
+      if(str){
+        await this.$store.dispatch("search/getSuggest", {keywords: str});
+      }else{
+        await this.$store.dispatch("search/getSuggest", {keywords: '阿虎斯哈法鸡外敷'});
+      }
+    },
+    navSearchBlu(){
+      this.isfocus = false;
+    },
+    navSearchFoc(){
+      this.isfocus = true;
+    },
+    // 更换路由或刷新页面时更新nav状态
+    refureshNav(arr) {
+      var isFind = false;
+      arr.forEach(item => {
+        if (item.path.indexOf("home") != -1) {
+          this.haveSecond = true;
+          isFind = true;
+          this.pageNow = 1;
+        } else if (item.path.indexOf("my") != -1) {
+          this.pageNow = 2;
+        } else if (item.path.indexOf("friend") != -1) {
+          this.pageNow = 3;
+        }
+      });
+      if (!isFind) {
+        this.haveSecond = false;
+      }
     }
   },
-  mounted() {
-    // 刷新页面时，判断路径，更改导航栏活动状态
-    this.refreshNavActive();
-  },
-  update() {
-    this.refreshNavActive();
+  watch: {
+    $route(newVal) {
+      this.refureshNav(newVal.matched)
+    }
   }
 };
 </script>
@@ -269,7 +311,56 @@ export default {
     font-size: 12px;
     color: #787878;
     line-height: 69px;
+    height: 69px;
     position: relative;
+    .headImg {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .userBox {
+      position: absolute;
+      display: none;
+      left: 50%;
+      top: 60px;
+      transform: translateX(-50%);
+      width: 158px;
+      background: #2b2b2b;
+      border-radius: 5px;
+      border: 1px solid #202020;
+      &::before {
+        content: "";
+        height: 0;
+        width: 0;
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-bottom: 7px solid #2b2b2b;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+      }
+      & > li {
+        line-height: 34px;
+        box-sizing: border-box;
+        padding-left: 10px;
+        border-radius: 5px;
+        &:hover {
+          background: #353535;
+        }
+        & > span {
+          margin: 0 10px;
+          font-weight: bold;
+        }
+      }
+    }
+    &:hover .userBox {
+      display: block;
+    }
     & > i {
       display: none;
       background-color: #202020;
@@ -325,6 +416,7 @@ export default {
     height: 69px;
     display: flex;
     align-items: center;
+    position: relative;
     .navSearchWrap {
       height: 32px;
       width: 158px;
@@ -353,6 +445,7 @@ export default {
         color: #9b9b9b;
       }
     }
+    
   }
 }
 .marginBig {

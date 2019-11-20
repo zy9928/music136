@@ -29,8 +29,7 @@ export default {
     async getSongListInfo(context, params) {
       let { data: result } = await Http.get(api.SONG_LIST_INFO, params);
       if(result.playlist.description){
-        var str = result.playlist.description.split("\n");
-        str = str.join("<br/>")
+        var str = result.playlist.description.replace(/\n/g, '<br/>');
       }else{
         var str = '';
       }

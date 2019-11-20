@@ -11,6 +11,7 @@ import home from './home';
 import songList from './songList';
 import albumInfo from './albumInfo';
 import video from "./video";
+import search from './search';
 
 Vue.use(Vuex)
 
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     songList,
     albumInfo,
     video,
+    search,
   }
 })
