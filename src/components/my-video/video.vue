@@ -3,9 +3,15 @@
     <video ref="video" :src="videoSrc" :width="width" :height="height">
       <source type="video/mp4" :src="videoSrc" />
     </video>
-    <video-controll :currentTime="currentTime" :duration="duration" @videoPlayAction="handlePlay"></video-controll>
+    <video-controll
+      :isPlay="isPlay"
+      :currentTime="currentTime"
+      :duration="duration"
+      @videoPlayAction="handlePlay"
+    ></video-controll>
     <div class="big-btn">
-      <span @click="playVideo" v-show="!isPlay" class="iconfont iconcc-play"></span>
+      <span @click="playVideo" v-show="!isPlay&&!isEnd" class="iconfont iconcc-play"></span>
+      <span @click="replayAction" v-show="isEnd" class="iconfont iconcc-replay"></span>
     </div>
   </div>
 </template>
@@ -19,7 +25,8 @@ export default {
       video: {},
       changeRate: 0,
       currentTime: 0,
-      duration: 0
+      duration: 0,
+      isEnd: false
     };
   },
   components: {
@@ -48,11 +55,15 @@ export default {
   computed: {},
   watch: {},
   created() {
-    
     //监听进度条改变（拖拽),设置当前时间
-    this.$center.$on('progresschange',rate=>{
-      this.currentTime = this.duration*rate;
-      this.video.currentTime = this.currentTime/1000;
+    this.$center.$on("progresschange", rate => {
+      this.currentTime = this.duration * rate;
+      this.video.currentTime = this.currentTime / 1000;
+    });
+
+    //监听声音进度条改变
+    this.$center.$on('soundChange',rate=>{
+      
     })
 
     this.getVideo()
@@ -77,6 +88,11 @@ export default {
       this.duration = parseInt(this.video.duration * 1000);
     };
     this.timeChangeListen();
+    //监听视频播放完毕事件
+    this.video.onended = () => {
+      this.isPlay = false;
+      this.isEnd = true;
+    };
   },
   methods: {
     async getVideo() {
@@ -107,6 +123,12 @@ export default {
       this.video.ontimeupdate = () => {
         this.currentTime = parseInt(this.video.currentTime * 1000);
       };
+    },
+    //重播
+    replayAction() {
+      this.video.load();
+      this.playVideo();
+      this.isEnd = false;
     }
   }
 };
@@ -116,6 +138,7 @@ export default {
 .my-video {
   position: relative;
   user-select: none;
+  background: #000;
   .big-btn {
     width: 74px;
     height: 74px;
