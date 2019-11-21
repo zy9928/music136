@@ -9,6 +9,8 @@
       :duration="duration"
       @videoPlayAction="handlePlay"
       :volume="volume"
+      :isMuted="isMuted"
+      
     ></video-controll>
     <div class="big-btn">
       <span @click="playVideo" v-show="!isPlay&&!isEnd" class="iconfont iconcc-play"></span>
@@ -27,7 +29,9 @@ export default {
       changeRate: 0,
       currentTime: 0,
       duration: 0,
-      isEnd: false
+      isEnd: false,
+      volume: 1,
+      isMuted:false
     };
   },
   components: {
@@ -54,9 +58,9 @@ export default {
   },
   name: "my-video",
   computed: {
-    volume(){
-      return this.video.volume;
-    }
+    // volume(){
+    //   return this.video.volume;
+    // }
   },
   watch: {},
   created() {
@@ -67,11 +71,23 @@ export default {
     });
 
     //监听声音进度条改变
-    this.$center.$on('soundchange',rate=>{
-      console.log(rate);
-      this.video.volume = this.volume*(1-rate);
+    this.$center.$on("soundchange", rate => {
+      this.video.volume = 1 - rate;
       // this.volume = this.video.volume;
-    })
+      this.volume = this.video.volume;
+    });
+
+    //监听静音事件
+    this.$center.$on("mutedAction", () => {
+      if (this.video.muted) {
+        this.video.muted = false;
+        this.isMuted= false;
+      } else {
+        this.video.muted = true;
+        console.log('静音了');
+        this.isMuted= true;
+      }
+    });
 
     this.getVideo()
       .then(urls => {

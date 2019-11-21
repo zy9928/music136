@@ -25,7 +25,7 @@
     >
       <div
         class="draw-line-dot"
-        :style="{top:0,width:dotSize+'px',height:dotSize+'px',left:-(6/16)*dotSize+'px'}"
+        :style="{top:changeTop+'px',width:dotSize+'px',height:dotSize+'px',left:-(6/16)*dotSize+'px'}"
         ref="dot"
       >
         <span
@@ -56,17 +56,31 @@ export default {
       type: Number,
       default: 16
     },
-    volume:{
-      type:Number,
-      default:1
+    volume: {
+      type: Number,
+      default: 1
+    },
+    isMuted: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       lineWidth: 0,
       lineHeight: 0,
-      soundRate:1
+      soundRate: 1
     };
+  },
+  created() {
+    this.$center.$on("soundSlience", () => {
+      if (this.volume == 0) {
+        //静音
+        this.soundRate = 0;
+      } else {
+        this.soundRate = this.volume;
+      }
+    });
   },
   mounted() {
     this.lineWidth = this.$refs.line.offsetWidth;
@@ -146,8 +160,19 @@ export default {
       return this.moveRate * this.lineWidth;
     },
     changeHeight() {
-       return (this.soundRate-1)*this.height;
+      if (this.isMuted) {
+        return this.height;
+      }
+      return (this.soundRate - 1) * this.height;
+    },
+    changeTop(){
+      if(this.isMuted){
+         return this.soundRate*this.height;
+      }
+
+      return 0;
     }
+  
   }
 };
 </script>
