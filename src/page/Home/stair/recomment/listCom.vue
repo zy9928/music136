@@ -9,20 +9,21 @@
       </div>
     </div>
     <div class="listItems">
-      <router-link class="listItem" v-for='(item, index) in this.listArr.slice(0, 10)' :key='index' :to='`/play/${item.id}`'>
+      <div class="listItem" v-for='(item, index) in this.listArr.slice(0, 10)' :key='index' >
         <i class="num">{{(index++)+1}}</i>
-        <span class="tit">{{item.songName}}</span>
+        <router-link class="tit" :to='`/play/${item.id}`'>{{item.songName}}</router-link>
         <span class="ic">
-          <a href="#" title="播放"><i class='icc el-icon-video-play'></i></a>
-          <a href="#" title="添加到播放列表"><i class='icc cen el-icon-plus'></i></a>
-          <a href="#" title="收藏"><i class='icc el-icon-folder-add'></i></a>
+          <i class='icc el-icon-video-play' title="播放" @click='playAction(item.id)'></i>
+          <i class='icc cen el-icon-plus' title="添加到播放列表" @click='addPlayAction(item.id)'></i>
+          <i class='icc el-icon-folder-add' title="收藏"></i>
         </span>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { loadavg } from 'os';
 export default {
   props:{
     idx: Number
@@ -38,6 +39,7 @@ export default {
     this.getTopList();
   },
   methods:{
+    //请求榜单数据
     async getTopList(){
       let {data: result} = await this.$store.dispatch('home/getTopList', {idx: this.idx});
       // console.log(result.playlist);
@@ -54,6 +56,14 @@ export default {
         this.listArr.push(messObj);
       });
       
+    },
+    //播放
+    playAction(id){
+      this.$store.commit("playBar/setPlayNowId", id);
+    },
+    //添加到歌曲列表
+    addPlayAction(id){
+      this.$store.commit("playBar/setAddSongId", id)
     }
   }
 }
@@ -107,6 +117,9 @@ export default {
         width: 100px;
         font-size: 12px;
         color: #444;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .ic {
         float: right;

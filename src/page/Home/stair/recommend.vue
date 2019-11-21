@@ -7,20 +7,16 @@
           <HotList/>
           <New/>
           <rowList/>
-
         </div>
         
 
       </div>
-      <div class="rightCon"></div>
+      <div class="rightCon">
+        <Right/>
+      </div>
    </div>
   
  </div>
-
-
-
-
-
 
 </template>
 
@@ -29,12 +25,14 @@ import Banner from './recomment/banner'
 import HotList from './recomment/hotList'
 import New from './recomment/new'
 import rowList from './recomment/rowList'
+import Right from './recomment/right'
 export default {
   components:{
     Banner,
     HotList,
     New,
-    rowList
+    rowList,
+    Right
   }
 }
 </script>
@@ -65,5 +63,11 @@ export default {
   .content {
     padding: 15px 20px;
   }
+}
+.rightCon {
+  width: 248px;
+  height: 100%;
+  float: left;
+  box-sizing: border-box;
 }
 </style>

@@ -69,7 +69,7 @@ export default {
   methods:{
     async getAlbumNewest(){
       let {data: result} = await this.$store.dispatch('home/getAlbumNewest');
-      console.log(result);
+      // console.log(result);
       result.albums.map((item, index) => {
         let obj = {
           'songId': item.id,

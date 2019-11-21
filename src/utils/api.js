@@ -97,6 +97,12 @@ const SONG_ARTIST_TOP = HOST + "/artist/top/song";
 const SONG_ARTIST_ALBUM = HOST + "/artist/album";
 //歌手描述
 const SONG_ARTIST_DESC = HOST + "/artist/desc";
+//首页入驻歌手
+const ARTIST_LIST = HOST + '/artist/list';
+//首页热门主播
+const TOP_POPULAR = HOST + '/dj/toplist/popular';
+
+
 
 //获取动态消息
 const EVENT = HOST + "/event";
@@ -168,4 +174,6 @@ export default {
   SHARE_RESOURCE,
   VIDEO,
   SEARCH_SUGGEST,
+  ARTIST_LIST,
+  TOP_POPULAR,
 };

@@ -28,6 +28,16 @@ export default {
     async getTopList(context,params){
       let result = await http.get(api.TOP_LIST, params);
       return result;
+    },
+    //获取首页入驻歌手
+    async getArtistList(context,params){
+      let result = await http.get(api.ARTIST_LIST, params);
+      return result;
+    },
+    //获取首页热门主播
+    async getTopPopular(context){
+      let result = await http.get(api.TOP_POPULAR);
+      return result;
     }
   }
 }

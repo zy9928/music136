@@ -11,8 +11,8 @@
           <p class='bottom'>{{item.time}}</p>
         </div>
         <div class="right">
-          <i class="iconfont iconzan" @click='likeAction(item, item.commentId ,index)' ref='icon'></i>
-          <span class="num">({{item.likedCount}})</span> |
+          <i class="iconfont iconzan" @click='likeAction(index)' :class='{active: selectIndex == index}' ref='icon'></i>
+          <span class="num" ref='num'>({{item.likedCount}})</span> |
           <i class="reply">回复</i>
         </div>
       </div>
@@ -46,7 +46,8 @@ export default {
       hide: true,
       offsetNum: '',
       lastTime: '',
-      t: ''
+      t: '',
+      selectIndex: ''
     }
   },
    computed: {
@@ -86,32 +87,26 @@ export default {
     },
 
     //点赞事件
-    likeAction(item, id, index){
-      let count = 0;
-      // if(!this.$store.state.user.isLogin){
-      //   // alert('请先登录');
-      // }else{
+    likeAction(index){
+      if(!this.$store.state.user.isLogin){
+        alert('请先登录');
+      }else{
+        this.selectIndex = index;
 
         this.comdData.forEach((item, index)=>{
-        // console.log(item);
-         
+        console.log(item);
+        item.liked = !item.liked;
+        
         if(item.liked){
-          this.t = 1;
-          this.$refs.icon[index].style.color = 'red';
+          item.likedCount++;
         }else{
-          this.t = 0;
-          this.$refs.icon[index].style.color = '';
+          item.likedCount--;
         }
       })
-       
-        
-        getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
-      // }
+        // getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
+      }
       
     }
-  },
-  mounted(){
-    
   }
 
 }

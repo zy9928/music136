@@ -2,7 +2,7 @@
   <div class="commentList">
     <h5 class="font5">精彩评论</h5>
     <p class="line"></p>
-    <div v-for='item in hotdata' :key='item.commentId'>
+    <div v-for='(item, index) in hotdata' :key='item.commentId'>
       <p class="smallLine"></p>
       <div class="com" >
         <img class= 'img' :src="item.userPic" alt="">
@@ -11,7 +11,7 @@
           <p class='bottom'>{{item.time}}</p>
         </div>
         <div class="right">
-          <i class="iconfont iconzan"></i>
+          <i class="iconfont iconzan"  @click='likeAction(index)' :class='{active: selectIndex == index}'></i>
           <span class="num">({{item.likedCount}})</span> |
           <i class="reply">回复</i>
         </div>
@@ -28,6 +28,11 @@ export default {
   props:{
     hotData: Array
   },
+  data(){
+    return {
+      selectIndex: ''
+    }
+  },
   computed: {
     hotdata(){
       var comDataArr = [];
@@ -35,14 +40,37 @@ export default {
         item.time = TimeHandle.getDiffTime(item.time);
         comDataArr.push(item);
       })
-      return comDataArr
+      return comDataArr;
     }
   },
+  methods:{
+    //点赞事件
+    likeAction(index){
+      if(!this.$store.state.user.isLogin){
+        alert('请先登录');
+      }else{
+        this.selectIndex = index;
+
+        this.hotData.forEach((item, index)=>{
+        
+        
+        if(item.liked){
+          item.likedCount++;
+        }else{
+          item.likedCount--;
+        }
+        item.liked = !item.liked;
+      })
+        // getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
+      }
+  }
     
-  
+  }
 }
 </script>
 
-<style>
-
+<style scoped lang='scss'>
+.active {
+  color: red;
+}
 </style>
