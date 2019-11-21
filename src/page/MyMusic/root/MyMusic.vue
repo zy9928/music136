@@ -50,7 +50,7 @@
             @addMusic="addMusic(item.id)"
           />
         </clauses-list>
-        <my-comment type="playList" :ID="selected.id" >
+        <my-comment type="playList" :ID="playlistId" >
 
         </my-comment>
       </div>
@@ -97,6 +97,13 @@ export default {
     isMine() {
       //判断当前歌单是否属于当前用户创建
       return this.userInfo.userId == this.selected.creator.userId;
+    },
+    playlistId(){
+      if(!this.selected.id){
+        return '1'
+      }else{
+        return this.selected.id.toString();
+      }
     }
   },
   //路由拦截

@@ -73,14 +73,7 @@ export default {
     };
   },
   created() {
-    this.$center.$on("soundSlience", () => {
-      if (this.volume == 0) {
-        //静音
-        this.soundRate = 0;
-      } else {
-        this.soundRate = this.volume;
-      }
-    });
+    
   },
   mounted() {
     this.lineWidth = this.$refs.line.offsetWidth;
@@ -163,16 +156,25 @@ export default {
       if (this.isMuted) {
         return this.height;
       }
-      return (this.soundRate - 1) * this.height;
+      return (1-this.volume) * this.height;
     },
     changeTop(){
       if(this.isMuted){
-         return this.soundRate*this.height;
+        return this.height;
       }
 
-      return 0;
+      return this.height*(1-this.volume);
     }
   
+  },
+  watch:{
+    isMuted(){
+      if(!this.isMuted){
+          this.soundRate = 0;
+      }else{
+          this.soundRate = this.volume;
+      }
+    }
   }
 };
 </script>
