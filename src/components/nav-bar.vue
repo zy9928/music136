@@ -56,11 +56,11 @@
         <div class="navSearchWrap">
           <span></span>
           <input
-            ref="navSearch"
             v-model="keyWord"
             @input="navSearchCha(keyWord)"
             @blur="navSearchBlu"
             @focus="navSearchFoc"
+            @keypress="navSearchKey"
             type="text"
             name="navSearch"
             id="navSearch"
@@ -69,7 +69,7 @@
             autocomplete="off"
           />
         </div>
-        <searchCom :dataFocu="isfocus"/>
+        <searchCom :dataFocu="isfocus" :dataKey="keyWord"/>
       </div>
     </div>
   </div>
@@ -136,7 +136,8 @@ export default {
       pageNow: 1,
       haveSecond: true,
       keyWord: '',
-      isfocus: false
+      isfocus: false,
+      bluTimer: '',
     };
   },
   computed: {
@@ -166,7 +167,7 @@ export default {
     loginAction() {
       this.$center.$emit("openWindow", true);
     },
-    // 退出dengr
+    // 退出登入
     logoutBtn() {},
     async navSearchCha(str) {
       if(str){
@@ -176,27 +177,39 @@ export default {
       }
     },
     navSearchBlu(){
-      this.isfocus = false;
+      clearTimeout(this.bluTimer);
+      this.bluTimer = setTimeout(() => {
+        this.isfocus = false;
+      }, 300);
     },
     navSearchFoc(){
       this.isfocus = true;
+    },
+    navSearchKey(e){
+      if(this.keyWord && e.key == "Enter"){
+        this.$router.push({path: `/search/${1}/${this.keyWord}`});
+      }
     },
     // 更换路由或刷新页面时更新nav状态
     refureshNav(arr) {
       var isFind = false;
       arr.forEach(item => {
-        if (item.path.indexOf("home") != -1) {
-          this.haveSecond = true;
+        if (item.path.indexOf("my") != -1 || item.path.indexOf("friend") != -1) {
+          this.haveSecond = false;
           isFind = true;
+        }
+        if (item.path.indexOf("home") != -1) {
           this.pageNow = 1;
-        } else if (item.path.indexOf("my") != -1) {
+        }else if (item.path.indexOf("my") != -1) {
           this.pageNow = 2;
         } else if (item.path.indexOf("friend") != -1) {
           this.pageNow = 3;
+        }else {
+          this.pageNow = 1;
         }
       });
       if (!isFind) {
-        this.haveSecond = false;
+        this.haveSecond = true;
       }
     }
   },
@@ -216,184 +229,8 @@ export default {
   background-color: #242424;
   min-width: 1135px;
   margin-bottom: 5px;
-  .navBarBox {
-    width: 1102px;
-    margin: 0 auto;
-    height: 100%;
-    // logo
-    .logoBox {
-      height: 100%;
-      margin-right: 18px;
-      position: relative;
-      float: left;
-      width: 157px;
-      .logoLink {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-      }
-    }
-    // 一级导航
-    .pageNavStair {
-      height: 69px;
-      float: left;
-      position: relative;
-      .stairNavLi {
-        height: 100%;
-        float: left;
-        padding: 0 19px;
-        font-size: 14px;
-        line-height: 69px;
-        color: #cccccc;
-        list-style: none;
-        position: relative;
-        & > i {
-          display: block;
-          position: absolute;
-          width: 12px;
-          height: 6px;
-          bottom: -1px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: url(./../assets/topbar.png) no-repeat -226px 0px;
-        }
-      }
-      .stairNavActive {
-        color: #ffffff;
-        background-color: #000000;
-      }
-    }
-    // 二级导航
-    .navSecond {
-      clear: both;
-      position: absolute;
-      top: 70px;
-      left: 0;
-      right: 0;
-      min-width: 1135px;
-      background-color: #c20c0c;
-      padding: 2px 0; /* 5 */
-      border-bottom: 1px solid #a40011;
-      .navSecondBox {
-        width: 1102px;
-        margin: 0 auto;
-        overflow: hidden;
-        padding-left: 178px;
-        box-sizing: border-box;
-        .navSecondLi {
-          padding: 0 13px;
-          line-height: 20px;
-          display: block;
-          float: left;
-          font-size: 12px;
-          color: #faf2f2;
-          margin: 5px 20px;
-          position: relative;
-          & > span {
-            position: absolute;
-            top: -5px;
-            right: 3px;
-            transform: scale(0.7);
-          }
-        }
-        .router-link-active {
-          background-color: #9b0909;
-          border-radius: 10px;
-        }
-      }
-    }
-  }
-  .loginBtn {
-    float: right;
-    padding: 0 20px;
-    font-size: 12px;
-    color: #787878;
-    line-height: 69px;
-    height: 69px;
-    position: relative;
-    .headImg {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .userBox {
-      position: absolute;
-      display: none;
-      left: 50%;
-      top: 60px;
-      transform: translateX(-50%);
-      width: 158px;
-      background: #2b2b2b;
-      border-radius: 5px;
-      border: 1px solid #202020;
-      &::before {
-        content: "";
-        height: 0;
-        width: 0;
-        display: block;
-        overflow: hidden;
-        position: absolute;
-        top: -7px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-bottom: 7px solid #2b2b2b;
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-      }
-      & > li {
-        line-height: 34px;
-        box-sizing: border-box;
-        padding-left: 10px;
-        border-radius: 5px;
-        &:hover {
-          background: #353535;
-        }
-        & > span {
-          margin: 0 10px;
-          font-weight: bold;
-        }
-      }
-    }
-    &:hover .userBox {
-      display: block;
-    }
-    & > i {
-      display: none;
-      background-color: #202020;
-      height: 2px;
-      width: 150px;
-      position: absolute;
-      top: 55px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    & > b {
-      display: none;
-      width: 12px;
-      height: 7px;
-      position: absolute;
-      background: url(./../assets/topbar.png) no-repeat -228px -60px;
-      top: 48px;
-      left: 50%;
-      transform: translateX(-50%) rotate(180deg);
-    }
-    &:hover > i,
-    &:hover > b {
-      display: block;
-    }
-    &:hover {
-      color: #999999;
-    }
-    & > span:hover {
-      color: #6e6e6e;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
+  @import "./navBar/style/navBarBox.scss";
+  @import "./navBar/style/loginBtn.scss";
   .writerCenterBox {
     height: 69px;
     display: flex;
@@ -410,43 +247,7 @@ export default {
       cursor: pointer;
     }
   }
-  .navSearchBox {
-    float: right;
-    width: 158px;
-    height: 69px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    .navSearchWrap {
-      height: 32px;
-      width: 158px;
-      background-color: #ffffff;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      & > span {
-        display: block;
-        width: 13px;
-        height: 14px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 7px;
-        background: url(./../assets/topbar.png) no-repeat -10px -108px;
-      }
-      & > input {
-        border: none;
-        width: 113px;
-        font-size: 12px;
-        line-height: 12px;
-        outline: none;
-        color: #9b9b9b;
-      }
-    }
-    
-  }
+  @import "./navBar/style/searchBox.scss";
 }
 .marginBig {
   margin-bottom: 35px;

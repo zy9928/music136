@@ -1,0 +1,24 @@
+.navBarBox {
+  width: 1102px;
+  margin: 0 auto;
+  height: 100%;
+  // logo
+  .logoBox {
+    height: 100%;
+    margin-right: 18px;
+    position: relative;
+    float: left;
+    width: 157px;
+    .logoLink {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+  }
+  // 一级导航
+  @import "./navStaitStyle.scss";
+  // 二级导航
+  @import "./navSecendStyle.scss";
+}

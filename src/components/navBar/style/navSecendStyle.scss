@@ -1,0 +1,38 @@
+.navSecond {
+  clear: both;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  min-width: 1135px;
+  background-color: #c20c0c;
+  padding: 2px 0; /* 5 */
+  border-bottom: 1px solid #a40011;
+  .navSecondBox {
+    width: 1102px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-left: 178px;
+    box-sizing: border-box;
+    .navSecondLi {
+      padding: 0 13px;
+      line-height: 20px;
+      display: block;
+      float: left;
+      font-size: 12px;
+      color: #faf2f2;
+      margin: 5px 20px;
+      position: relative;
+      & > span {
+        position: absolute;
+        top: -5px;
+        right: 3px;
+        transform: scale(0.7);
+      }
+    }
+    .router-link-active {
+      background-color: #9b0909;
+      border-radius: 10px;
+    }
+  }
+}

@@ -70,6 +70,19 @@ const routes = [
     import(/* webpackChunkName: 'album' */ "../page/album/root/album.vue")
   },
   {
+    path: "/mv/:id",
+    props: true,
+    component: () => 
+    import(/* webpackChunkName: 'mv' */ "../page/mvs/root/mv.vue")
+  },
+  {
+    path: "/search/:type/:keywords",
+    props: true,
+    name: "search",
+    component: () => 
+    import(/* webpackChunkName: 'searchResult' */ "../page/searchResult/root/searchResult.vue")
+  },
+  {
     path: "**",
     component: () =>
       import(/* webpackChunkName: 'notFound' */ "./../page/notFound.vue")
