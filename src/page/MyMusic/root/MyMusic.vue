@@ -50,6 +50,9 @@
             @addMusic="addMusic(item.id)"
           />
         </clauses-list>
+        <my-comment type="playList" :ID="selected.id" >
+
+        </my-comment>
       </div>
     </div>
   </div>
@@ -81,7 +84,8 @@ export default {
     [PlaylistItem.name]: PlaylistItem,
     [ClausesHeader.name]: ClausesHeader,
     [ClausesList.name]: ClausesList,
-    [ClausesItem.name]: ClausesItem
+    [ClausesItem.name]: ClausesItem,
+    'my-comment':()=>import ("../../../components/comments/comment")
   },
   computed: {
     ...mapState({
