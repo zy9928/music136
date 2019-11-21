@@ -104,6 +104,7 @@
 import store from "../../../store/index";
 import TimeHandle from "../../../utils/TimeHandle";
 import { mapState } from "vuex";
+import router from "../../../router";
 
 export default {
   components: {
@@ -197,6 +198,11 @@ export default {
     },
     event() {
       this.isRefresh = false;
+    },
+    isLogin(){
+      if(!this.isLogin){//监听到退出
+        router.push("/fr");
+      }
     }
   },
   methods: {
@@ -262,6 +268,7 @@ export default {
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo,
+      isLogin:state=>state.user.isLogin,
       lasttime: state => state.event.lasttime
     }),
     offset1() {

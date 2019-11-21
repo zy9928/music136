@@ -124,6 +124,9 @@ const SEARCH = HOST + "/search";
 //视频(需要参数id:视频id)
 const VIDEO = HOST + "/video/url";
 
+//退出
+const LOGOUT = HOST+"/logout";
+
 export default {
   SONG_WORD,
   SONG_URL,
@@ -168,4 +171,5 @@ export default {
   SHARE_RESOURCE,
   VIDEO,
   SEARCH_SUGGEST,
+  LOGOUT
 };
