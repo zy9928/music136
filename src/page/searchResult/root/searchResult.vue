@@ -45,12 +45,12 @@ export default {
     }
   },
   mounted(){
-    if(keywords){
+    if(this.keywords){
       this.getData();
     }
   },
   updated(){
-    if(keywords){
+    if(this.keywords){
       this.getData();
     }
   }
