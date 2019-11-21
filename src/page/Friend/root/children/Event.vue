@@ -33,7 +33,10 @@
             {{duration}}
           </p>
         </div>
-        <my-video :width="545"  v-if="isplayVideo" :height="306" :videoId="jsonData.video.videoId"></my-video>
+        <div class="big-video" v-if="isplayVideo">
+            <a @click.prevent="videoHide" href="#">收起</a>
+           <my-video :width="545"  :height="306" :videoId="jsonData.video.videoId"></my-video>
+        </div>
       </div>
       <div class="song" v-else-if="item.type==18">
         <div class="song-box">
@@ -185,7 +188,12 @@ export default {
     },
     playVideoAction() {
       this.isplayVideo = true;
+    },
+    //收起视频
+    videoHide(){
+      this.isplayVideo = false;
     }
+
   }
 };
 </script>
@@ -198,6 +206,7 @@ export default {
 .event {
   width: 100%;
   border-bottom: 1px solid #e8e8e9;
+  width: 100%;
   min-height: 200px;
   position: relative;
   overflow: hidden;
@@ -322,6 +331,16 @@ export default {
 
         .iconfont {
           font-size: 30px;
+        }
+      }
+      .big-video{
+        margin-top: 10px;
+        a{
+          line-height: 30px;
+          padding: 0 5px;
+          &:hover{
+            text-decoration: underline;
+          }
         }
       }
     }
