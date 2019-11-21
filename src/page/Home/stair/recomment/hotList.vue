@@ -19,8 +19,8 @@
       </span>
     </div>
     <p class="line"></p>
-    <ul class="imgCons">
-      <li class="imgCon" v-for='(item,index) in this.recommendArr' :key='index'>
+    <div class="imgCons">
+      <router-link class="imgCon" v-for='(item,index) in this.recommendArr' :key='index' :to='`/songList/${item.id}`'>
         <div class="imgs">
           <img :src="item.picUrl" alt="" class="img">
           <p class="bot">
@@ -30,13 +30,16 @@
           </p>
         </div>
         <h4 class="pra">{{item.name}}</h4>
-      </li>
-    </ul>
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props:{
+    // id
+  },
   data(){
     return {
       recommendArr: []

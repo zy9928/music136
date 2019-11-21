@@ -40,7 +40,8 @@
       标签：
       <span v-for="(item, key) in dataList.tags" :key="key">{{item}}</span>
     </p>
-    <p class="description" v-html="`介绍：${dataList.description}`"></p>
+    <p class="description" v-html="`介绍：<br/>${dataList.description}`"></p>
+    <!-- <p class="description" v-text="`介绍：${dataList.description}`"></p> -->
   </div>
 </template>
 

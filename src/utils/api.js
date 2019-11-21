@@ -49,6 +49,9 @@ const SONG_LIST_INFO = HOST + "/playlist/detail";
 // 获取专辑详情————参数：?id=专辑id
 const ALBUM_INFO = HOST + "/album";
 
+// 获取搜索推荐————参数：?keywords= 关键词[& type=若传入mobile则返回移动端数据]
+const SEARCH_SUGGEST = HOST + "/search/suggest"
+
 //获取首页banner图
 const HOME_BANNER = HOST + "/banner";
 
@@ -163,5 +166,6 @@ export default {
   ALBUM_NEWEST,
   TOP_LIST,
   SHARE_RESOURCE,
-  VIDEO
+  VIDEO,
+  SEARCH_SUGGEST,
 };

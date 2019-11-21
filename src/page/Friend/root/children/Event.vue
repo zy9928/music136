@@ -204,6 +204,7 @@ export default {
   color: #be2914;
 }
 .event {
+  width: 100%;
   border-bottom: 1px solid #e8e8e9;
   width: 100%;
   min-height: 200px;

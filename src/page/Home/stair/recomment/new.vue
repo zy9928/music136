@@ -15,24 +15,24 @@
       <div class="swiper-container" ref="banner">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <ul class="rowItems">
-              <li class="rowItem" v-for='(item,index) in this.songArr.slice(0,5)' :key='index'>
+            <div class="rowItems">
+              <router-link class="rowItem" v-for='(item,index) in this.songArr.slice(0,5)' :key='index' :to='`/album/${item.songId}`'>
                 <img :src="item.picUrl" alt="轮播图" class="img" />
                 <p class="mask"></p>
                 <p class="tit"><a href="#">{{item.songName}}</a></p>
                 <p class="nam"><a href="#">{{item.name}}</a></p>
-              </li>
-            </ul>
+              </router-link>
+            </div>
           </div>
           <div class="swiper-slide">
-            <ul class="rowItems">
-              <li class="rowItem" v-for='(item,index) in this.songArr.slice(5,10)' :key='index'>
+            <div class="rowItems">
+              <router-link class="rowItem" v-for='(item,index) in this.songArr.slice(5,10)' :key='index' :to='`/album/${item.songId}`'>
                 <img :src="item.picUrl" alt="轮播图" class="img"/>
                 <p class="mask"></p>
                 <p class="tit"><a href="#">{{item.songName}}</a></p>
                 <p class="nam"><a href="#" class='na'>{{item.name}}</a></p>
-              </li>
-            </ul>
+              </router-link>
+            </div>
           </div>
         </div>
   
@@ -80,7 +80,7 @@ export default {
         }
         this.songArr.push(obj);
       });
-      console.log(this.songArr);
+      // console.log(this.songArr);
       
     }
   }
