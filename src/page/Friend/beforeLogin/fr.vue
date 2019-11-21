@@ -2,13 +2,12 @@
   <div class="myMusicForAll">
     <div class="view-wrap">
       <div class="forall-left">
-        <img src="../../../assets/music_nologin.jpg" alt />
+        <img src="../../../assets/cc-friend.png" alt />
       </div>
       <div class="forall-right">
-        <h1>登录网易云音乐</h1>
-        <p>查看并管理你的私房音乐,</p>
-        <p>方便地随时随地收听</p>
-        <img src="../../../assets/equips.jpg" alt />
+        <h1>关注明星&nbsp;发现精彩</h1>
+        <p>你可以关注明星和好友品味他们的私房歌单</p>
+        <p>通过他们的动态发现更多精彩音乐</p>
         <button @click="openWindowAciton">立即登录</button>
       </div>
     </div>
@@ -37,11 +36,14 @@ export default {
       margin-top: 105px;
       float: left;
       margin-left: 87px;
+      img{
+        width: 466px;
+      }
     }
     .forall-right {
-      margin-top: 105px;
+      margin-top: 180px;
       float: left;
-      margin-left: 112px;
+      margin-left: 82px;
       h1{
         font-size:32px;
         color: #333;
@@ -52,14 +54,12 @@ export default {
         line-height: 24px;
         font-size: 16px;
         color: #333;
-      }
-      img{
-        margin-top: 22px;
-        margin-bottom: 38px;
+       
       }
       button{
         width: 168px;
         height: 44px;
+        margin-top: 38px;
         text-align: center;
         line-height: 44px;
         border: 0;

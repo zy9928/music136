@@ -15,6 +15,7 @@
   }
   .userBox {
     position: absolute;
+    z-index: 50;
     display: none;
     left: 50%;
     top: 60px;

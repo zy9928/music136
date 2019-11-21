@@ -167,8 +167,16 @@ export default {
     loginAction() {
       this.$center.$emit("openWindow", true);
     },
-    // 退出登入
-    logoutBtn() {},
+    // 退出dengr
+    logoutBtn() {
+      try {
+        this.$store.dispatch('user/logout');
+        this.$center.$emit('changewindow','mainWindow');
+      } catch (error) {
+        alert('退出失败');
+        console.log('error');
+      }
+    },
     async navSearchCha(str) {
       if(str){
         await this.$store.dispatch("search/getSuggest", {keywords: str});
