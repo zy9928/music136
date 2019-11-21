@@ -106,6 +106,7 @@ export default {
       padding: 0 10px;
       box-sizing: border-box;
       .num {
+        vertical-align: middle;
         display: inline-block;
         text-align: center;
         font-size: 12px;
@@ -113,6 +114,7 @@ export default {
         margin-right: 20px;
       } 
       .tit {
+        vertical-align: middle;
         display: inline-block;
         width: 100px;
         font-size: 12px;
@@ -122,6 +124,7 @@ export default {
         white-space: nowrap;
       }
       .ic {
+        vertical-align: middle;
         float: right;
         padding: 0 5px;
         .icc {
