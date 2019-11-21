@@ -8,7 +8,8 @@
         :class="{active:value==item.id}"
       ></span>
     </td>
-    <td>{{item.name}}</td>
+    <td class="songName"><a @click.prevent="goSong(item.id)" href="#">
+      {{item.name}}</a></td>
     <td @mouseenter="showOpaAction()" @mouseleave="hideOpaAction()">
       <keep-alive>
         <span v-if="!showOpa">{{time}}</span>
@@ -79,6 +80,9 @@ export default {
     },
     handleAdd(){
       this.$emit('addMusic');
+    },
+    goSong(id){
+      this.$router.push(`/play/${id}`);
     }
   }
 };
@@ -113,6 +117,13 @@ export default {
     }
     .active {
       color: #d74040;
+    }
+  }
+  .songName{
+    a{
+      &:hover{
+        text-decoration: underline;
+      }
     }
   }
 }
