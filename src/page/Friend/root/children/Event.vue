@@ -132,11 +132,8 @@ export default {
   },
   filters: {
     format(value) {
-      if(value){
-        value = value.replace(/\n/g, "<br/>");
-        return value;
-      }
-      return '';
+      value = value.replace(/\n/g, "<br/>");
+      return value;
     }
   },
   methods: {

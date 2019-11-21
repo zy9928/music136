@@ -1,7 +1,7 @@
 <template>
   <div class="my-video" :style="{width:width+'px',height:height+'px'}" name="media">
     <video ref="video" :src="videoSrc" :width="width" :height="height">
-      <source type="video/mp4" :src="videoSrc" />
+      <source  :src="videoSrc" />
     </video>
     <video-controll
       :isPlay="isPlay"
