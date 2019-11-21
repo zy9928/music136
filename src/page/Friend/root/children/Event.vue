@@ -146,7 +146,7 @@ export default {
       };
       try {
         let result = await this.$store.dispatch("event/likeEvent", params);
-        console.log(result);
+        // console.log(result);
         this.item.info.liked = !this.item.info.liked;
         if (params.t == "1") {
           this.item.info.likedCount++;

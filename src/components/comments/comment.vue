@@ -174,8 +174,8 @@ export default {
     goComment() {
       if ((this.show > 0) && (this.show < 140)) {
         //可以评论
-        console.log('可以评论');
-
+        alert('评论成功');
+        this.$refs.textArea.value = '';
         getSendDelete(api.SONG_SEND_DELETE, 1, 0, 186016, this.$refs.textArea.value);
       } else {
         //不能评论
