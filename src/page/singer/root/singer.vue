@@ -94,9 +94,12 @@ export default {
       border: 1px solid #ddd;
       box-sizing: border-box;
       position: relative;
+      overflow: hidden;
       .artImg {
-        width: 640px;
-        height: 300px;
+        width: 100%;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
         position: absolute;
       }
       .mask {
