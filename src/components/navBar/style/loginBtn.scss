@@ -1,0 +1,90 @@
+.loginBtn {
+  float: right;
+  padding: 0 20px;
+  font-size: 12px;
+  color: #787878;
+  line-height: 69px;
+  height: 69px;
+  position: relative;
+  .headImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .userBox {
+    position: absolute;
+    z-index: 50;
+    display: none;
+    left: 50%;
+    top: 60px;
+    transform: translateX(-50%);
+    width: 158px;
+    background: #2b2b2b;
+    border-radius: 5px;
+    border: 1px solid #202020;
+    &::before {
+      content: "";
+      height: 0;
+      width: 0;
+      display: block;
+      overflow: hidden;
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom: 7px solid #2b2b2b;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+    & > li {
+      line-height: 34px;
+      box-sizing: border-box;
+      padding-left: 10px;
+      border-radius: 5px;
+      &:hover {
+        background: #353535;
+      }
+      & > span {
+        margin: 0 10px;
+        font-weight: bold;
+      }
+    }
+  }
+  &:hover .userBox {
+    display: block;
+  }
+  & > i {
+    display: none;
+    background-color: #202020;
+    height: 2px;
+    width: 150px;
+    position: absolute;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  & > b {
+    display: none;
+    width: 12px;
+    height: 7px;
+    position: absolute;
+    background: url(./../assets/topbar.png) no-repeat -228px -60px;
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+  }
+  &:hover > i,
+  &:hover > b {
+    display: block;
+  }
+  &:hover {
+    color: #999999;
+  }
+  & > span:hover {
+    color: #6e6e6e;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

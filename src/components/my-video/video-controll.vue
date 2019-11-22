@@ -10,10 +10,10 @@
       <draw-line :width="307" :moveRate="processRate" :duration="duration"></draw-line>
     </div>
     <span class="allTime">{{dtFormat}}</span>
-    <div class="video-controll-audio"  @mouseenter="showSound=true" @mouseleave="showSound=false">
-      <span class="iconfont iconcc-audio"></span>
+    <div class="video-controll-audio" @mouseenter="showSound=true" @mouseleave="showSound=false">
+      <span @click="soundControll" class="iconfont iconcc-audio" :class="{'iconcc-silence':isSilience}"></span>
       <div class="audio-draw-line" v-show="showSound">
-        <draw-line :volume="volume" :dotSize="12" model="1" :height="60" :width="4" class=""></draw-line>
+        <draw-line :isMuted="isMuted" :volume="volume" :dotSize="12" model="1" :height="60" :width="4" class></draw-line>
       </div>
     </div>
     <span class="changeRes">标清</span>
@@ -31,6 +31,11 @@ export default {
   methods: {
     handlePlay() {
       this.$emit("videoPlayAction");
+    },
+    soundControll(){
+      this.$center.$emit('mutedAction');
+      this.$center.$emit("soundSilence");
+      
     }
   },
   props: {
@@ -46,10 +51,14 @@ export default {
       type: Boolean,
       required: true
     },
-      volume:{
-        type:Number,
-        default:1
-      }
+    volume: {
+      type: Number,
+      default: 1
+    },
+    isMuted:{
+      type:Boolean,
+      default:false
+    }
   },
   computed: {
     ctFormat() {
@@ -62,12 +71,24 @@ export default {
     processRate() {
       return this.currentTime / this.duration;
     }
-
   },
-  data(){
-    return {
-      showSound:false
+  watch: {
+    volume() {
+      if (this.volume == 0) {
+        this.isSilience = true;
+      } else {
+        this.isSilience = false;
+      }
+    },
+    isMuted(){
+      this.isSilience = this.isMuted;
     }
+  },
+  data() {
+    return {
+      showSound: false,
+      isSilience: false
+    };
   }
 };
 </script>
@@ -100,13 +121,13 @@ export default {
   .video-controll-audio {
     position: relative;
     float: left;
-    .audio-draw-line{
+    .audio-draw-line {
       position: absolute;
       // width: 24px;
-      padding:  8px 10px;
-      left:2px;
+      padding: 8px 10px;
+      left: 2px;
       bottom: 40px;
-      background: rgba(0,0,0,.7);
+      background: rgba(0, 0, 0, 0.7);
     }
     .iconfont {
       font-size: 16px;
@@ -116,7 +137,6 @@ export default {
         color: #ddd;
       }
     }
-
   }
   .changeRes {
     cursor: pointer;

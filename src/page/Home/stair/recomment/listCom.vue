@@ -122,6 +122,7 @@ export default {
         white-space: nowrap;
       }
       .ic {
+        vertical-align: middle;
         float: right;
         padding: 0 5px;
         .icc {

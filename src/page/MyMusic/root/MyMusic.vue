@@ -50,6 +50,9 @@
             @addMusic="addMusic(item.id)"
           />
         </clauses-list>
+        <my-comment type="playList" :ID="playlistId" >
+
+        </my-comment>
       </div>
     </div>
   </div>
@@ -81,11 +84,13 @@ export default {
     [PlaylistItem.name]: PlaylistItem,
     [ClausesHeader.name]: ClausesHeader,
     [ClausesList.name]: ClausesList,
-    [ClausesItem.name]: ClausesItem
+    [ClausesItem.name]: ClausesItem,
+    'my-comment':()=>import ("../../../components/comments/comment")
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.userInfo
+      userInfo: state => state.user.userInfo,
+      isLogin:state=>state.user.isLogin
     }),
     createTime() {
       return TimeHandle.getYMD(this.selected.createTime);
@@ -93,6 +98,13 @@ export default {
     isMine() {
       //判断当前歌单是否属于当前用户创建
       return this.userInfo.userId == this.selected.creator.userId;
+    },
+    playlistId(){
+      if(!this.selected.id){
+        return '1'
+      }else{
+        return this.selected.id.toString();
+      }
     }
   },
   //路由拦截
@@ -166,6 +178,11 @@ export default {
           alert("获取歌曲失败");
           console.log(err);
         });
+    },
+    isLogin(){
+      if(!this.isLogin){//监听到退出
+        router.push("/my");
+      }
     }
   },
   methods: {
@@ -214,7 +231,8 @@ export default {
     background: #fff;
 
     .play-nav {
-      height: 100%;
+      min-height: 628px;
+      padding-bottom: 50px;
       width: 242px;
       position: fixed;
       top: 75px;

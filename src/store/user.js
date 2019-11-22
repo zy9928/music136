@@ -1,4 +1,6 @@
 import { user_info } from "../utils/localStorage";
+import api from "../utils/api";
+import http from "../utils/Http";
 
 export default {
   namespaced: true,
@@ -32,6 +34,17 @@ export default {
     async setUserInfo(context, userInfo) {
       await user_info.set(userInfo);
       context.commit("setStateUserInfo", userInfo);
+    },
+    async logout(context) {
+      console.log(context.state);
+      let result = await http.get(api.LOGOUT);
+      if ((result.data.code = "200")) {
+        context.dispatch("setLogin", false)
+        context.dispatch("setUserInfo", {});
+        user_info.clear();
+        return result;
+      }
+      return new Error();
     }
   }
 };

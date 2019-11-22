@@ -1,0 +1,29 @@
+.pageNavStair {
+  height: 69px;
+  float: left;
+  position: relative;
+  .stairNavLi {
+    height: 100%;
+    float: left;
+    padding: 0 19px;
+    font-size: 14px;
+    line-height: 69px;
+    color: #cccccc;
+    list-style: none;
+    position: relative;
+    & > i {
+      display: block;
+      position: absolute;
+      width: 12px;
+      height: 6px;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: url(./../assets/topbar.png) no-repeat -226px 0px;
+    }
+  }
+  .stairNavActive {
+    color: #ffffff;
+    background-color: #000000;
+  }
+}
