@@ -1,5 +1,5 @@
 <template>
-  <div class="commentList">
+  <div class="commentList" v-show='show'>
     <h5 class="font5">精彩评论</h5>
     <p class="line"></p>
     <div v-for='(item, index) in hotdata' :key='item.commentId'>
@@ -12,7 +12,7 @@
         </div>
         <div class="right">
           <i class="iconfont iconzan"  @click='likeAction(index)' :class='{active: selectIndex == index}'></i>
-          <span class="num">({{item.likedCount}})</span> |
+          <span class="num" ref='num'>({{item.likedCount}})</span> |
           <i class="reply">回复</i>
         </div>
       </div>
@@ -30,7 +30,9 @@ export default {
   },
   data(){
     return {
-      selectIndex: ''
+      selectIndex: '',
+      show: false,
+      count: 0
     }
   },
   computed: {
@@ -39,6 +41,7 @@ export default {
       this.hotData.forEach(item=>{
         item.time = TimeHandle.getDiffTime(item.time);
         comDataArr.push(item);
+        this.show = true;
       })
       return comDataArr;
     }
@@ -49,19 +52,29 @@ export default {
       if(!this.$store.state.user.isLogin){
         alert('请先登录');
       }else{
-        this.selectIndex = index;
-
-        this.hotData.forEach((item, index)=>{
         
+        // this.hotData.forEach((item, index)=>{
+          this.selectIndex = index;
+          if( this.selectIndex == index){
+            console.log(index);
+            this.$refs.num.innerText += 1;
+            this.count++;
+              // console.log(this.count);
+            if(this.count%2){
+              
+            }else {
+              return;
+            }
+          }
         
-        if(item.liked){
-          item.likedCount++;
-        }else{
-          item.likedCount--;
-        }
-        item.liked = !item.liked;
-      })
-        // getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
+        // if(item.liked){
+        //   item.likedCount++;
+        // }else{
+        //   item.likedCount--;
+        // }
+        // item.liked = !item.liked;
+        // })
+      //   // getSongLike(api.SONG_LIKE, 186016, id, 0, 0);
       }
   }
     

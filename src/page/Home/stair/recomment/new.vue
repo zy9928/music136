@@ -198,4 +198,9 @@ export default {
     }
   }
 }
+.swiper-button-next, .swiper-button-prev {  
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 </style>
