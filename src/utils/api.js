@@ -20,7 +20,9 @@
  * 陈超 新增了常量 register_phone register_email login_phone login_email
  */
 
-export const HOST = "http://localhost:3000";
+// export const HOST = "http://localhost:3000";
+export const HOST = "";
+
 // 获取歌词(需要音乐id)————参数：?id=音乐id
 const SONG_WORD = HOST + "/lyric";
 // 获取歌曲URL————参数：?id=音乐id[，音乐id2，音乐id3 ...]
